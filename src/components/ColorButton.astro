@@ -1,0 +1,38 @@
+---
+const {
+  label = "Click aquí",
+  className = "",
+  href = "", 
+  theme = "sunset",
+}: {
+  label?: string;
+  className?: string;
+  href?: string;
+  theme?: "sunset" | "cosmic" | "void"; 
+} = Astro.props;
+
+const hasBg = /\bbg-[^\s]+/.test(className);
+
+const base = // Estilo base
+  "m-3 text-white rounded-full font-semibold transition focus:outline-none shadow-lg hover:cursor-pointer inline-flex items-center justify-center";
+
+const themes: Record<"sunset" | "cosmic" | "void", string> = {
+  // Degradado SUNSET (Naranja a Rosa)
+  sunset: "px-15 py-3  bg-gradient-to-tr from-orange-500 to-pink-800 hover:from-orange-500 hover:to-pink-600",
+  
+  // Degradado COSMIC (Púrpura a Índigo)
+  cosmic: "px-15 py-3 bg-gradient-to-br from-purple-700 to-pink-800 hover:from-purple-700 hover:to-pink-600",
+  
+  // Transparente con borde blanco)
+  void: "px-12 py-2.5 bg-gradient-to-br border-3 border-white bg-transparent hover:from-transparent hover:to-indigo-950",
+};
+
+const defaultStyle = themes[theme];
+
+const style = `${base} ${hasBg ? className : `${defaultStyle}${className ? ` ${className}` : ""}`}`.trim();
+---
+
+<a href={href} class={style} role="button">
+  {label}
+  <slot />
+</a>

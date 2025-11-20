@@ -1,0 +1,105 @@
+---
+// src/components/Card.astro
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'a'> {
+  title: string;
+  imglink: string;
+  content: string;
+  technologies: string[]; // Arreglo simple de strings
+  href: string; 
+  theme?: "sunset" | "cosmic"; // Solo acepta estos dos valores
+}
+
+const {
+  title,
+  imglink,
+  content,
+  technologies,
+  href, 
+  theme = "sunset", // Tema por defecto (o puedes elegir cosmic)
+  class: className,
+  ...rest
+} = Astro.props;
+
+// Clases para el color de los Tags (Theme)
+const tagColor = theme === "sunset"
+  ? "border-2 border-gray-800 bg-gradient-to-tr  from-orange-500 to-pink-800 text-white"
+  : "border-2 bg-gradient-to-br  border-gray-800 from-purple-700 to-pink-800 text-white";
+
+// Clases para el Recoloreado Inferior en Hover (Theme)
+const hoverRecolor = theme === "sunset"
+  ? "group-hover:bg-gradient-to-t group-hover:from-orange-500/50 group-hover:to-orange-500/0"
+  : "group-hover:bg-gradient-to-t group-hover:from-purple-700/50 group-hover:to-indigo-950/0";
+
+// Clases para el Hover de Tags (Estilo "Void" / Transparente)
+const tagHoverStyle = `
+  group-hover:bg-transparent group-hover:border-white 
+  group-hover:text-white group-hover:shadow-none
+`;
+---
+
+<a 
+  href={href} 
+  {...rest} 
+  class={`
+    block group bg-gray-900 text-white shadow-xl 
+    border-2 border-gray-700 hover:border-white 
+    rounded-xl overflow-hidden no-underline cursor-pointer 
+    transition duration-300 ease-in-out 
+    ${className ?? ''}
+  `}
+>
+    <article class="h-full flex flex-col relative">
+        
+        {/* Contenedor de la Imagen: h-48 sin padding horizontal */}
+        <div class="bg-gray-900 h-48 flex items-center justify-center overflow-hidden px-0">
+            <img 
+                src={imglink} 
+                alt={title} 
+                loading="lazy"
+                class="aspect-[4/3] object-cover h-full w-full transition-transform duration-300"
+            />
+        </div>
+
+        {/* Fondo con Blur y Recoloreado en Hover (Capa superpuesta 1) */}
+        <div 
+          class={`
+            absolute inset-x-0 bottom-0 h-1/2 
+            backdrop-blur-sm bg-black/60 
+            transition-all duration-300 ease-in-out pointer-events-none z-10
+            ${hoverRecolor} /* Aplica el recoloreado SUNSET o COSMIC */
+          `}
+        ></div>
+
+        {/* Contenido de la tarjeta (Capa superpuesta 2) */}
+        <div class="relative p-4 flex-grow flex flex-col justify-end z-20">
+            
+            {/* Título y Contenido */}
+            <div>
+                <h6 class="text-xl font-bold mb-2 leading-tight">
+                    {title}
+                </h6>
+                <p class="text-sm opacity-90 mb-4">
+                    {content}
+                </p>
+            </div>
+
+            {/* Lista de Tecnologías (Tags) */}
+            <div class="mt-2">
+                {technologies.map((tech) => (
+                    <span 
+                      class={`
+                        inline-block text-xs font-semibold px-2 py-0.5 rounded-full mr-2 mb-2 
+                        transition-all duration-300 
+                        ${tagColor} /* Aplica el color base SUNSET o COSMIC */
+                        ${tagHoverStyle} /* Aplica el estilo Transparente en hover */
+                      `}
+                    >
+                        {tech}
+                    </span>
+                ))}
+            </div>
+        </div>
+    </article>
+</a>
