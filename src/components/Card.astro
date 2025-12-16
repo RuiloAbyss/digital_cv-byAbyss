@@ -32,7 +32,7 @@ const hoverRecolor = theme === "sunset"
   ? "group-hover:bg-gradient-to-t group-hover:from-orange-500/50 group-hover:to-orange-500/0"
   : "group-hover:bg-gradient-to-t group-hover:from-purple-700/50 group-hover:to-indigo-950/0";
 
-// Clases para el Hover de Tags (Estilo "Void" / Transparente)
+// Clases para el Hover de Tags (Transparente)
 const tagHoverStyle = `
   group-hover:bg-transparent group-hover:border-white 
   group-hover:text-white group-hover:shadow-none
@@ -45,7 +45,7 @@ const tagHoverStyle = `
   class={`
     block group bg-gray-900 text-white shadow-xl 
     border-2 border-gray-700 hover:border-white 
-    rounded-xl overflow-hidden no-underline cursor-pointer 
+    rounded-lg overflow-hidden no-underline cursor-pointer 
     transition duration-300 ease-in-out 
     ${className ?? ''}
   `}

@@ -10,27 +10,20 @@ interface Tab {
 interface Props extends HTMLAttributes<'div'> {
   tabs: Tab[];
   initialTabId: string;
-  theme?: "sunset" | "cosmic";
+  theme?: "sunset" | "cosmic"; 
   id?: string;
 }
 
 const { 
   tabs, 
   initialTabId, 
-  theme = "cosmic", 
   id = "main-tab",
   class: className, 
   ...rest 
 } = Astro.props;
 
-// --- Estilos ---
-const indicatorStyle = "tab-indicator absolute top-1 bottom-1 rounded-md opacity-90 pointer-events-none transition-all duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)] z-0"; 
-
-const indicatorThemeClasses = theme === 'sunset'
-  ? "bg-gradient-to-r from-orange-500 to-pink-600 shadow-md shadow-orange-900/30"
-  : "bg-gradient-to-r from-purple-700 to-pink-600 shadow-md shadow-purple-900/30";
-
-const finalIndicatorClasses = `${indicatorStyle} ${indicatorThemeClasses}`;
+// --- Estilos Base ---
+const indicatorBaseStyle = "tab-indicator absolute top-1 bottom-1 rounded-md opacity-90 pointer-events-none transition-all duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)] z-0";
 ---
 
 <div {...rest} class={`w-full max-w-4xl mx-auto ${className ?? ''}`}>
@@ -41,14 +34,14 @@ const finalIndicatorClasses = `${indicatorStyle} ${indicatorThemeClasses}`;
     class="bg-gray-900/10 backdrop-blur-xl border-2 border-white/10 p-1 rounded-lg shadow-2xl relative tab-container-ref"
   >
     
-    {/* Indicador Brillante */}
+    {/* Indicador Brillante (El color se asigna en el script) */}
     <div 
       id={`tab-indicator-${id}`}
-      class={finalIndicatorClasses} 
+      class={indicatorBaseStyle} 
       style="width: 0px; transform: translateX(0px); left: 0;"
     ></div>
 
-    {/* Botones (Grid con anchos forzados iguales) */}
+    {/* Botones */}
     <div 
       class="relative grid gap-1 w-full z-10"
       style={`grid-template-columns: repeat(${tabs.length}, minmax(0, 1fr));`}
@@ -66,13 +59,13 @@ const finalIndicatorClasses = `${indicatorStyle} ${indicatorThemeClasses}`;
   </div>
 
   {/* --- CONTENIDO DINÁMICO --- */}
-  <div id={`tab-content-container-${id}`} class="mt-6 p-6 bg-gray-900/10 backdrop-blur-md border-2 border-white/5 rounded-2xl shadow-xl tab-content-ref">
+  <div id={`tab-content-container-${id}`} class="mt-6 p-6 bg-gray-900/10 backdrop-blur-md border-2 border-white/5 rounded-lg shadow-xl tab-content-ref">
     <slot />
   </div>
 </div>
 
 {/* --- SCRIPTS --- */}
-<script define:vars={{ initialTabId, uniqueId: id }}>
+<script define:vars={{ initialTabId, uniqueId: id, baseStyle: indicatorBaseStyle }}>
   function initTabs() {
     const containerId = `tab-bar-container-${uniqueId}`;
     const indicatorId = `tab-indicator-${uniqueId}`;
@@ -86,12 +79,25 @@ const finalIndicatorClasses = `${indicatorStyle} ${indicatorThemeClasses}`;
     const contentContainer = document.getElementById(contentId);
     const buttons = container.querySelectorAll('button');
     
-    // --- PERSISTENCIA (Para recordar la opción seleccionada) ---
+    // --- DEFINICIÓN DE COLORES PERSONALIZADOS ---
+    const gradients = [
+        // 1. Izquierda: Naranja -> Rosa (Coincide con círculo superior izquierdo)
+        "bg-gradient-to-r from-orange-500 to-red-800/20 shadow-md shadow-orange-900/30", 
+        
+        // 2. Centro: Rosa -> Azul Oscuro -> Rosa (Transición "Void")
+        // 'via-blue-950' crea ese centro oscuro profundo que pediste
+        "bg-gradient-to-r from-red-800/20 to-blue-800/20 shadow-md shadow-gray-900/30", 
+        
+        // 3. Derecha: Rosa -> Morado (Coincide con círculo inferior derecho)
+        "bg-gradient-to-r from-blue-800/20 to-purple-600 shadow-md shadow-purple-900/30"
+    ];
+
+    // --- PERSISTENCIA ---
     const savedTabId = localStorage.getItem(storageKey);
     const isValidSaved = savedTabId && Array.from(buttons).some(b => b.dataset.tabId === savedTabId);
     let activeTab = isValidSaved ? savedTabId : initialTabId;
 
-    // --- CÁLCULO DE POSICIÓN (Evita desfaces en la página) ---
+    // --- CÁLCULO DE POSICIÓN Y COLOR ---
     function updateIndicator(button) {
       if (!button || !indicator) return;
       
@@ -102,10 +108,17 @@ const finalIndicatorClasses = `${indicatorStyle} ${indicatorThemeClasses}`;
       const translateX = buttonRect.left - containerRect.left - borderOffset;
       const width = buttonRect.width;
 
+      // 1. Mover
       indicator.style.width = `${width}px`;
       indicator.style.transform = `translateX(${translateX}px)`;
 
-      // Estilos de texto
+      // 2. Color dinámico
+      const index = Array.from(buttons).indexOf(button);
+      const currentGradient = gradients[index] || gradients[gradients.length - 1];
+      
+      indicator.className = `${baseStyle} ${currentGradient}`;
+
+      // 3. Texto
       buttons.forEach(btn => {
         const isActive = btn === button;
         if (isActive) {
@@ -136,21 +149,18 @@ const finalIndicatorClasses = `${indicatorStyle} ${indicatorThemeClasses}`;
       localStorage.setItem(storageKey, tabId); 
     }
 
-    // --- RECALCULO AUTOMÁTICO (ResizeObserver) ---
-    // Esto arregla el problema de cuando carga la fuente y el texto se mueve.
+    // --- RECALCULO AUTOMÁTICO ---
     const resizeObserver = new ResizeObserver(() => {
         const currentBtn = container.querySelector(`[data-tab-id="${activeTab}"]`);
         if (currentBtn) updateIndicator(currentBtn);
     });
     
-    // Observamos el contenedor y los botones para cualquier cambio de tamaño
     resizeObserver.observe(container);
     buttons.forEach(btn => resizeObserver.observe(btn));
 
     // --- INICIALIZACIÓN ---
     const startButton = container.querySelector(`[data-tab-id="${activeTab}"]`);
     if (startButton) {
-        // Forzamos un ciclo de dibujado
         requestAnimationFrame(() => {
             updateIndicator(startButton);
             updateContent(activeTab);
@@ -167,7 +177,6 @@ const finalIndicatorClasses = `${indicatorStyle} ${indicatorThemeClasses}`;
       };
     });
     
-    // Limpieza al salir 
     document.addEventListener('astro:before-swap', () => {
         resizeObserver.disconnect();
     }, { once: true });
