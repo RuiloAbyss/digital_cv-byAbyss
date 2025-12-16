@@ -28,9 +28,7 @@ const tagColor = theme === "sunset"
   : "border-2 bg-gradient-to-br  border-gray-800 from-purple-700 to-pink-800 text-white";
 
 // Clases para el Recoloreado Inferior en Hover (Theme)
-const hoverRecolor = theme === "sunset"
-  ? "group-hover:bg-gradient-to-t group-hover:from-orange-500/50 group-hover:to-orange-500/0"
-  : "group-hover:bg-gradient-to-t group-hover:from-purple-700/50 group-hover:to-indigo-950/0";
+const hoverRecolor = "group-hover:bg-gradient-to-r group-hover:from-orange-800/30 group-hover:to-purple-800/30";
 
 // Clases para el Hover de Tags (Transparente)
 const tagHoverStyle = `
@@ -43,8 +41,8 @@ const tagHoverStyle = `
   href={href} 
   {...rest} 
   class={`
-    block group bg-gray-900 text-white shadow-xl 
-    border-2 border-gray-700 hover:border-white 
+    block group bg-gray-900/10 text-white shadow-xl 
+    border-2 border-white/20 hover:border-white/50 
     rounded-lg overflow-hidden no-underline cursor-pointer 
     transition duration-300 ease-in-out 
     ${className ?? ''}
@@ -53,20 +51,20 @@ const tagHoverStyle = `
     <article class="h-full flex flex-col relative">
         
         {/* Contenedor de la Imagen: h-48 sin padding horizontal */}
-        <div class="bg-gray-900 h-48 flex items-center justify-center overflow-hidden px-0">
+        <div class="bg-gray-900/10 h-48 flex items-center justify-center overflow-hidden px-0">
             <img 
-                src={imglink} 
-                alt={title} 
-                loading="lazy"
-                class="aspect-[4/3] object-cover h-full w-full transition-transform duration-300"
+              src={imglink} 
+              alt={title} 
+              loading="lazy"
+              class="aspect-[4/3] object-cover h-full w-full transition-transform duration-300 group-hover:scale-105"
             />
         </div>
 
         {/* Fondo con Blur y Recoloreado en Hover (Capa superpuesta 1) */}
         <div 
           class={`
-            absolute inset-x-0 bottom-0 h-1/2 
-            backdrop-blur-sm bg-black/60 
+            absolute inset-x-0 bottom-0 h-9/20 
+            backdrop-blur-sm
             transition-all duration-300 ease-in-out pointer-events-none z-10
             ${hoverRecolor} /* Aplica el recoloreado SUNSET o COSMIC */
           `}

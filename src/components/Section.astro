@@ -9,14 +9,13 @@ const {
   sectionId?: string;
 } = Astro.props;
 
-// NOTA: El color de fondo (pageBg) debe coincidir con el fondo de tu página
 // para que el título "corte" visualmente el borde.
 const pageBg = "rounded-2xl px-5 backdrop-blur-lg bg-gray-900/10"; 
 ---
 
 <section
   id={sectionId}
-  class={`${className} my-10 relative border-2 bg-gray-900/10 border-gray-300/10 rounded-lg pt-8 pb-6 px-6`} 
+  class={`${className} my-10 relative border-2 bg-gray-900/10 border-gray-300/20 rounded-lg pt-8 pb-6 px-6`} 
 >
   <h4 class={`m-3 absolute top-0 -translate-y-5/8 left-1/2 -translate-x-1/2 ${pageBg} px-3 text-lg font-semibold text-white`}>
     {title}

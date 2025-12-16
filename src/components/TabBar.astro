@@ -31,7 +31,7 @@ const indicatorBaseStyle = "tab-indicator absolute top-1 bottom-1 rounded-md opa
   {/* --- BARRA DE NAVEGACIÓN --- */}
   <div 
     id={`tab-bar-container-${id}`} 
-    class="bg-gray-900/10 backdrop-blur-xl border-2 border-white/10 p-1 rounded-lg shadow-2xl relative tab-container-ref"
+    class="bg-gray-900/10 backdrop-blur-xl border-2 border-white/20 p-1 rounded-lg shadow-2xl relative tab-container-ref"
   >
     
     {/* Indicador Brillante (El color se asigna en el script) */}
@@ -59,7 +59,7 @@ const indicatorBaseStyle = "tab-indicator absolute top-1 bottom-1 rounded-md opa
   </div>
 
   {/* --- CONTENIDO DINÁMICO --- */}
-  <div id={`tab-content-container-${id}`} class="mt-6 p-6 bg-gray-900/10 backdrop-blur-md border-2 border-white/5 rounded-lg shadow-xl tab-content-ref">
+  <div id={`tab-content-container-${id}`} class="mt-6 p-6 bg-gray-900/10 backdrop-blur-md border-2 border-white/20 rounded-lg shadow-xl tab-content-ref">
     <slot />
   </div>
 </div>
@@ -81,14 +81,13 @@ const indicatorBaseStyle = "tab-indicator absolute top-1 bottom-1 rounded-md opa
     
     // --- DEFINICIÓN DE COLORES PERSONALIZADOS ---
     const gradients = [
-        // 1. Izquierda: Naranja -> Rosa (Coincide con círculo superior izquierdo)
+        // Izquierda: Naranja -> Rojo (Coincide con círculo superior izquierdo)
         "bg-gradient-to-r from-orange-500 to-red-800/20 shadow-md shadow-orange-900/30", 
         
-        // 2. Centro: Rosa -> Azul Oscuro -> Rosa (Transición "Void")
-        // 'via-blue-950' crea ese centro oscuro profundo que pediste
+        // creamos ese espacio "oscuro en medio de la página, lejos de ambos círculos"
         "bg-gradient-to-r from-red-800/20 to-blue-800/20 shadow-md shadow-gray-900/30", 
         
-        // 3. Derecha: Rosa -> Morado (Coincide con círculo inferior derecho)
+        // Derecha: azul -> Morado (Coincide con círculo inferior derecho)
         "bg-gradient-to-r from-blue-800/20 to-purple-600 shadow-md shadow-purple-900/30"
     ];
 
@@ -108,25 +107,26 @@ const indicatorBaseStyle = "tab-indicator absolute top-1 bottom-1 rounded-md opa
       const translateX = buttonRect.left - containerRect.left - borderOffset;
       const width = buttonRect.width;
 
-      // 1. Mover
+      // Mover
       indicator.style.width = `${width}px`;
       indicator.style.transform = `translateX(${translateX}px)`;
 
-      // 2. Color dinámico
+      // Color dinámico
       const index = Array.from(buttons).indexOf(button);
       const currentGradient = gradients[index] || gradients[gradients.length - 1];
       
       indicator.className = `${baseStyle} ${currentGradient}`;
 
-      // 3. Texto
+      // Texto
       buttons.forEach(btn => {
         const isActive = btn === button;
+        btn.classList.add('transition-all', 'duration-300'); // Suaviza el cambio de clases
         if (isActive) {
-            btn.classList.add('text-white', 'font-bold');
-            btn.classList.remove('text-gray-400');
+            btn.classList.add('delay-150', 'text-white', 'font-bold', 'border-white/30', 'border-2');
+            btn.classList.remove('text-gray-400', 'border-transparent');
         } else {
-            btn.classList.remove('text-white', 'font-bold');
-            btn.classList.add('text-gray-400');
+            btn.classList.add('delay-100', 'text-gray-400', 'border-transparent');
+            btn.classList.remove('text-white', 'font-bold', 'border-white/30', 'border-2');
         }
       });
     }
