@@ -16,18 +16,28 @@ const menuTabs = [
 <Layout>
 	<h1 class="text-center">Abisai Ruiz</h1>
 	<Section title="Hola Mundo">
-		<div class="flex flex-row">
-			<ColorButton label="Naranja" theme="sunset" href=https://www.google.com/>
-			<ColorButton label="Purpura" theme="cosmic" href=https://www.google.com/>
-			<ColorButton label="Transparente" theme="void" href=https://www.google.com/>
+		<div class="flex justify-between flex-row gap-1 w-[100%] sm:flex-col">
+			<ColorButton label="Curriculum" theme="sunset" href=https://www.google.com/>
+			<ColorButton label="LinkedIn" theme="cosmic" href=https://www.google.com/>
+			<ColorButton label="GitHub" theme="void" href=https://github.com/RuiloAbyss/>
 		</div>
 	</Section>
 	<!--
 	<Section title="Menús">
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 	-->
-	<TabBar tabs={menuTabs} initialTabId="dev" theme="sunset" class="my-10">
+	<TabBar tabs={menuTabs} initialTabId="dev" theme="sunset" class="my-5">
 		{/* --- Contenido para la Pestaña "Diseño UX/UI" (ID: design) --- */}
+		<div data-slot-id="dev" style="display: grid;">
+			<Card
+				title="Análisis de UX/UI en 2024"
+				imglink="https://i.ytimg.com/vi/Dtb3DdSvYRY/maxresdefault.jpg" 
+				content="Un vistazo a las métricas clave para el crecimiento de productos digitales en el próximo año."
+				href="/articulos/ux-tendencias"
+				theme="sunset"
+				technologies={["Figma", "Accessibility", "Design System"]} 
+			/>
+		</div>
 		<div data-slot-id="design" style="display: grid;">
 			<Card
 				title="Análisis de UX/UI en 2024"

@@ -23,15 +23,15 @@ const {
 } = Astro.props;
 
 // --- Estilos Base ---
-const indicatorBaseStyle = "tab-indicator absolute top-1 bottom-1 rounded-md opacity-90 pointer-events-none transition-all duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)] z-0";
+const indicatorBaseStyle = "tab-indicator absolute top-3 bottom-3 rounded-md opacity-90 pointer-events-none transition-all duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)] z-0";
 ---
 
-<div {...rest} class={`w-full max-w-4xl mx-auto ${className ?? ''}`}>
+<div {...rest} class={`w-[100%] mx-auto ${className ?? ''}`}>
   
   {/* --- BARRA DE NAVEGACIÓN --- */}
   <div 
     id={`tab-bar-container-${id}`} 
-    class="bg-gray-900/10 backdrop-blur-xl border-2 border-white/20 p-1 rounded-lg shadow-2xl relative tab-container-ref"
+    class="bg-gray-900/10 p-3 backdrop-blur-xl border-2 border-white/20 rounded-lg shadow-2xl relative tab-container-ref"
   >
     
     {/* Indicador Brillante (El color se asigna en el script) */}
@@ -59,7 +59,7 @@ const indicatorBaseStyle = "tab-indicator absolute top-1 bottom-1 rounded-md opa
   </div>
 
   {/* --- CONTENIDO DINÁMICO --- */}
-  <div id={`tab-content-container-${id}`} class="mt-6 p-6 bg-gray-900/10 backdrop-blur-md border-2 border-white/20 rounded-lg shadow-xl tab-content-ref">
+  <div id={`tab-content-container-${id}`} class="mt-5 p-3 bg-gray-900/10 backdrop-blur-md border-2 border-white/20 rounded-lg shadow-xl tab-content-ref">
     <slot />
   </div>
 </div>
@@ -142,7 +142,7 @@ const indicatorBaseStyle = "tab-indicator absolute top-1 bottom-1 rounded-md opa
           activeContent.animate([
             { opacity: 0, transform: 'translateY(8px)' },
             { opacity: 1, transform: 'translateY(0)' }
-        ], { duration: 250, easing: 'ease-out' });
+        ], { duration: 50, easing: 'ease-out' });
       }
       
       activeTab = tabId;

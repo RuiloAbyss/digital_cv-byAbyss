@@ -1,18 +1,19 @@
 @import "tailwindcss";
 
 html, body {
-  margin: 0;
   width: 100%;
-  height: 100%;
+  padding: 50px 15%;
   font-family: 'Roboto', sans-serif;
   background-color:#111321;
   color: white;
+  display: flex;
+  justify-content: center;
 }
 
 body {
-  display: flex;
   flex-direction: column;
   align-items: center;
+  
   text-align: center;
   padding: 2rem;
 }
@@ -50,4 +51,78 @@ a {
 .tab-indicator {
   /* Propiedad para transicionar la posición y el ancho */
   transition: transform 0.3s ease-in-out, width 0.3s ease-in-out; 
+}
+
+@media (max-width: 1200px) {
+  html, body {
+    padding: 50px 10%;
+  }
+
+    /*TIPOS DE TEXTO*/
+  h1{
+    font-size: 3.5rem;
+    margin: 0.5rem 0;
+  }
+  h2{
+    font-size: 3rem;
+    margin: 0.5rem 0;
+  }
+  h3{
+    font-size: 2.5rem;
+    margin: 0.5rem 0;
+  }
+  h4{
+    font-size: 2rem;
+    margin: 0.5rem 0;
+  }
+  h5{
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+  }
+  h6{
+    font-size: 1rem;
+    margin: 0.5rem 0;
+  }
+  
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+@media (max-width: 800px) {
+  html, body {
+    padding: 50px 5%;
+  }
+
+  /*TIPOS DE TEXTO*/
+  h1{
+    font-size: 2.5rem;
+    margin: 0.5rem 0;
+  }
+  h2{
+    font-size: 2.25rem;
+    margin: 0.5rem 0;
+  }
+  h3{
+    font-size: 2rem;
+    margin: 0.5rem 0;
+  }
+  h4{
+    font-size: 1.7rem;
+    margin: 0.5rem 0;
+  }
+  h5{
+    font-size: 1.25rem;
+    margin: 0.5rem 0;
+  }
+  h6{
+    font-size: 1rem;
+    margin: 0.5rem 0;
+  }
+  
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }

@@ -14,17 +14,17 @@ const {
 const hasBg = /\bbg-[^\s]+/.test(className);
 
 const base = // Estilo base
-  "m-3 text-white rounded-lg font-semibold transition focus:outline-none shadow-lg hover:cursor-pointer inline-flex items-center justify-center";
+  "text-sm px-7 py-2 mx-1 md:text-base md:px-10 md:py-2 lg:px-15 lg:py-3 text-white rounded-lg font-semibold transition focus:outline-none shadow-lg hover:cursor-pointer inline-flex items-center justify-center";
 
 const themes: Record<"sunset" | "cosmic" | "void", string> = {
   // Degradado SUNSET (Naranja a Rosa)
-  sunset: "px-15 py-3  bg-gradient-to-tr from-orange-500 to-pink-800 hover:from-orange-500 hover:to-pink-600",
+  sunset: "bg-gradient-to-tr from-orange-500 to-pink-800 hover:from-orange-500 hover:to-pink-600",
   
   // Degradado COSMIC (Púrpura a Índigo)
-  cosmic: "px-15 py-3 bg-gradient-to-br from-purple-700 to-pink-800 hover:from-purple-700 hover:to-pink-600",
+  cosmic: "bg-gradient-to-br from-purple-700 to-pink-800 hover:from-purple-700 hover:to-pink-600",
   
   // Transparente con borde blanco)
-  void: "px-12 py-2.5 bg-gradient-to-br border-2 border-white bg-transparent hover:from-transparent hover:to-indigo-950",
+  void: "md:px-8 md:py-2 lg:px-12 lg:py-2.5 bg-gradient-to-br border-2 border-white/10 bg-transparent hover:from-transparent hover:to-indigo-950",
 };
 
 const defaultStyle = themes[theme];
