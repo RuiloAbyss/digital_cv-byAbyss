@@ -6,15 +6,29 @@ import "../styles/global.css";
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/png" href="/public/tecuala.png"/><!-- Favicon -->
-		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"><!-- Roboto font from Google Fonts -->
+		<link rel="icon" type="image/png" href="/public/tecuala.png"/>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 		<meta name="generator" content={Astro.generator} />
 		<title>Curry :D</title>
 	</head>
-	<body>
-		<slot />
+	
+	<body class="relative min-h-screen bg-gray-950 overflow-x-hidden">
+		
+		<div class="fixed top-0 left-0 z-0 pointer-events-none translate-x-[-20%] translate-y-[-20%]">
+			<div class="w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-orange-500 to-red-800 opacity-40 blur-[120px]"></div>
+		</div>
+
+		<div class="fixed bottom-0 right-0 z-0 pointer-events-none translate-x-[20%] translate-y-[20%]">
+			<div class="w-[700px] h-[700px] rounded-full bg-gradient-to-br from-purple-700 to-pink-800 opacity-30 blur-[120px]"></div>
+		</div>
+
+		<div class="relative z-10">
+			<slot />
+			
+			<footer>
+				<p class="text-center text-gray-400 py-4">&copy; Abisai 2025</p>
+			</footer>
+		</div>
+
 	</body>
-	<footer>
-		<p>&copy; Abisai 2025</p>
-	</footer>
 </html>

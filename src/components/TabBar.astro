@@ -1,0 +1,183 @@
+---
+// src/components/TabBar.astro
+import type { HTMLAttributes } from 'astro/types';
+
+interface Tab {
+  id: string;
+  label: string;
+}
+
+interface Props extends HTMLAttributes<'div'> {
+  tabs: Tab[];
+  initialTabId: string;
+  theme?: "sunset" | "cosmic";
+  id?: string;
+}
+
+const { 
+  tabs, 
+  initialTabId, 
+  theme = "cosmic", 
+  id = "main-tab",
+  class: className, 
+  ...rest 
+} = Astro.props;
+
+// --- Estilos ---
+const indicatorStyle = "tab-indicator absolute top-1 bottom-1 rounded-md opacity-90 pointer-events-none transition-all duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)] z-0"; 
+
+const indicatorThemeClasses = theme === 'sunset'
+  ? "bg-gradient-to-r from-orange-500 to-pink-600 shadow-md shadow-orange-900/30"
+  : "bg-gradient-to-r from-purple-700 to-pink-600 shadow-md shadow-purple-900/30";
+
+const finalIndicatorClasses = `${indicatorStyle} ${indicatorThemeClasses}`;
+---
+
+<div {...rest} class={`w-full max-w-4xl mx-auto ${className ?? ''}`}>
+  
+  {/* --- BARRA DE NAVEGACIÓN --- */}
+  <div 
+    id={`tab-bar-container-${id}`} 
+    class="bg-gray-900/10 backdrop-blur-xl border-2 border-white/10 p-1 rounded-lg shadow-2xl relative tab-container-ref"
+  >
+    
+    {/* Indicador Brillante */}
+    <div 
+      id={`tab-indicator-${id}`}
+      class={finalIndicatorClasses} 
+      style="width: 0px; transform: translateX(0px); left: 0;"
+    ></div>
+
+    {/* Botones (Grid con anchos forzados iguales) */}
+    <div 
+      class="relative grid gap-1 w-full z-10"
+      style={`grid-template-columns: repeat(${tabs.length}, minmax(0, 1fr));`}
+    >
+      {tabs.map((tab) => (
+        <button
+          data-tab-id={tab.id}
+          class="py-2.5 text-sm font-semibold rounded-md text-gray-400 hover:text-white hover:cursor-pointer transition-colors duration-200 whitespace-nowrap overflow-hidden text-ellipsis focus:outline-none w-full"
+          aria-controls={`content-${tab.id}`}
+        >
+          {tab.label}
+        </button>
+      ))}
+    </div>
+  </div>
+
+  {/* --- CONTENIDO DINÁMICO --- */}
+  <div id={`tab-content-container-${id}`} class="mt-6 p-6 bg-gray-900/10 backdrop-blur-md border-2 border-white/5 rounded-2xl shadow-xl tab-content-ref">
+    <slot />
+  </div>
+</div>
+
+{/* --- SCRIPTS --- */}
+<script define:vars={{ initialTabId, uniqueId: id }}>
+  function initTabs() {
+    const containerId = `tab-bar-container-${uniqueId}`;
+    const indicatorId = `tab-indicator-${uniqueId}`;
+    const contentId = `tab-content-container-${uniqueId}`;
+    const storageKey = `tab-pos-${uniqueId}`;
+
+    const container = document.getElementById(containerId);
+    if (!container) return; 
+
+    const indicator = document.getElementById(indicatorId);
+    const contentContainer = document.getElementById(contentId);
+    const buttons = container.querySelectorAll('button');
+    
+    // --- PERSISTENCIA (Para recordar la opción seleccionada) ---
+    const savedTabId = localStorage.getItem(storageKey);
+    const isValidSaved = savedTabId && Array.from(buttons).some(b => b.dataset.tabId === savedTabId);
+    let activeTab = isValidSaved ? savedTabId : initialTabId;
+
+    // --- CÁLCULO DE POSICIÓN (Evita desfaces en la página) ---
+    function updateIndicator(button) {
+      if (!button || !indicator) return;
+      
+      const containerRect = container.getBoundingClientRect();
+      const buttonRect = button.getBoundingClientRect();
+      
+      const borderOffset = container.clientLeft || 0;
+      const translateX = buttonRect.left - containerRect.left - borderOffset;
+      const width = buttonRect.width;
+
+      indicator.style.width = `${width}px`;
+      indicator.style.transform = `translateX(${translateX}px)`;
+
+      // Estilos de texto
+      buttons.forEach(btn => {
+        const isActive = btn === button;
+        if (isActive) {
+            btn.classList.add('text-white', 'font-bold');
+            btn.classList.remove('text-gray-400');
+        } else {
+            btn.classList.remove('text-white', 'font-bold');
+            btn.classList.add('text-gray-400');
+        }
+      });
+    }
+
+    function updateContent(tabId) {
+      if (!contentContainer) return;
+      const contents = contentContainer.querySelectorAll('[data-slot-id]');
+      contents.forEach(c => c.style.display = 'none');
+      
+      const activeContent = contentContainer.querySelector(`[data-slot-id="${tabId}"]`);
+      if (activeContent) {
+          activeContent.style.display = 'block';
+          activeContent.animate([
+            { opacity: 0, transform: 'translateY(8px)' },
+            { opacity: 1, transform: 'translateY(0)' }
+        ], { duration: 250, easing: 'ease-out' });
+      }
+      
+      activeTab = tabId;
+      localStorage.setItem(storageKey, tabId); 
+    }
+
+    // --- RECALCULO AUTOMÁTICO (ResizeObserver) ---
+    // Esto arregla el problema de cuando carga la fuente y el texto se mueve.
+    const resizeObserver = new ResizeObserver(() => {
+        const currentBtn = container.querySelector(`[data-tab-id="${activeTab}"]`);
+        if (currentBtn) updateIndicator(currentBtn);
+    });
+    
+    // Observamos el contenedor y los botones para cualquier cambio de tamaño
+    resizeObserver.observe(container);
+    buttons.forEach(btn => resizeObserver.observe(btn));
+
+    // --- INICIALIZACIÓN ---
+    const startButton = container.querySelector(`[data-tab-id="${activeTab}"]`);
+    if (startButton) {
+        // Forzamos un ciclo de dibujado
+        requestAnimationFrame(() => {
+            updateIndicator(startButton);
+            updateContent(activeTab);
+        });
+    }
+
+    // --- LISTENERS ---
+    buttons.forEach(button => {
+      button.onclick = (e) => {
+        const tabId = e.currentTarget.dataset.tabId;
+        if (tabId === activeTab) return;
+        updateIndicator(e.currentTarget);
+        updateContent(tabId);
+      };
+    });
+    
+    // Limpieza al salir 
+    document.addEventListener('astro:before-swap', () => {
+        resizeObserver.disconnect();
+    }, { once: true });
+  }
+
+  document.addEventListener('astro:page-load', initTabs);
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTabs);
+  } else {
+    initTabs();
+  }
+</script>
