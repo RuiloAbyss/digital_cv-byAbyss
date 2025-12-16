@@ -16,16 +16,12 @@ const menuTabs = [
 <Layout>
 	<h1 class="text-center">Abisai Ruiz</h1>
 	<Section title="Hola Mundo">
-		<div class="flex justify-between flex-row gap-1 w-[100%] sm:flex-col">
+		<div class="flex justify-between flex-row gap-1 w-[100%] sm:flex-col sm:gap-3">
 			<ColorButton label="Curriculum" theme="sunset" href=https://www.google.com/>
-			<ColorButton label="LinkedIn" theme="cosmic" href=https://www.google.com/>
-			<ColorButton label="GitHub" theme="void" href=https://github.com/RuiloAbyss/>
+			<ColorButton label="LinkedIn" theme="void" href=https://www.google.com/>
+			<ColorButton label="GitHub" theme="cosmic" href=https://github.com/RuiloAbyss/>
 		</div>
 	</Section>
-	<!--
-	<Section title="Menús">
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-	-->
 	<TabBar tabs={menuTabs} initialTabId="dev" theme="sunset" class="my-5">
 		{/* --- Contenido para la Pestaña "Diseño UX/UI" (ID: design) --- */}
 		<div data-slot-id="dev" style="display: grid;">
