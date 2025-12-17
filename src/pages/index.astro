@@ -23,7 +23,7 @@ const misRedes = {
     cv: "/CV_Abisai_Ruiz Lopez.pdf"
 };
 
-const getWorksByCategory = (categoryId) => {
+const getWorksByCategory = (categoryId: string) => {
   return allWorks.filter(post => post.frontmatter.category === categoryId);
 }
 ---
