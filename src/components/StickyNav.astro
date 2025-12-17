@@ -21,18 +21,19 @@ const indicatorBaseStyle = "absolute top-1.5 bottom-1.5 rounded-md opacity-90 po
 >
   <div 
     id="top-bar-branding"
-    class="group flex items-center gap-3 cursor-pointer transition-all duration-500" 
+    class="group flex items-center gap-2 sm:gap-3 cursor-pointer transition-all duration-500 min-w-0" 
     onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
   >
     <div 
       id="top-bar-circle" 
-      class="w-10 h-10 rounded-full border-8 p-1 border-white/20 border-t-orange-900/80 border-r-orange-500/40 transition-all duration-500 group-hover:border-white/80 group-hover:border-t-orange-800 group-hover:border-r-orange-400/80" 
+      class="shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full border-8 p-1 border-white/20 border-t-orange-900/80 border-r-orange-500/40 transition-all duration-500 group-hover:border-white/80 group-hover:border-t-orange-800 group-hover:border-r-orange-400/80" 
     ></div>
 
-    <span class="font-bold text-white text-lg block transition-all duration-500 group-hover:text-shadow-md group-hover:text-shadow-orange-400">
+    <span class="font-bold text-white text-xs sm:text-lg block transition-all duration-500 group-hover:text-shadow-md group-hover:text-shadow-orange-400 truncate">
       {name}  
     </span>
   </div>
+
 
   <div id="top-bar-socials" class="flex items-center gap-4 transition-all duration-500">
     {socialLinks.linkedin && (
