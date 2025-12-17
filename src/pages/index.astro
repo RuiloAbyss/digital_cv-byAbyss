@@ -30,21 +30,19 @@ const getWorksByCategory = (categoryId) => {
 
 <Layout>
     {/* Sección de Introducción */}
-    <div id="profile-trigger" class="w-[100%] flex flex-col sm:flex-row sm:items-stretch justify-between"> 
+    <div id="profile-trigger" class="w-[100%] flex flex-col sm:flex-row sm:items-stretch sm:justify-center"> 
         <div class="w-[100%] sm:w-full h-full sm:pr-[20px]"> 
-            <Section title="">
+            <Section class="justify-center sm:justify-start">
                 <div class=" h-full flex flex-col sm:flex-row items-center sm:items-start justify-center gap-2"> 
-                    <div class="flex justify-center sm:justify-start">
                         <img 
                             src="/public/profile.png" 
                             alt="Foto de Perfil" 
-                            class="aspect-square w-[200px] sm:w-[170px] mx-4 my-4 rounded-full sm:border-5 border-10 p-1 border-white/20 border-t-orange-900/80 border-r-orange-500/40 ]"
+                            class="aspect-square w-[200px] sm:w-[180px] m-4 rounded-full sm:border-5 border-10 p-1 border-white/20 border-t-orange-900/80 border-r-orange-500/40"
                         />
-                    </div>
-                    <div class="flex flex-col items-center sm:items-start text-center m- sm:m-0 sm:w-[100%] sm:mt-2 sm:ml-10 sm:text-left">
+                    <div class="flex flex-col mt-0 sm:mt-5 items-center sm:items-start text-center sm:w-[100%] sm:text-left">
                         <h3 class="font-bold text-white">Abisai Ruiz López</h3>
-                        <h6 class="text-red-400">Desarrollador web con sentido de diseño</h6>
-                        <p class="text-white">Aquí va la información adicional o el texto más largo que habla de ti</p>
+                        <h5 class="text-red-400 font-bold animate-pulse">Front-End Developer</h5>
+                        <p class="text-white">Un desarrollador web con sentido de diseño</p>
                     </div> 
                 </div>
             </Section>
