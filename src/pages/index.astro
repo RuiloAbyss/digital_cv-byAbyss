@@ -168,8 +168,6 @@ const getWorksByCategory = (categoryId: string) => {
     });
   }
 
-  // Astro maneja la navegación sin recargar la página completa, 
-  // por lo que usamos 'astro:page-load' para reinicializar el script
   document.addEventListener('astro:page-load', initScrollReveal);
   
   // Respaldo para la primera carga
