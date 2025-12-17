@@ -24,8 +24,8 @@ const {
 
 // Clases para el color de los Tags (Theme)
 const tagColor = theme === "sunset"
-  ? "border-2 border-gray-800 bg-gradient-to-tr from-orange-500 to-pink-800 text-white"
-  : "border-2 bg-gradient-to-br  border-gray-800 from-purple-700 to-pink-800 text-white";
+  ? "border-2 border-white/40 border-gray-800 bg-gradient-to-tr from-orange-500 to-pink-800 text-white"
+  : "border-2 border-white/40 bg-gradient-to-br border-gray-800 from-purple-700 to-pink-800 text-white";
 
 // Clases para el Recoloreado Inferior en Hover (Theme)
 const hoverRecolor = "group-hover:bg-gradient-to-r group-hover:from-orange-800/30 group-hover:to-purple-800/30";
@@ -41,7 +41,7 @@ const tagHoverStyle = `
   href={href} 
   {...rest} 
   class={`
-    block group bg-gray-900/10 text-white shadow-xl
+    block group bg-white/10 text-white shadow-xl
     border-2 border-white/20 hover:border-white/50 
     rounded-lg overflow-hidden no-underline cursor-pointer 
     transition duration-300 ease-in-out 
@@ -88,7 +88,7 @@ const tagHoverStyle = `
                 {technologies.map((tech) => (
                     <span 
                       class={`
-                        inline-block text-xs font-semibold px-2 py-0.5 rounded-full mr-2 mb-2 
+                        inline-block text-xs font-semibold px-2 py-1 rounded-lg mr-2 mb-2 
                         transition-all duration-300 
                         ${tagColor} /* Aplica el color base SUNSET o COSMIC */
                         ${tagHoverStyle} /* Aplica el estilo Transparente en hover */

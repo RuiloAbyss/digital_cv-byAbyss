@@ -38,10 +38,10 @@ const getWorksByCategory = (categoryId) => {
                         <img 
                             src="/public/profile.png" 
                             alt="Foto de Perfil" 
-                            class="aspect-square w-[200px] sm:w-[170px] mx-4 my-2 rounded-full sm:border-5 border-10 p-1 border-white/20 border-t-orange-900/80 border-r-orange-500/40 ]"
+                            class="aspect-square w-[200px] sm:w-[170px] mx-4 my-3 rounded-full sm:border-5 border-10 p-1 border-white/20 border-t-orange-900/80 border-r-orange-500/40 ]"
                         />
                     </div>
-                    <div class="flex flex-col items-center sm:items-start text-center m-3 sm:m-0 sm:w-[100%] sm:mt-2 sm:ml-10 sm:text-left">
+                    <div class="flex flex-col items-center sm:items-start text-center m- sm:m-0 sm:w-[100%] sm:mt-2 sm:ml-10 sm:text-left">
                         <h3 class="font-bold text-white">Abisai Ruiz López</h3>
                         <h6 class="text-red-400">Desarrollador web con sentido de diseño</h6>
                         <p class="text-white">Aquí va la información adicional o el texto más largo que habla de ti</p>
@@ -63,7 +63,7 @@ const getWorksByCategory = (categoryId) => {
 	
     {/* --- TabBar con Bento Grid Integrado --- */}
     <div id="tabbar-trigger"></div>
-        <TabBar tabs={menuTabs} initialTabId="dev" theme="sunset" class="my-5">
+        <TabBar tabs={menuTabs} initialTabId="dev" theme="sunset" class="my-2">
             {menuTabs.map((tab) => {
                 const works = getWorksByCategory(tab.id);
                 

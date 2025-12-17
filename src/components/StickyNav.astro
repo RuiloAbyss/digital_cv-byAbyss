@@ -13,33 +13,32 @@ interface Props {
 
 const { name, avatar, socialLinks, tabs } = Astro.props;
 
-// Estilos compartidos para Glassmorphism
 const glassStyle = "bg-gray-900/50 backdrop-blur-md border-white/10 ";
-// Estilo base del indicador
 const indicatorBaseStyle = "absolute top-1.5 bottom-1.5 rounded-md opacity-90 pointer-events-none transition-all duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)] z-0";
 ---
 
 <nav 
   id="sticky-top-bar"
-  class={`border-b-[2px] fixed top-0 inset-x-0 z-50 h-16 transform -translate-y-full transition-transform duration-500 ease-in-out border-b${glassStyle} shadow-2xl shadow-orange-900/50 flex items-center justify-between px-4 md:px-8`}
+  class={`border-b-[2px] fixed top-0 inset-x-0 z-50 h-16 transition-all duration-500 ease-in-out border-b${glassStyle} shadow-2xl shadow-orange-900/50 flex items-center justify-between px-4 md:px-8`}
 >
   <div 
-  class="group flex items-center gap-3 cursor-pointer" 
-  onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
->
-  <img 
-    src={avatar} 
-    alt={name} 
-    class=" w-8 h-8 rounded-full border-8 p-3 border-white/20 border-t-orange-900/80 border-r-orange-500/40 object-cover transition-all duration-200 
-           group-hover:border-white/80 group-hover:border-t-orange-800 group-hover:border-r-orange-400/80" 
-  />
+    id="top-bar-branding"
+    class="group flex items-center gap-3 cursor-pointer transition-all duration-500" 
+    onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+  >
+    <img 
+      id="top-bar-avatar"
+      src={avatar} 
+      alt={name} 
+      class="w-8 h-8 rounded-full border-8 p-3 border-white/20 border-t-orange-900/80 border-r-orange-500/40 object-cover transition-all duration-500 group-hover:border-white/80 group-hover:border-t-orange-800 group-hover:border-r-orange-400/80" 
+    />
 
-  <span class="font-bold text-white text-lg block transition-all duration-200 group-hover:text-shadow-md group-hover:text-shadow-orange-400">
-    {name}  
-  </span>
-</div>
+    <span class="font-bold text-white text-lg block transition-all duration-500 group-hover:text-shadow-md group-hover:text-shadow-orange-400">
+      {name}  
+    </span>
+  </div>
 
-  <div class="flex items-center gap-4">
+  <div id="top-bar-socials" class="flex items-center gap-4 transition-all duration-500">
     {socialLinks.linkedin && (
       <a href={socialLinks.linkedin} target="_blank" class="text-gray-400 rounded-lg hover:scale-110 hover:shadow-xl hover:shadow-blue-500/20 transition-all">
         <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
@@ -66,46 +65,33 @@ const indicatorBaseStyle = "absolute top-1.5 bottom-1.5 rounded-md opacity-90 po
   class={`fixed bottom-6 inset-x-4 md:inset-x-[30%] z-50 h-15 rounded-lg transform translate-y-[200%] transition-transform duration-500 ease-in-out border-[2px] border${glassStyle} shadow-2xl shadow-purple-900/50 flex items-center justify-between p-1`}
 >
   <div id="sticky-tabs-container" class="relative flex-1 h-full flex items-center p-1.5">
-    
-    <div 
-      id="sticky-tab-indicator"
-      class={indicatorBaseStyle} 
-      style="width: 0px; transform: translateX(0px); left: 0;"
-    ></div>
-
-    <div 
-      class="relative grid gap-1 w-full z-10 h-full"
-      style={`grid-template-columns: repeat(${tabs.length}, minmax(0, 1fr));`}
-    >
+    <div id="sticky-tab-indicator" class={indicatorBaseStyle} style="width: 0px; transform: translateX(0px); left: 0;"></div>
+    <div class="relative grid gap-1 w-full z-10 h-full" style={`grid-template-columns: repeat(${tabs.length}, minmax(0, 1fr));`}>
       {tabs.map((tab) => (
-        <button
-          data-nav-target={tab.id}
-          class="nav-proxy-btn hover:cursor-pointer flex items-center justify-center rounded-md text-gray-400 hover:text-white transition-all duration-200 group h-full w-full border-2 border-transparent"
-        >
-          <span class="text-xs font-bold tracking-widest">{tab.label}</span>
+        <button data-nav-target={tab.id} class="nav-proxy-btn hover:cursor-pointer flex items-center justify-center rounded-md text-gray-400 hover:text-white transition-all duration-200 group h-full w-full border-2 border-transparent">
+          <span class="text-xs sm:text-sm font-bold tracking-widest">{tab.label}</span>
         </button>
       ))}
     </div>
   </div>
-
   <div class="h-8 w-[1px] bg-white/10 mx-2"></div>
-
-  <button 
-    onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
-    class="p-2 text-orange-400 hover:cursor-pointer hover:text-orange-300 transition-colors flex-shrink-0"
-    aria-label="Subir"
-  >
+  <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="p-2 text-orange-400 hover:cursor-pointer hover:text-orange-300 transition-colors flex-shrink-0" aria-label="Subir">
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
   </button>
 </nav>
 
 <script define:vars={{ indicatorBaseStyle }}>
   function initStickyNav() {
-
     const profileSection = document.getElementById('profile-trigger');
     const tabBarSection = document.getElementById('tabbar-trigger');
     const topBar = document.getElementById('sticky-top-bar');
     const bottomBar = document.getElementById('sticky-bottom-bar');
+    
+    // Identificamos elementos internos para animar
+    const branding = document.getElementById('top-bar-branding');
+    const avatarImg = document.getElementById('top-bar-avatar');
+    const socials = document.getElementById('top-bar-socials');
+    
     const stickyContainer = document.getElementById('sticky-tabs-container');
     const stickyIndicator = document.getElementById('sticky-tab-indicator');
     const proxyButtons = document.querySelectorAll('.nav-proxy-btn');
@@ -118,29 +104,51 @@ const indicatorBaseStyle = "absolute top-1.5 bottom-1.5 rounded-md opacity-90 po
 
     if (!topBar || !bottomBar) return;
 
+    // --- Lógica de la Barra Superior ---
+    const topObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // *** MODO ESTRECHO (ESTAMOS ARRIBA) ***
+          topBar.classList.replace('h-16', 'h-12', );
+          topBar.classList.add('bg-black/10');
+          
+          if(avatarImg) avatarImg.classList.add('scale-60'); 
+          if(socials) socials.classList.add('opacity-0', 'pointer-events-none'); 
+        } else {
+          topBar.classList.replace('h-12', 'h-16');
+          topBar.classList.remove('bg-black/10');
+          // *** MODO NORMAL (NOS HEMOS DESPLAZADO HACIA ABAJO) ***
+          if(avatarImg) avatarImg.classList.remove('scale-60');
+          if(socials) socials.classList.remove('opacity-0', 'pointer-events-none');
+        }
+      });
+    }, { 
+      threshold: 0.5,
+      rootMargin: "0px" 
+    });
+
+    if (profileSection) topObserver.observe(profileSection);
+
+    // --- Lógica de la Barra Inferior ---
     function updateStickyIndicator(button) {
       if (!button || !stickyIndicator || !stickyContainer) return;
-
       const containerRect = stickyContainer.getBoundingClientRect();
       const buttonRect = button.getBoundingClientRect();
-      
       const borderOffset = stickyContainer.clientLeft || 0;
-      
       const translateX = buttonRect.left - containerRect.left - borderOffset;
       const width = buttonRect.width;
 
       stickyIndicator.style.width = `${width}px`;
       stickyIndicator.style.transform = `translateX(${translateX}px) `;
-
       const index = Array.from(proxyButtons).indexOf(button);
       const currentGradient = gradients[index] || gradients[gradients.length - 1];
       
       stickyIndicator.className = `${indicatorBaseStyle} ${currentGradient}`;
-
+      
       proxyButtons.forEach(btn => {
         const isActive = btn === button;
         if (isActive) {
-            btn.classList.add('text-white', 'border-white/30', 'transition-ease', 'delay-200');
+            btn.classList.add('text-white', 'border-white/30', 'delay-200');
             btn.classList.remove('text-gray-400', 'border-transparent');
         } else {
             btn.classList.add('text-gray-400', 'border-transparent');
@@ -148,16 +156,6 @@ const indicatorBaseStyle = "absolute top-1.5 bottom-1.5 rounded-md opacity-90 po
         }
       });
     }
-
-    const topObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) {
-          topBar.classList.remove('-translate-y-full');
-        } else {
-          topBar.classList.add('-translate-y-full');
-        }
-      });
-    }, { threshold: 0, rootMargin: "-80px 0px 0px 0px" });
 
     const bottomObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -172,34 +170,22 @@ const indicatorBaseStyle = "absolute top-1.5 bottom-1.5 rounded-md opacity-90 po
       });
     }, { threshold: 0 });
 
-    if (profileSection) topObserver.observe(profileSection);
     if (tabBarSection) bottomObserver.observe(tabBarSection);
 
-    // --- Lógica Scroll ---
     proxyButtons.forEach(btn => {
       btn.addEventListener('click', (e) => {
         const currentBtn = e.currentTarget;
         const targetId = currentBtn.dataset.navTarget;
-        
         updateStickyIndicator(currentBtn);
-
         const originalBtn = document.querySelector(`button[data-tab-id="${targetId}"]`);
         if (originalBtn) {
           originalBtn.click(); 
-          
-          // Buscamos el contenedor de las Tabs (la barra en sí), no solo el contenido
           const tabBar = document.getElementById('tab-bar-container-main-tab');
-          
           if(tabBar) {
-            // Calculamos posición: Posición Absoluta del elemento - Offset (Header + margen)
-            const offset = 100; // 80px aprox para header + un poco de aire
+            const offset = 100;
             const elementPosition = tabBar.getBoundingClientRect().top + window.scrollY;
             const offsetPosition = elementPosition - offset;
-      
-            window.scrollTo({
-              top: offsetPosition,
-              behavior: "smooth"
-            });
+            window.scrollTo({ top: offsetPosition, behavior: "smooth" });
           }
         }
       });
@@ -210,10 +196,7 @@ const indicatorBaseStyle = "absolute top-1.5 bottom-1.5 rounded-md opacity-90 po
         if (activeBtn) updateStickyIndicator(activeBtn);
     });
     if (stickyContainer) resizeObserver.observe(stickyContainer);
-
-    if (proxyButtons.length > 0) {
-       updateStickyIndicator(proxyButtons[0]);
-    }
+    if (proxyButtons.length > 0) updateStickyIndicator(proxyButtons[0]);
   }
 
   document.addEventListener('DOMContentLoaded', initStickyNav);
