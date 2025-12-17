@@ -137,36 +137,34 @@ const getWorksByCategory = (categoryId: string) => {
 
 <script>
   function initScrollReveal() {
-    const observerOptions = {
-      root: null,
-      // threshold 0.1 significa que se activa cuando solo el 10% es visible
-      threshold: 0.1, 
-    };
+  const observerOptions = { threshold: 0.1 };
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-        } else {
-          // Si quieres que el efecto se repita al subir, deja esto:
-          entry.target.classList.remove('active');
-        }
-      });
-    }, observerOptions);
-
-    // Seleccionamos secciones, tarjetas de proyectos y filas de trayectoria
-    const elementsToReveal = document.querySelectorAll(
-        'section, .relative.flex.w-full.pb-12, a.block.group, .tab-container-ref, .tab-content-ref, #profile-trigger > div'
-    );
-    
-    elementsToReveal.forEach((el) => {
-      // Evitamos añadir la clase múltiples veces si el script se vuelve a ejecutar
-      if (!el.classList.contains('reveal')) {
-        el.classList.add('reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+      } else {
+        entry.target.classList.remove('active');
       }
-      observer.observe(el);
     });
-  }
+  }, observerOptions);
+
+  // Elementos con ZOOM (Perfil, Cards, Trayectoria)
+  const zoomElements = document.querySelectorAll(
+    'section, .relative.flex.w-full.pb-12, a.block.group, #profile-trigger > div'
+  );
+  zoomElements.forEach((el) => {
+    el.classList.add('reveal');
+    observer.observe(el);
+  });
+
+  // Elementos con SOLO FADE (Contenedores de la TabBar)
+  const fadeElements = document.querySelectorAll('.tab-container-ref, .tab-content-ref');
+  fadeElements.forEach((el) => {
+    el.classList.add('reveal-fade');
+    observer.observe(el);
+  });
+}
 
   document.addEventListener('astro:page-load', initScrollReveal);
   
