@@ -1,24 +1,20 @@
 ---
+// src/components/Section.astro
 const {
   title = "",
-  className = "",
+  class: className = "", // <--- CAMBIO CLAVE: Mapeamos 'class' a 'className'
   sectionId = "",
-}: {
-  title?: string;
-  className?: string;
-  sectionId?: string;
 } = Astro.props;
 
-// para que el título "corte" visualmente el borde.
 const pageBg = "rounded-lg px-5 backdrop-blur-lg bg-gray-900/10"; 
 ---
 
 <section
   id={sectionId}
-  class={`${className} min-w-[100%] my-5 relative border-2 bg-gray-900/10 border-gray-300/20 rounded-lg pt-8 pb-3 px-2 flex justify-center`} 
+  class={`${className} h-full min-w-[100%] mt-5 relative border-2 bg-gray-900/10 border-gray-300/20 rounded-lg pt-8 pb-3 px-2 flex justify-center`} 
 >
-  <h4 class={`m-3 absolute top-0 -translate-y-5/8 left-1/2 -translate-x-1/2 ${pageBg} px-3 text-lg font-semibold text-white`}>
+  <h4 class={`text-base sm:text-sm m-3 absolute top-0 -translate-y-5/8 left-1/2 -translate-x-1/2 ${pageBg} px-3 text-lg font-semibold text-white`}>
     {title}
   </h4>
-  <slot />
+  <slot />
 </section>

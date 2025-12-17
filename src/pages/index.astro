@@ -14,14 +14,43 @@ const menuTabs = [
 ---
 
 <Layout>
-	<h1 class="text-center">Abisai Ruiz</h1>
-	<Section title="Hola Mundo">
-		<div class="flex justify-between flex-row gap-1 w-[100%] sm:flex-col sm:gap-3">
-			<ColorButton label="Curriculum" theme="sunset" href=https://www.google.com/>
-			<ColorButton label="LinkedIn" theme="void" href=https://www.google.com/>
-			<ColorButton label="GitHub" theme="cosmic" href=https://github.com/RuiloAbyss/>
-		</div>
-	</Section>
+	{/* Sección de Introducción */}
+    <div class="w-[100%] flex flex-col sm:flex-row sm:items-stretch justify-between"> 
+        
+        {/* Columna Izquierda (About Me) */}
+        <div class="w-[100%] sm:w-full h-full sm:pr-[20px]"> 
+            <Section title="">
+                <div class=" h-full flex flex-col sm:flex-row items-center sm:items-start justify-center gap-2"> 
+                    {/* Imagen */}
+                    <div class="flex justify-center sm:justify-start">
+					<img 
+						src="/public/profile.png" 
+						alt="Foto de Perfil" 
+						class="aspect-square w-[200px] sm:w-[170px] mx-4 mb-5 rounded-full shadow-[0_0_15px_8px_rgba(0,0,0,1)]"
+					/>
+				</div>
+                    {/* Texto */}
+                    <div class="flex flex-col items-center sm:items-start text-center sm:w-[100%] sm:ml-10 sm:text-left">
+                        <h3 class="text-3xl font-bold text-white">Abisai Ruiz López</h3>
+                        <p class="text-lg text-red-400 mt-2">Desarrollador web con sentido de diseño</p>
+                        <p class="text-white">Aquí va la información adicional o el texto más largo que habla de ti</p>
+                    </div> 
+                </div>
+            </Section>
+        </div> 
+        
+        {/* Columna Derecha (Links) */}
+        <div class="w-[100%] sm:w-[20%] flex flex-col"> 
+            <Section title="Links" class="flex flex-col">
+                <div class="flex justify-center sm:justify-end flex-row gap-1 w-[100%] h-full sm:flex-col  sm:gap-3"> 
+                    <ColorButton label="Curriculum" theme="sunset" href="https://www.google.com/"/>
+                    <ColorButton label="LinkedIn" theme="void" href="https://www.google.com/"/>
+                    <ColorButton label="GitHub" theme="cosmic" href="https://github.com/RuiloAbyss/"/>
+                </div>
+            </Section>
+        </div>
+    </div>
+	
 	<TabBar tabs={menuTabs} initialTabId="dev" theme="sunset" class="my-5">
 		{/* --- Contenido para la Pestaña "Diseño UX/UI" (ID: design) --- */}
 		<div data-slot-id="dev" style="display: grid;">
