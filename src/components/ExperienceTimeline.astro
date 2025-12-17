@@ -1,0 +1,77 @@
+---
+// src/components/ExperienceTimeline.astro
+interface Experience {
+  date: string;
+  company: string;
+  role: string;
+  description: string;
+}
+
+interface Props {
+  experiences: Experience[];
+}
+
+const { experiences } = Astro.props;
+
+// Estilo base del anillo (Nodo)
+const ringBaseStyle = "border-4 border-white/10 border-t-orange-900/80 border-r-orange-500/40 bg-gray-900/50 transition-all duration-500 ease-in-out";
+
+// Estilo de brillo cuando se hace hover (basado en StickyNav y Perfil)
+const ringHoverStyle = "group-hover:border-white/80 group-hover:border-t-orange-800 group-hover:border-r-orange-400/80 group-hover:shadow-[0_0_15px_rgba(251,146,60,0.6)] group-hover:scale-110";
+
+// Degradado para la tarjeta solicitado
+const cardHoverGradient = "group-hover:bg-gradient-to-r group-hover:from-orange-800/30 group-hover:to-purple-800/30";
+---
+
+<div class="relative w-full max-w-5xl mx-auto px-4">
+  <div class="flex flex-col">
+    {experiences.map((exp, index) => {
+      const isLast = index === experiences.length - 1;
+
+      return (
+        /* El 'group' aquí permite que el hover en la tarjeta afecte al círculo */
+        <div class="relative flex w-full pb-12 last:pb-0 group">
+          
+          {/* LÍNEA SEGMENTADA */}
+          {!isLast && (
+            <div 
+              class="absolute left-4 top-10 bottom-2 w-0.5 bg-gradient-to-b from-orange-500/40 to-purple-500/40 transform -translate-x-1/2 z-0 opacity-30 transition-opacity duration-500 group-hover:opacity-60"
+            ></div>
+          )}
+
+          {/* NODO: Ahora brilla al hacer hover en la tarjeta */}
+          <div class="absolute left-4 top-0 -translate-x-1/2 z-10">
+            <div class={`w-7 h-7 rounded-full shadow-xl ${ringBaseStyle} ${ringHoverStyle}`}></div>
+          </div>
+
+          {/* TARJETA DE CONTENIDO */}
+          <div class={`w-[calc(100%-3rem)] ml-12 bg-white/5 backdrop-blur-xl border-2 border-white/10 rounded-2xl shadow-2xl hover:border-white/20 transition-all duration-500 overflow-hidden ${cardHoverGradient}`}>
+            <div class="flex flex-col lg:flex-row items-stretch">
+              
+              {/* Sección Izquierda: Info */}
+              <div class="p-5 lg:w-1/3 flex flex-col justify-center border-b-2 border-white/5 lg:border-b-0 lg:border-r-2 lg:border-white/5 bg-white/5 transition-colors duration-500 group-hover:bg-transparent">
+                <span class="text-xs font-bold uppercase tracking-widest text-orange-400/80 mb-1 block">
+                  {exp.date}
+                </span>
+                <h3 class="text-xl font-bold text-white transition-colors duration-300 group-hover:text-orange-400">
+                  {exp.company}
+                </h3>
+                <h4 class="text-sm font-semibold text-gray-300 italic">
+                  {exp.role}
+                </h4>
+              </div>
+
+              {/* Sección Derecha: Descripción */}
+              <div class="p-5 lg:w-2/3 flex items-center">
+                <p class="text-gray-400 text-sm leading-relaxed text-pretty transition-colors duration-500 group-hover:text-white/90">
+                  {exp.description}
+                </p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</div>

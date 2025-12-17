@@ -1,20 +1,18 @@
 ---
 // src/components/Section.astro
-const {
-  title = "",
-  class: className = "", // <--- CAMBIO CLAVE: Mapeamos 'class' a 'className'
-  sectionId = "",
-} = Astro.props;
-
-const pageBg = "rounded-lg px-5 backdrop-blur-lg bg-gray-900/10"; 
+const { title = "", class: className = "", sectionId = "" } = Astro.props;
 ---
-
 <section
   id={sectionId}
-  class={`${className} h-full min-w-[100%] my-3 py-3 relative border-2 bg-white/5 border-gray-300/20 rounded-lg px-2 flex justify-center`} 
+  class={`${className} w-full my-3 p-3 relative border-2 bg-white/5 border-gray-300/20 rounded-lg flex flex-col items-center`} 
 >
-  <h4 class={`text-base sm:text-sm m-3 absolute top-0 -translate-y-5/8 left-1/2 -translate-x-1/2 ${pageBg} px-3 text-lg font-semibold text-white`}>
-    {title}
-  </h4>
-  <slot />
+  {/* Eliminamos h-full y min-w-[100%] para que la altura sea automática (h-auto) */}
+  {title && (
+    <h5 class={`mb-4 text-base sm:text-sm font-semibold text-white text-center`}>
+      {title}
+    </h5>
+  )}
+  <div class="w-full">
+    <slot />
+  </div>
 </section>
