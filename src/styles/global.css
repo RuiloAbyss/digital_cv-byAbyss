@@ -1,5 +1,19 @@
 @import "tailwindcss";
 
+/* --- ANIMACIONES DE REVELADO --- */
+.reveal {
+  opacity: 0;
+  transform: scale(0.97) translateY(20px);
+  transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* --- ESTILOS GLOBALES --- */
 html, body {
   width: 100%;
   padding: 50px 15%;

@@ -14,10 +14,20 @@ interface Props {
 const { experiences } = Astro.props;
 
 // Estilo base del anillo (Nodo)
-const ringBaseStyle = "border-4 border-white/10 border-t-orange-900/80 border-r-orange-500/40 bg-gray-900/50 transition-all duration-500 ease-in-out";
+const ringBaseStyle = 
+`border-4 border-white/20 border-t-orange-900/80 border-r-orange-500/40 
+bg-gray-900/50 transition-all duration-500 ease-in-out`;
 
 // Estilo de brillo cuando se hace hover (basado en StickyNav y Perfil)
-const ringHoverStyle = "group-hover:border-white/80 group-hover:border-t-orange-800 group-hover:border-r-orange-400/80 group-hover:shadow-[0_0_15px_rgba(251,146,60,0.6)] group-hover:scale-110";
+const ringHoverStyle = `
+  transition-all duration-500 ease-in-out
+  group-hover:scale-110 group-hover:rotate-[585deg]
+  group-hover:border-t-orange-300/60
+  group-hover:border-r-orange-300/60
+  group-hover:border-l-purple-400/60
+  group-hover:border-b-purple-400/60  
+  group-hover:shadow-[0_0_20px_rgba(251,146,60,0.5)]
+`;
 
 // Degradado para la tarjeta solicitado
 const cardHoverGradient = "group-hover:bg-gradient-to-r group-hover:from-orange-800/30 group-hover:to-purple-800/30";
@@ -49,7 +59,7 @@ const cardHoverGradient = "group-hover:bg-gradient-to-r group-hover:from-orange-
             <div class="flex flex-col lg:flex-row items-stretch">
               
               {/* Sección Izquierda: Info */}
-              <div class="p-5 lg:w-1/3 flex flex-col justify-center border-b-2 border-white/5 lg:border-b-0 lg:border-r-2 lg:border-white/5 bg-white/5 transition-colors duration-500 group-hover:bg-transparent">
+              <div class="p-3 lg:w-1/3 flex flex-col justify-center border-b-2 border-white/5 lg:border-b-0 lg:border-r-2 lg:border-white/5 bg-white/5 transition-colors duration-500 group-hover:bg-transparent">
                 <span class="text-xs font-bold uppercase tracking-widest text-orange-400/80 mb-1 block">
                   {exp.date}
                 </span>
