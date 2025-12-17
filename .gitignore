@@ -23,3 +23,6 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 .gitignore
+
+# local astro settings
+public/CV_Abisai_Ruiz Lopez.pdf
