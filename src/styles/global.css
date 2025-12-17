@@ -13,85 +13,43 @@ html, body {
 body {
   flex-direction: column;
   align-items: center;
-  
   text-align: center;
   padding: 2rem;
 }
 
-/*TIPOS DE TEXTO*/
-h1{
-  font-size: 3.5rem;
-  margin: 0.5rem 0;
-}
-h2{
-  font-size: 3rem;
-  margin: 0.5rem 0;
-}
-h3{
-  font-size: 2.5rem;
-  margin: 0.5rem 0;
-}
-h4{
-  font-size: 2rem;
-  margin: 0.5rem 0;
-}
-h5{
-  font-size: 1.75rem;
-  margin: 0.5rem 0;
-}
-h6{
-  font-size: 1.5rem;
-  margin: 0.5rem 0;
-}
+/* --- TIPOS DE TEXTO (Escritorio) --- */
+h1 { font-size: 3.5rem;   margin-bottom: 1.5rem; line-height: 1.2; }
+h2 { font-size: 2.75rem;  margin-bottom: 1.25rem; line-height: 1.2; }
+h3 { font-size: 2.25rem;  margin-bottom: 1rem; line-height: 1.3; }
+h4 { font-size: 1.75rem;  margin-bottom: 0.75rem; line-height: 1.4; }
+h5 { font-size: 1.5rem;   margin-bottom: 0.5rem; line-height: 1.4; }
+h6 { font-size: 1.25rem;  margin-bottom: 0.5rem; line-height: 1.4; }
+p  { font-size: 1rem;     margin-bottom: 1rem; line-height: 1.6; }
+
 a {
   color: inherit;
   text-decoration: none;
 }
 
 .tab-indicator {
-  /* Propiedad para transicionar la posición y el ancho */
   transition: transform 0.3s ease-in-out, width 0.3s ease-in-out; 
 }
+
+/* --- MEDIA QUERIES --- */
 
 @media (max-width: 1200px) {
   html, body {
     padding: 50px 10%;
   }
 
-    /*TIPOS DE TEXTO*/
-  h1{
-    font-size: 2.75rem;
-    margin: 0.5rem 0;
-  }
-  h2{
-    font-size: 2.5rem;
-    margin: 0.5rem 0;
-  }
-  h3{
-    font-size: 1.75rem;
-    margin: 0.5rem 0;
-  }
-  h4{
-    font-size: 1.5rem;
-    margin: 0.5rem 0;
-  }
-  h5{
-    font-size: 1.25rem;
-    margin: 0.5rem 0;
-  }
-  h6{
-    font-size: 0.75rem;
-    margin: 0.5rem 0;
-  }
-  
-  p{
-    font-size: 0.9rem;
-  }
-
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
+  /* Reducción proporcional para pantallas medianas */
+  h1 { font-size: 2.75rem; margin-bottom: 1.2rem; }
+  h2 { font-size: 2.25rem; margin-bottom: 1rem; }
+  h3 { font-size: 1.85rem; margin-bottom: 0.8rem; }
+  h4 { font-size: 1.5rem;  margin-bottom: 0.7rem; }
+  h5 { font-size: 1.25rem; margin-bottom: 0.6rem; }
+  h6 { font-size: 1.1rem;  margin-bottom: 0.5rem; }
+  p  { font-size: 0.95rem; }
 }
 
 @media (max-width: 800px) {
@@ -99,38 +57,12 @@ a {
     padding: 50px 5%;
   }
 
-  /*TIPOS DE TEXTO*/
-  h1{
-    font-size: 2.25rem;
-    margin: 0.5rem 0;
-  }
-  h2{
-    font-size: 2rem;
-    margin: 0.5rem 0;
-  }
-  h3{
-    font-size: 1.75rem;
-    margin: 0.5rem 0;
-  }
-  h4{
-    font-size: 1.5rem;
-    margin: 0.5rem 0;
-  }
-  h5{
-    font-size: 1.2rem;
-    margin: 0.5rem 0;
-  }
-  h6{
-    font-size: 0.75rem;
-    margin: 0.5rem 0;
-  }
-  
-  p{
-    font-size: 0.8rem;
-  }
-
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
+  /* Tamaños optimizados para legibilidad en móvil*/
+  h1 { font-size: 2.25rem; margin-bottom: 1rem; }
+  h2 { font-size: 1.85rem; margin-bottom: 0.9rem; }
+  h3 { font-size: 1.5rem;  margin-bottom: 0.8rem; }
+  h4 { font-size: 1.35rem; margin-bottom: 0.7rem; }
+  h5 { font-size: 1.15rem; margin-bottom: 0.6rem; }
+  h6 { font-size: 1rem;    margin-bottom: 0.5rem; font-weight: bold; }
+  p  { font-size: 0.9rem; }
 }
