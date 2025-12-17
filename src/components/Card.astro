@@ -41,7 +41,7 @@ const tagHoverStyle = `
   href={href} 
   {...rest} 
   class={`
-    block group bg-gray-900/10 text-white shadow-xl my-3
+    block group bg-gray-900/10 text-white shadow-xl
     border-2 border-white/20 hover:border-white/50 
     rounded-lg overflow-hidden no-underline cursor-pointer 
     transition duration-300 ease-in-out 
@@ -51,7 +51,7 @@ const tagHoverStyle = `
     <article class="h-full flex flex-col relative">
         
         {/* Contenedor de la Imagen: h-48 sin padding horizontal */}
-        <div class="bg-gray-900/10 h-48 flex items-center justify-center overflow-hidden px-0">
+        <div class="bg-gray-900/10 h-48 flex items-center justify-center overflow-hidden">
             <img 
               src={imglink} 
               alt={title} 
@@ -71,7 +71,7 @@ const tagHoverStyle = `
         ></div>
 
         {/* Contenido de la tarjeta (Capa superpuesta 2) */}
-        <div class="relative p-4 flex-grow flex flex-col justify-end z-20">
+        <div class="relative p-2 flex-grow flex flex-col justify-end z-20">
             
             {/* Título y Contenido */}
             <div>

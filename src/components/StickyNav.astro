@@ -14,14 +14,14 @@ interface Props {
 const { name, avatar, socialLinks, tabs } = Astro.props;
 
 // Estilos compartidos para Glassmorphism
-const glassStyle = "bg-gray-900/50 backdrop-blur-md border-white/10 shadow-2xl shadow-orange-900/50";
+const glassStyle = "bg-gray-900/50 backdrop-blur-md border-white/10 ";
 // Estilo base del indicador
 const indicatorBaseStyle = "absolute top-1.5 bottom-1.5 rounded-md opacity-90 pointer-events-none transition-all duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)] z-0";
 ---
 
 <nav 
   id="sticky-top-bar"
-  class={`border-b-[2px] fixed top-0 inset-x-0 z-50 h-16 transform -translate-y-full transition-transform duration-500 ease-in-out border-b${glassStyle} flex items-center justify-between px-4 md:px-8`}
+  class={`border-b-[2px] fixed top-0 inset-x-0 z-50 h-16 transform -translate-y-full transition-transform duration-500 ease-in-out border-b${glassStyle} shadow-2xl shadow-orange-900/50 flex items-center justify-between px-4 md:px-8`}
 >
   <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
     <img src={avatar} alt={name} class="w-10 h-10 rounded-full border-2 border-orange-500/50 object-cover" />
@@ -52,7 +52,7 @@ const indicatorBaseStyle = "absolute top-1.5 bottom-1.5 rounded-md opacity-90 po
 
 <nav 
   id="sticky-bottom-bar"
-  class={`fixed bottom-6 inset-x-4 md:inset-x-[30%] z-50 h-16 rounded-2xl transform translate-y-[200%] transition-transform duration-500 ease-in-out border-[2px] border${glassStyle} flex items-center justify-between px-2`}
+  class={`fixed bottom-6 inset-x-4 md:inset-x-[30%] z-50 h-15 rounded-lg transform translate-y-[200%] transition-transform duration-500 ease-in-out border-[2px] border${glassStyle} shadow-2xl shadow-purple-900/50 flex items-center justify-between p-1`}
 >
   <div id="sticky-tabs-container" class="relative flex-1 h-full flex items-center p-1.5">
     
@@ -69,9 +69,9 @@ const indicatorBaseStyle = "absolute top-1.5 bottom-1.5 rounded-md opacity-90 po
       {tabs.map((tab) => (
         <button
           data-nav-target={tab.id}
-          class="nav-proxy-btn flex items-center justify-center rounded-md text-gray-400 hover:text-white transition-all duration-200 group h-full w-full border-2 border-transparent"
+          class="nav-proxy-btn hover:cursor-pointer flex items-center justify-center rounded-md text-gray-400 hover:text-white transition-all duration-200 group h-full w-full border-2 border-transparent"
         >
-          <span class="text-xs font-bold uppercase tracking-widest">{tab.label}</span>
+          <span class="text-xs font-bold tracking-widest">{tab.label}</span>
         </button>
       ))}
     </div>
@@ -81,7 +81,7 @@ const indicatorBaseStyle = "absolute top-1.5 bottom-1.5 rounded-md opacity-90 po
 
   <button 
     onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
-    class="p-2 text-orange-400 hover:text-orange-300 transition-colors flex-shrink-0"
+    class="p-2 text-orange-400 hover:cursor-pointer hover:text-orange-300 transition-colors flex-shrink-0"
     aria-label="Subir"
   >
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
@@ -90,7 +90,6 @@ const indicatorBaseStyle = "absolute top-1.5 bottom-1.5 rounded-md opacity-90 po
 
 <script define:vars={{ indicatorBaseStyle }}>
   function initStickyNav() {
-    console.log("StickyNav script iniciado");
 
     const profileSection = document.getElementById('profile-trigger');
     const tabBarSection = document.getElementById('tabbar-trigger');
@@ -120,7 +119,7 @@ const indicatorBaseStyle = "absolute top-1.5 bottom-1.5 rounded-md opacity-90 po
       const width = buttonRect.width;
 
       stickyIndicator.style.width = `${width}px`;
-      stickyIndicator.style.transform = `translateX(${translateX}px)`;
+      stickyIndicator.style.transform = `translateX(${translateX}px) `;
 
       const index = Array.from(proxyButtons).indexOf(button);
       const currentGradient = gradients[index] || gradients[gradients.length - 1];
@@ -130,11 +129,11 @@ const indicatorBaseStyle = "absolute top-1.5 bottom-1.5 rounded-md opacity-90 po
       proxyButtons.forEach(btn => {
         const isActive = btn === button;
         if (isActive) {
-            btn.classList.add('text-white', 'scale-105', 'border-white/30');
+            btn.classList.add('text-white', 'border-white/30', 'transition-ease', 'delay-200');
             btn.classList.remove('text-gray-400', 'border-transparent');
         } else {
             btn.classList.add('text-gray-400', 'border-transparent');
-            btn.classList.remove('text-white', 'scale-105', 'border-white/30');
+            btn.classList.remove('text-white', 'scale-105', 'border-white/30', 'delay-0');
         }
       });
     }
