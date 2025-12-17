@@ -4,11 +4,15 @@ const {
   className = "",
   href = "", 
   theme = "sunset",
+  target="_blank",
+  rel = "noopener noreferrer"
 }: {
   label?: string;
   className?: string;
   href?: string;
-  theme?: "sunset" | "cosmic" | "void"; 
+  theme?: "sunset" | "cosmic" | "void";
+  target?: string;
+  rel?: string;
 } = Astro.props;
 
 const hasBg = /\bbg-[^\s]+/.test(className);
@@ -32,7 +36,7 @@ const defaultStyle = themes[theme];
 const style = `${base} ${hasBg ? className : `${defaultStyle}${className ? ` ${className}` : ""}`}`.trim();
 ---
 
-<a href={href} class={style} role="button">
+<a href={href} class={style} role="button" target={target} rel={rel}>
   {label}
   <slot />
 </a>

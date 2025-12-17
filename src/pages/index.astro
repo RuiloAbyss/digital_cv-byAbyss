@@ -5,16 +5,23 @@ import ColorButton from '../components/ColorButton.astro';
 import Section from '../components/Section.astro';
 import TabBar from '../components/TabBar.astro';
 import BentoGrid from '../components/BentoGrid.astro';
+import StickyNav from '../components/StickyNav.astro';
 
 // Cargamos todos los archivos Markdown
 const allWorks = await Astro.glob('./works/*.md');
 
 // Definimos las pestañas
 const menuTabs = [
-  { id: 'dev', label: 'Desarrollo Web', icon: '💻' },
-  { id: 'design', label: 'Diseño UX/UI', icon: '🎨' },
-  { id: 'content', label: 'Contenido Digital', icon: '✍️' },
+  {id: 'dev', label: 'Desarrollo Web'},
+  {id: 'design', label: 'Diseño UX/UI'},
+  {id: 'content', label: 'Contenido Digital'},
 ];
+
+const misRedes = {
+    linkedin: "https://linkedin.com/in/tu-usuario",
+    github: "https://github.com/tu-usuario",
+    cv: "/mi-cv.pdf"
+};
 
 const getWorksByCategory = (categoryId) => {
   return allWorks.filter(post => post.frontmatter.category === categoryId);
@@ -22,8 +29,8 @@ const getWorksByCategory = (categoryId) => {
 ---
 
 <Layout>
-    {/* Sección de Introducción (Sin cambios) */}
-    <div class="w-[100%] flex flex-col sm:flex-row sm:items-stretch justify-between"> 
+    {/* Sección de Introducción */}
+    <div id="profile-trigger" class="w-[100%] flex flex-col sm:flex-row sm:items-stretch justify-between"> 
         <div class="w-[100%] sm:w-full h-full sm:pr-[20px]"> 
             <Section title="">
                 <div class=" h-full flex flex-col sm:flex-row items-center sm:items-start justify-center gap-2"> 
@@ -36,7 +43,7 @@ const getWorksByCategory = (categoryId) => {
                     </div>
                     <div class="flex flex-col items-center sm:items-start text-center sm:w-[100%] sm:ml-10 sm:text-left">
                         <h3 class="text-3xl font-bold text-white">Abisai Ruiz López</h3>
-                        <p class="text-lg text-red-400 mt-2">Desarrollador web con sentido de diseño</p>
+                        <h5 class=" text-red-400 mt-2">Desarrollador web con sentido de diseño</h5>
                         <p class="text-white">Aquí va la información adicional o el texto más largo que habla de ti</p>
                     </div> 
                 </div>
@@ -55,40 +62,47 @@ const getWorksByCategory = (categoryId) => {
     </div>
 	
     {/* --- TabBar con Bento Grid Integrado --- */}
-	<TabBar tabs={menuTabs} initialTabId="dev" theme="sunset" class="my-5">
-		
-        {menuTabs.map((tab) => {
-            const works = getWorksByCategory(tab.id);
-            
-            // Convertimos el formato de Markdown al formato plano que espera BentoGrid/Card
-            const bentoItems = works.map(post => ({
-                title: post.frontmatter.title,
-                imglink: post.frontmatter.image,     
-                content: post.frontmatter.description, 
-                href: post.url,                    
-                theme: post.frontmatter.theme,
-                technologies: post.frontmatter.tags || []
-            }));
+    <div id="tabbar-trigger"></div>
+        <TabBar tabs={menuTabs} initialTabId="dev" theme="sunset" class="my-5">
+            {menuTabs.map((tab) => {
+                const works = getWorksByCategory(tab.id);
+                
+                // Convertimos el formato de Markdown al formato plano que espera BentoGrid/Card
+                const bentoItems = works.map(post => ({
+                    title: post.frontmatter.title,
+                    imglink: post.frontmatter.image,     
+                    content: post.frontmatter.description, 
+                    href: post.url,                    
+                    theme: post.frontmatter.theme,
+                    technologies: post.frontmatter.tags || []
+                }));
 
-            // Lógica de visualización
-            const initialDisplay = tab.id === 'dev' ? 'block' : 'none'; // Usamos block en lugar de grid, porque BentoGrid ya tiene su propio grid
+                // Lógica de visualización
+                const initialDisplay = tab.id === 'dev' ? 'block' : 'none'; // Usamos block en lugar de grid, porque BentoGrid ya tiene su propio grid
 
-            return (
-                <div 
-                    data-slot-id={tab.id} 
-                    style={`display: ${initialDisplay};`} 
-                >
-                    {works.length > 0 ? (
-                        // Aquí simplemente pasamos los items procesados
-                        <BentoGrid items={bentoItems} />
-                    ) : (
-                        <div class="text-center py-10 opacity-50">
-                            <p>Próximamente más proyectos en esta categoría.</p>
-                        </div>
-                    )}
-                </div>
-            );
-        })}
-
-	</TabBar>
+                return (
+                    <div 
+                        data-slot-id={tab.id} 
+                        style={`display: ${initialDisplay};`} 
+                    >
+                        {works.length > 0 ? (
+                            // Aquí simplemente pasamos los items procesados
+                            <BentoGrid items={bentoItems} />
+                        ) : (
+                            <div class="text-center py-10 opacity-50">
+                                <p>Próximamente más proyectos en esta categoría.</p>
+                            </div>
+                        )}
+                    </div>
+                );
+            })}
+        </TabBar>
+    </div>
+    {/* Agregamos el componente nuevo al final */}
+    <StickyNav 
+        name="Abisai Ruiz López"
+        avatar="/public/profile.png"
+        socialLinks={misRedes}
+        tabs={menuTabs}
+    />
 </Layout>
