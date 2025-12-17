@@ -1,23 +1,21 @@
 ---
-// src/pages/index.astro
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
 import ColorButton from '../components/ColorButton.astro';
-import Section from '../components/Section.astro'
-import Card from '../components/Card.astro';
+import Section from '../components/Section.astro';
 import TabBar from '../components/TabBar.astro';
+import BentoGrid from '../components/BentoGrid.astro';
 
-// 1. Cargamos todos los archivos Markdown de la carpeta works usando Astro.glob
+// Cargamos todos los archivos Markdown
 const allWorks = await Astro.glob('./works/*.md');
 
-// Definimos las pestañas (IDs deben coincidir con 'category' en el markdown)
+// Definimos las pestañas
 const menuTabs = [
   { id: 'dev', label: 'Desarrollo Web', icon: '💻' },
   { id: 'design', label: 'Diseño UX/UI', icon: '🎨' },
   { id: 'content', label: 'Contenido Digital', icon: '✍️' },
 ];
 
-// 2. Función auxiliar para filtrar proyectos por categoría
 const getWorksByCategory = (categoryId) => {
   return allWorks.filter(post => post.frontmatter.category === categoryId);
 }
@@ -56,36 +54,35 @@ const getWorksByCategory = (categoryId) => {
         </div>
     </div>
 	
-    {/* --- TabBar con Contenido Dinámico --- */}
+    {/* --- TabBar con Bento Grid Integrado --- */}
 	<TabBar tabs={menuTabs} initialTabId="dev" theme="sunset" class="my-5">
 		
         {menuTabs.map((tab) => {
-            // Filtramos los trabajos para la pestaña actual
             const works = getWorksByCategory(tab.id);
             
-            // Lógica de visualización inicial para que no parpadee al cargar
-            // El TabBar controla la visibilidad después, pero esto ayuda al renderizado inicial
-            const initialDisplay = tab.id === 'dev' ? 'grid' : 'none';
+            // Convertimos el formato de Markdown al formato plano que espera BentoGrid/Card
+            const bentoItems = works.map(post => ({
+                title: post.frontmatter.title,
+                imglink: post.frontmatter.image,     
+                content: post.frontmatter.description, 
+                href: post.url,                    
+                theme: post.frontmatter.theme,
+                technologies: post.frontmatter.tags || []
+            }));
+
+            // Lógica de visualización
+            const initialDisplay = tab.id === 'dev' ? 'block' : 'none'; // Usamos block en lugar de grid, porque BentoGrid ya tiene su propio grid
 
             return (
                 <div 
                     data-slot-id={tab.id} 
-                    style={`display: ${initialDisplay}; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;`}
+                    style={`display: ${initialDisplay};`} 
                 >
                     {works.length > 0 ? (
-                        works.map((post) => (
-                            <Card
-                                title={post.frontmatter.title}
-                                imglink={post.frontmatter.image} 
-                                content={post.frontmatter.description}
-                                href={post.url+""} 
-                                theme={post.frontmatter.theme}
-                                technologies={post.frontmatter.tags || []} 
-                            />
-                        ))
+                        // Aquí simplemente pasamos los items procesados
+                        <BentoGrid items={bentoItems} />
                     ) : (
-                        // Mensaje opcional si no hay proyectos en esa categoría
-                        <div class="col-span-full text-center py-10 opacity-50">
+                        <div class="text-center py-10 opacity-50">
                             <p>Próximamente más proyectos en esta categoría.</p>
                         </div>
                     )}

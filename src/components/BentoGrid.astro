@@ -1,0 +1,74 @@
+---
+import Card from './Card.astro';
+
+interface Props {
+  items: any[];
+}
+
+const { items } = Astro.props;
+
+// --- LÓGICA DE PROCESAMIENTO BENTO ---
+const getBentoLayout = (data: any[]) => {
+  const processed = [];
+  let i = 0;
+
+  while (i < data.length) {
+    const remaining = data.length - i;
+
+    // PATRÓN 1: Fila completa de 3 elementos
+    if (remaining >= 3 && i % 5 === 0) { 
+      processed.push({ ...data[i], span: 1 });
+      processed.push({ ...data[i+1], span: 1 });
+      processed.push({ ...data[i+2], span: 1 });
+      i += 3;
+    }
+    // PATRÓN 2: Fila de 2 elementos (Estilo Bento: 2+1 ó 1+2)
+    else if (remaining >= 2) {
+      const isBigFirst = (i / 2) % 2 === 0;
+      
+      if (isBigFirst) {
+        processed.push({ ...data[i], span: 2 });   
+        processed.push({ ...data[i+1], span: 1 }); 
+      } else {
+        processed.push({ ...data[i], span: 1 });   
+        processed.push({ ...data[i+1], span: 2 }); 
+      }
+      i += 2;
+    }
+    else {
+      // Si queda 1 solo, ocupa 3 espacios (full width)
+      processed.push({ ...data[i], span: 3 });
+      i += 1;
+    }
+  }
+  return processed;
+};
+
+const bentoItems = getBentoLayout(items);
+
+// Helper para clases CSS según el span
+const getSpanClasses = (span: number) => {
+  if (span === 3) {
+    // Si es peso 3: Ocupa todo en Desktop (3) y todo en Tablet (2)
+    return 'md:col-span-2 lg:col-span-3';
+  }
+  if (span === 2) {
+    // Si es peso 2: Ocupa 2/3 en Desktop y todo en Tablet (2)
+    return 'md:col-span-2 lg:col-span-2';
+  }
+  // Si es peso 1: Ocupa 1/3 en Desktop y mitad en Tablet (1)
+  return 'md:col-span-1 lg:col-span-1';
+};
+---
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full p-4">
+  {bentoItems.map((item) => (
+    <Card
+      {...item}
+      class={`
+        col-span-1 
+        ${getSpanClasses(item.span)}
+      `}
+    />
+  ))}
+</div>
