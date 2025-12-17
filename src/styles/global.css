@@ -22,12 +22,21 @@
   transform: scale(1) translateY(0);
 }
 
+@font-face {
+  font-family: 'Roboto';
+  src: url('/fonts/Roboto-VariableFont.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap; 
+}
+
+
 /* --- ESTILOS GLOBALES --- */
 html, body {
   width: 100%;
   padding: 50px 15%;
-  font-family: 'Roboto', sans-serif;
-  background-color:#111321;
+  font-family: 'Roboto', sans-serif; 
+  background-color: #111321;
   color: white;
   display: flex;
   justify-content: center;

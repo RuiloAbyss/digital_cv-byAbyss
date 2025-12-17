@@ -1,11 +1,13 @@
 ---
+// src/components/ColorButton.astro
 const {
   label = "Click aquí",
   className = "",
   href = "", 
   theme = "sunset",
   target="_blank",
-  rel = "noopener noreferrer"
+  rel = "noopener noreferrer",
+  "aria-label": ariaLabel, 
 }: {
   label?: string;
   className?: string;
@@ -13,30 +15,32 @@ const {
   theme?: "sunset" | "cosmic" | "void";
   target?: string;
   rel?: string;
+  "aria-label"?: string;
 } = Astro.props;
 
 const hasBg = /\bbg-[^\s]+/.test(className);
 
-const base = // Estilo base
+const base = 
   "text-sm px-6.5 py-2 mx-1 sm:text-md sm:px-10 sm:py-2 xl:px-15 xl:py-3 text-white rounded-lg border-2 border-white/10 font-semibold transition focus:outline-none shadow-lg hover:cursor-pointer inline-flex items-center justify-center";
 
 const themes: Record<"sunset" | "cosmic" | "void", string> = {
-  // Degradado SUNSET (Naranja a Rosa)
   sunset: "bg-gradient-to-r from-orange-500/40 to-red-800/10 hover:bg-gradient-to-r hover:from-orange-500/80 hover:to-red-800/20 shadow-md shadow-orange-900/30",
-  
-  // Degradado COSMIC (Púrpura a Índigo)
   cosmic: "bg-gradient-to-r from-blue-800/10 to-purple-500/40 hover:bg-gradient-to-r hover:from-blue-800/20 hover:to-purple-500/80 shadow-md shadow-purple-900/30",
-  
-  // Transparente con borde blanco)
   void: "bg-gradient-to-r from-red-800/20 to-blue-800/20 hover:bg-gradient-to-r hover:from-red-800/60 hover:to-blue-800/60",
 };
 
 const defaultStyle = themes[theme];
-
 const style = `${base} ${hasBg ? className : `${defaultStyle}${className ? ` ${className}` : ""}`}`.trim();
 ---
 
-<a href={href} class={style} role="button" target={target} rel={rel}>
+<a 
+  href={href} 
+  class={style} 
+  role="button" 
+  target={target} 
+  rel={rel}
+  aria-label={ariaLabel} 
+>
   {label}
   <slot />
 </a>

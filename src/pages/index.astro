@@ -45,6 +45,7 @@ const getWorksByCategory = (categoryId: string) => {
 ---
 
 <Layout>
+  <main>
     {/* Sección de Introducción */}
     <div id="profile-trigger" class="w-full flex flex-col sm:flex-row sm:items-stretch sm:justify-center gap-0"> 
         
@@ -53,8 +54,9 @@ const getWorksByCategory = (categoryId: string) => {
             {/* Añadimos flex-1 para que la sección crezca */}
             <Section class="flex-1 justify-center sm:justify-start">
                 <div class="h-full flex flex-col sm:flex-row items-center sm:items-start justify-center gap-2"> 
-                    <img 
-                        src="/profile.png" 
+                    <img
+                        fetchpriority="high" 
+                        src="/profile.webp" 
                         alt="Foto de Perfil" 
                         class=`
                         aspect-square w-[200px] sm:w-[170px] m-4 rounded-full sm:border-8 border-12 p-1 border-white/20 border-t-orange-900/80 border-r-orange-500/40
@@ -76,9 +78,24 @@ const getWorksByCategory = (categoryId: string) => {
             {/* Añadimos flex-1 aquí también para igualar la altura */}
             <Section title="Links" class="flex-1 flex flex-col">
                 <div class="flex justify-center sm:justify-center flex-row gap-1 w-full h-full sm:flex-col sm:gap-3"> 
-                    <ColorButton label="Curriculum" theme="sunset" href={misRedes.cv}/>
-                    <ColorButton label="LinkedIn" theme="void" href={misRedes.linkedin}/>
-                    <ColorButton label="GitHub" theme="cosmic" href={misRedes.github}/>
+                    <ColorButton 
+                      label="Curriculum" 
+                      theme="sunset" 
+                      href={misRedes.cv} 
+                      aria-label="Descargar mi Curriculum en PDF"
+                    />
+                    <ColorButton 
+                      label="LinkedIn" 
+                      theme="void" 
+                      href={misRedes.linkedin} 
+                      aria-label="Visitar mi perfil profesional en LinkedIn"
+                    />
+                    <ColorButton 
+                      label="GitHub" 
+                      theme="cosmic" 
+                      href={misRedes.github} 
+                      aria-label="Explorar mis proyectos de código abierto en GitHub"
+                    />
                 </div>
             </Section>
         </div>
@@ -126,10 +143,10 @@ const getWorksByCategory = (categoryId: string) => {
             })}
         </TabBar>
     </div>
+    </main>
     {/* Agregamos el componente nuevo al final */}
     <StickyNav 
         name="Abisai Ruiz López"
-        avatar="/public/dot.png"
         socialLinks={misRedes}
         tabs={menuTabs}
     />
