@@ -1,7 +1,6 @@
 ---
 layout: ../../layouts/Layout.astro
 title: "Fundamentos de IA"
-span: 1
 description: "Dominio de herramientas de IA generativa y prompt engineering para acelerar el desarrollo, garantizando un uso ético y responsable."
 category: "learn" 
 theme: "cosmic"

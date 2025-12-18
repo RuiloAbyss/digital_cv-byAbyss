@@ -5,6 +5,5 @@ description: "Diseño centrado en el usuario, accesibilidad y equidad. Especiali
 category: "learn" 
 image: "/public/goals_img/Coursera-UXUI-1.webp"
 tags: ["IA", "Prompting", "Análisis Crítico"]
-span: 3
 ---
 Aquí va el contenido detallado de tu artículo...

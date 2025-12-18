@@ -7,6 +7,7 @@ interface Props {
 
 const { items } = Astro.props;
 
+// 1. Limpieza de datos
 const cleanItems = items.map((item) => {
   const data = item.frontmatter || item.data || item; 
   return {
@@ -15,63 +16,96 @@ const cleanItems = items.map((item) => {
   };
 });
 
-// Clases Responsivas Estrictas
-// Regla: Solo el primero tiene ancho máximo. El resto: (Ancho Máximo - 1)
+// Clases Responsivas
 const getResponsiveClass = (span: number, isFirst: boolean) => {
   // Mobile: Siempre 1
   let classes = 'col-span-1';
 
+  // Tablet (MD):
+  // Si es el primero (Hero): 2.
+  // El resto: 1.
   const mdSpan = isFirst ? 2 : 1; 
   classes += ` md:col-span-${mdSpan}`;
+
+  // Desktop (LG): 
+  // Si es primero: 4.
+  // El resto usa el span calculado por el algoritmo.
   classes += ` lg:col-span-${span}`;
+
   return classes;
 };
 
-// Algoritmo Aleatorio para asignar spans
+// 3. Algoritmo "Caos Inteligente" (Smart Chaos)
 const getRandomLayout = (data: any[]) => {
   if (data.length === 0) return [];
 
   const processed = [];
-
-  // El Primero siempre es el Rey (Hero)
+  
+  // El Primero siempre es el Hero (Span 4)
   processed.push({ ...data[0], span: 4 });
 
-  // El resto se decide por combinaciones aleatorias
+  // Procesar el resto mirando cuántos quedan para no dejar huecos
   let i = 1;
   while (i < data.length) {
     const remaining = data.length - i;
     let pattern: number[] = [];
 
-    // Patrones válidos para filas de ancho 4 (Ningún componente > 3)
-    if (remaining >= 3) {
-      // Si quedan 3 o más, tiramos un dado para elegir la estructura de la fila
-      const dice = Math.random();
-      if (dice < 0.20) pattern = [1, 1, 2];      // Fila de 3 items
-      else if (dice < 0.40) pattern = [1, 2, 1]; // Fila de 3 items
-      else if (dice < 0.60) pattern = [2, 1, 1]; // Fila de 3 items
-      else if (dice < 0.80) pattern = [2, 2];    // Fila de 2 items (Equilibrada)
-      else if (dice < 0.90) pattern = [3, 1];    // Fila de 2 items (Asimétrica)
-      else pattern = [1, 3];                     // Fila de 2 items (Asimétrica)
-    } 
-    else if (remaining === 2) {
-      // Si quedan solo 2, elegimos entre pares
-      const dice = Math.random();
-      if (dice < 0.4) pattern = [2, 2];
-      else if (dice < 0.7) pattern = [3, 1];
-      else pattern = [1, 3];
-    } 
-    else {
-      // Si queda solo 1 huérfano, le damos 3 para que se vea grande pero no "Hero"
-      pattern = [3];
+    // --- LÓGICA DE FILA FINAL ---
+    
+    // CASO 1: Queda exactamente 1 item
+    // (Excepción: Debe ser 4 para no dejar hueco, aunque rompa la regla de "solo el primero")
+    if (remaining === 1) {
+      pattern = [4];
     }
 
-    // Asignar los anchos del patrón a los items disponibles
+    // CASO 2: Quedan exactamente 2 items
+    // Obligatorio: Usar patrón de 2 items que sumen 4 de ancho
+    else if (remaining === 2) {
+       const dice = Math.random();
+       if (dice < 0.33) pattern = [2, 2];
+       else if (dice < 0.66) pattern = [3, 1];
+       else pattern = [1, 3];
+    }
+
+    // CASO 3: Quedan exactamente 3 items
+    // Obligatorio: Usar patrón de 3 items que sumen 4 de ancho
+    else if (remaining === 3) {
+       const dice = Math.random();
+       if (dice < 0.33) pattern = [1, 1, 2];
+       else if (dice < 0.66) pattern = [1, 2, 1];
+       else pattern = [2, 1, 1];
+    }
+
+    // CASO 4: Quedan 4 o más items
+    // Aquí decidimos aleatoriamente si consumimos 2 o 3 items en esta fila
+    else {
+      // 50% de probabilidad de hacer una fila de 3 items, 50% de hacer una de 2
+      const chooseThreeItems = Math.random() < 0.5;
+
+      if (chooseThreeItems) {
+        // Generamos fila de 3 items (Consumimos 3 del total)
+        const dice = Math.random();
+        if (dice < 0.33) pattern = [1, 1, 2];
+        else if (dice < 0.66) pattern = [1, 2, 1];
+        else pattern = [2, 1, 1];
+      } else {
+        // Generamos fila de 2 items (Consumimos 2 del total)
+        const dice = Math.random();
+        if (dice < 0.33) pattern = [2, 2];
+        else if (dice < 0.66) pattern = [3, 1];
+        else pattern = [1, 3];
+      }
+    }
+
+    // Asignar el patrón elegido
     pattern.forEach((spanValue, index) => {
+      // Verificación de seguridad por si el array se acaba inesperadamente
       if (data[i + index]) {
         processed.push({ ...data[i + index], span: spanValue });
       }
     });
 
+    // Avanzamos el índice tantos pasos como items hayamos usado
     i += pattern.length;
   }
 
@@ -81,7 +115,7 @@ const getRandomLayout = (data: any[]) => {
 const bentoItems = getRandomLayout(cleanItems);
 ---
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 w-full p-3 auto-rows-fr grid-flow-dense">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 w-full p-3 auto-rows-fr grid-flow-dense">
   {bentoItems.map((item, index) => (
     <Card
       {...item}
