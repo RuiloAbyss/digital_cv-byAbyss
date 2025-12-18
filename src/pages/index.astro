@@ -33,7 +33,8 @@ const menuTabs = [
   {id: 'content', label: 'Contenido Digital'},
 ];
 
-const misRedes = {
+const socialDatas = {
+    name: "Abisai Ruiz López",
     linkedin: "https://www.linkedin.com/in/abisai-ruiz/",
     github: "https://github.com/RuiloAbyss/",
     cv: "/CV_Abisai_Ruiz_Lopez.pdf"
@@ -47,10 +48,10 @@ const getWorksByCategory = (categoryId: string) => {
 <Layout>
   <main>
     {/* Sección de Introducción */}
-    <div id="profile-trigger" class="w-full flex flex-col sm:flex-row sm:items-stretch sm:justify-center gap-0"> 
+    <div id="profile-trigger" class="w-full flex flex-col lg:flex-row sm:items-stretch sm:justify-center gap-0"> 
         
         {/* Lado Izquierdo: Perfil */}
-        <div class="w-full sm:flex-1 flex flex-col sm:pr-[20px]"> 
+        <div class="w-full lg:flex-1 flex flex-col lg:pr-[20px]"> 
             {/* Añadimos flex-1 para que la sección crezca */}
             <Section class="flex-1 justify-center sm:justify-start">
                 <div class="h-full flex flex-col sm:flex-row items-center sm:items-start justify-center gap-2"> 
@@ -65,35 +66,35 @@ const getWorksByCategory = (categoryId: string) => {
                         `
                     />
                     <div class="flex flex-col mt-0 sm:mt-5 items-center sm:items-start text-center sm:w-full sm:text-left">
-                        <h3 class="font-bold text-white">Abisai Ruiz López</h3>
-                        <h5 class="text-red-400 font-bold animate-pulse">Front-End Developer</h5>
-                        <p class="text-white">Un desarrollador web con sentido de diseño</p>
+                        <h1 class="font-bold text-red-400">{socialDatas.name}</h1>
+                        <h2 class="font-semibold text-white">Ing. En Sistemas</h2>
+                        <p class="text-purple-400 font-bold animate-pulse">Un desarrollador web con sentido de diseño</p>
                     </div> 
                 </div>
             </Section>
         </div> 
 
         {/* Lado Derecho: Links */}
-        <div class="w-full sm:w-[25%] flex flex-col"> 
+        <div class="w-full lg:w-[25%] flex flex-col"> 
             {/* Añadimos flex-1 aquí también para igualar la altura */}
             <Section title="Links" class="flex-1 flex flex-col">
-                <div class="flex justify-center sm:justify-center flex-row gap-1 w-full h-full sm:flex-col sm:gap-3"> 
+                <div class="flex justify-center lg:justify-center flex-row gap-1 w-full h-full lg:flex-col lg:gap-3"> 
                     <ColorButton 
                       label="Curriculum" 
                       theme="sunset" 
-                      href={misRedes.cv} 
+                      href={socialDatas.cv} 
                       aria-label="Descargar mi Curriculum en PDF"
                     />
                     <ColorButton 
                       label="LinkedIn" 
                       theme="void" 
-                      href={misRedes.linkedin} 
+                      href={socialDatas.linkedin} 
                       aria-label="Visitar mi perfil profesional en LinkedIn"
                     />
                     <ColorButton 
                       label="GitHub" 
                       theme="cosmic" 
-                      href={misRedes.github} 
+                      href={socialDatas.github} 
                       aria-label="Explorar mis proyectos de código abierto en GitHub"
                     />
                 </div>
@@ -146,8 +147,7 @@ const getWorksByCategory = (categoryId: string) => {
     </main>
     {/* Agregamos el componente nuevo al final */}
     <StickyNav 
-        name="Abisai Ruiz López"
-        socialLinks={misRedes}
+        socialDatas={socialDatas}
         tabs={menuTabs}
     />
 </Layout>

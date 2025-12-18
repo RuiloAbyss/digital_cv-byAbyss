@@ -6,11 +6,10 @@ const { title = "", class: className = "", sectionId = "" } = Astro.props;
   id={sectionId}
   class={`${className} w-full my-3 p-3 relative border-2 bg-white/5 border-gray-300/20 rounded-lg flex flex-col items-center`} 
 >
-  {/* Eliminamos h-full y min-w-[100%] para que la altura sea automática (h-auto) */}
   {title && (
-    <h5 class={`mb-4 text-base sm:text-sm font-semibold text-white text-center`}>
+    <h3 class={`mb-4 text-base sm:text-sm font-semibold text-white text-center`}>
       {title}
-    </h5>
+    </h3>
   )}
   <div class="w-full">
     <slot />
