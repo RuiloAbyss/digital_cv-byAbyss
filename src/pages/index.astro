@@ -10,17 +10,45 @@ import ExperienceTimeline from '../components/ExperienceTimeline.astro';
 
 const miTrayectoria = [
   {
-    date: "Enero 2024 - Presente",
-    company: "Freelance Tech",
-    role: "Lead Front-End Developer",
-    description: "Desarrollo de interfaces reactivas utilizando Astro y Tailwind, optimizando el rendimiento de carga en un 40%."
+    date: "Agosto 2021 - Presente",
+    company: "Instituto Tecnológico de Tepic",
+    tag: "formative",
+    role: "Estudiante",
+    description: "Actualmente estoy cursando el último semestre de la carrera, con enfoque en desarrollo web"
   },
   {
-    date: "Junio 2023 - Diciembre 2023",
-    company: "Design Studio X",
-    role: "UX/UI Designer",
-    description: "Creación de prototipos de alta fidelidad y sistemas de diseño que mejoraron la consistencia visual de la marca."
-  }
+    date: "Septiembre 2025 - Diciembre 2025",
+    company: "Electronic Store Proyect",
+    tag: "proyect",
+    role: "Desarrollador Web",
+    description: `
+      Colaboré para desarrollar un sistema de ventas escalable, 
+      reduciendo la carga manual operativa mediante la gestión automática de pagos y correos, 
+      conectando React con un ecosistema de servicios modernos como Stripe, Firebase y FacturaApi.
+      `
+  },
+  {
+    date: "Enero 2025 - Junio 2025",
+    company: "Mila Proyect",
+    tag: "proyect",
+    role: "Desarrollador Web",
+    description: `
+      Aporté identidad y diseño a la marca, mediante el uso de framworks modernos como 
+      React y TailwindCSS, logrando una experiencia de usuario atractiva y funcional.
+      `
+  },
+  {
+    date: "Noviembre 2025 - Presente",
+    company: "Google / Coursera",
+    tag: "formative",
+    role: "Certificación en UX/UI Design",
+    description: `
+      Desarrollando la capacidad de estandarizar interfaces complejas, 
+      con el fin de reducir la deuda técnica visual en el desarrollo Frontend, 
+      mediante la creación de sistemas de diseño y prototipos de alta fidelidad.
+    `
+  },
+  
 ];
 
 // Cargamos todos los archivos Markdown
@@ -103,8 +131,8 @@ const getWorksByCategory = (categoryId: string) => {
     </div>
 	
     {/* Sección de Trayectoria Profesional */}
-    <Section title="Mi Trayectoria" id="experience-trigger" class="mb-5">
-        <ExperienceTimeline experiences={miTrayectoria} />
+    <Section title="Formación y Proyectos" id="experience-trigger" class="mb-5">
+        <ExperienceTimeline experiences={miTrayectoria} />  
     </Section>
 
     {/* --- TabBar con Bento Grid Integrado --- */}

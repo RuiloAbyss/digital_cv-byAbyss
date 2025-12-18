@@ -5,6 +5,7 @@ interface Experience {
   company: string;
   role: string;
   description: string;
+  tag: 'formative' | 'proyect'; // Nueva propiedad para distinguir el tipo
 }
 
 interface Props {
@@ -13,12 +14,10 @@ interface Props {
 
 const { experiences } = Astro.props;
 
-// Estilo base del anillo (Nodo)
 const ringBaseStyle = 
 `border-4 border-white/20 border-t-orange-900/80 border-r-orange-500/40 
 bg-gray-900/50 transition-all duration-500 ease-in-out`;
 
-// Estilo de brillo cuando se hace hover (basado en StickyNav y Perfil)
 const ringHoverStyle = `
   transition-all duration-500 ease-in-out
   group-hover:scale-110 group-hover:rotate-[585deg]
@@ -29,65 +28,56 @@ const ringHoverStyle = `
   group-hover:shadow-[0_0_20px_rgba(251,146,60,0.5)]
 `;
 
-// Degradado para la tarjeta solicitado
+// Mantenemos el degradado mixto solicitado para la tarjeta
 const cardHoverGradient = "group-hover:bg-gradient-to-r group-hover:from-orange-800/30 group-hover:to-purple-800/30";
 ---
 
-<div class="relative w-full max-w-5xl mx-auto px-4">
+<div class="relative w-full max-w-5xl mx-auto">
   <div class="flex flex-col">
     {experiences.map((exp, index) => {
       const isLast = index === experiences.length - 1;
+      
+      // Lógica de colores basada en el tag
+      const isProyect = exp.tag === 'proyect';
+      const tagColor = isProyect ? 'text-orange-400/80' : 'text-purple-400/80';
+      const tagHover = isProyect ? 'group-hover:text-orange-400' : 'group-hover:text-purple-400';
 
       return (
-        /* El 'group' aquí permite que el hover en la tarjeta afecte al círculo */
-        <div class="relative flex w-full pb-12 last:pb-0 group">
+        <div class="relative flex w-full pb-3 last:pb-0 group">
           
           {/* LÍNEA SEGMENTADA */}
           {!isLast && (
-            <div 
-              class="
-                absolute 
-                left-0 sm:left-1 
-                top-10 bottom-2 w-0.5 
-                bg-gradient-to-b from-orange-500/40 to-purple-500/40 
-                transform -translate-x-1/2 z-0 opacity-30 
-                transition-opacity duration-500 group-hover:opacity-60
-              "
-            ></div>
+            <div class="absolute left-1.5 sm:left-3 top-10 bottom-2 w-0.5 bg-gradient-to-b from-orange-500/40 to-purple-500/40 transform -translate-x-1/2 z-0 opacity-30 transition-opacity duration-500 group-hover:opacity-60"></div>
           )}
 
-          {/* NODO: Círculo del timeline */}
-          <div class="absolute left-0 sm:left-1 top-0 -translate-x-1/2 z-10"> <div class={`w-6 h-6 sm:w-7 sm:h-7 rounded-full shadow-xl ${ringBaseStyle} ${ringHoverStyle}`}></div> </div>
+          {/* NODO */}
+          <div class="absolute left-1.5 sm:left-3 top-1 -translate-x-1/2 z-10"> 
+            <div class={`w-6 h-6 sm:w-7 sm:h-7 rounded-full shadow-xl ${ringBaseStyle} ${ringHoverStyle}`}></div> 
+          </div>
 
           {/* TARJETA DE CONTENIDO */}
-          <div class={`
-            w-[calc(100%-1rem)] ml-6        /* CAMBIO MÓVIL: Menos margen (ml-9) y ancho ajustado */
-            sm:w-[calc(100%-2.25rem)] sm:ml-9    /* CAMBIO PC: Restaura tamaños originales */
-            bg-white/5 backdrop-blur-xl border-2 border-white/10 rounded-2xl shadow-2xl 
-            hover:border-white/20 transition-all duration-500 overflow-hidden ${cardHoverGradient}
-          `}>
+          <div class={`w-[100%] ml-6 sm:w-[100%] sm:ml-9 bg-white/5 backdrop-blur-xl border-2 border-white/10 rounded-2xl shadow-2xl hover:border-white/20 transition-all duration-500 overflow-hidden ${cardHoverGradient}`}>
             <div class="flex flex-col lg:flex-row items-stretch">
               
-              {/* Sección Izquierda: Info */}
+              {/* Sección Izquierda: Info (Colores dinámicos por Tag) */}
               <div class="p-3 lg:w-1/3 flex flex-col justify-center border-b-2 border-white/5 lg:border-b-0 lg:border-r-2 lg:border-white/5 bg-white/5 transition-colors duration-500 group-hover:bg-transparent">
-                <span class="text-[0.65rem] sm:text-xs font-bold uppercase tracking-widest text-orange-400/80 mb-1 block"> {/* CAMBIO: Fecha más pequeña */}
+                <span class={`text-[0.65rem] sm:text-xs font-bold uppercase tracking-widest mb-1 block transition-colors duration-500 ${tagColor}`}>
                   {exp.date}
                 </span>
-                <h3 class="text-md sm:text-xl font-bold text-white transition-colors duration-300 group-hover:text-orange-400"> {/* CAMBIO: Título más compacto en móvil */}
+                <h4 class={`text-md sm:text-xl font-bold text-white transition-colors duration-300 ${tagHover}`}>
                   {exp.company}
-                </h3>
-                <h4 class="text-xs sm:text-sm font-semibold text-gray-300 italic"> {/* CAMBIO: Rol más pequeño */}
-                  {exp.role}
                 </h4>
+                <h5 class={`text-xs sm:text-sm font-semibold text-gray-300 italic transition-colors duration-300 ${tagHover}`}>
+                  {exp.role}
+                </h5>
               </div>
 
-              {/* Sección Derecha: Descripción */}
-              <div class="p-3 sm:p-5 lg:w-2/3 flex items-center">
+              {/* Sección Derecha: Descripción*/}
+              <div class="p-3 sm:p-5 lg:w-2/3 flex items-center text-left">
                 <p class="tracking-widest text-gray-400 text-xs sm:text-sm leading-relaxed text-pretty transition-colors duration-500 group-hover:text-white/90">
                   {exp.description}
                 </p>
               </div>
-
             </div>
           </div>
         </div>
