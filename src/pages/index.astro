@@ -52,13 +52,13 @@ const miTrayectoria = [
 ];
 
 // Cargamos todos los archivos Markdown
-const allWorks = await Astro.glob('./works/*.md');
+const allWorks = await Astro.glob('./goals/*.md');
 
 // Definimos las pestañas
 const menuTabs = [
-  {id: 'dev', label: 'Desarrollo Web'},
-  {id: 'design', label: 'Diseño UX/UI'},
-  {id: 'content', label: 'Contenido Digital'},
+  {id: 'proyect', label: 'Proyectos'},
+  {id: 'learn', label: 'Formación'},
+  {id: 'ability', label: 'Habilidades'},
 ];
 
 const socialDatas = {

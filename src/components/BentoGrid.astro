@@ -7,68 +7,86 @@ interface Props {
 
 const { items } = Astro.props;
 
-// --- LÓGICA DE PROCESAMIENTO BENTO ---
-const getBentoLayout = (data: any[]) => {
-  const processed = [];
-  let i = 0;
+const cleanItems = items.map((item) => {
+  const data = item.frontmatter || item.data || item; 
+  return {
+    ...data,
+    slug: item.url || item.slug 
+  };
+});
 
+// Clases Responsivas Estrictas
+// Regla: Solo el primero tiene ancho máximo. El resto: (Ancho Máximo - 1)
+const getResponsiveClass = (span: number, isFirst: boolean) => {
+  // Mobile: Siempre 1
+  let classes = 'col-span-1';
+
+  const mdSpan = isFirst ? 2 : 1; 
+  classes += ` md:col-span-${mdSpan}`;
+  classes += ` lg:col-span-${span}`;
+  return classes;
+};
+
+// Algoritmo Aleatorio para asignar spans
+const getRandomLayout = (data: any[]) => {
+  if (data.length === 0) return [];
+
+  const processed = [];
+
+  // El Primero siempre es el Rey (Hero)
+  processed.push({ ...data[0], span: 4 });
+
+  // El resto se decide por combinaciones aleatorias
+  let i = 1;
   while (i < data.length) {
     const remaining = data.length - i;
+    let pattern: number[] = [];
 
-    // PATRÓN 1: Fila completa de 3 elementos
-    if (remaining >= 3 && i % 5 === 0) { 
-      processed.push({ ...data[i], span: 1 });
-      processed.push({ ...data[i+1], span: 1 });
-      processed.push({ ...data[i+2], span: 1 });
-      i += 3;
-    }
-    // PATRÓN 2: Fila de 2 elementos (Estilo Bento: 2+1 ó 1+2)
-    else if (remaining >= 2) {
-      const isBigFirst = (i / 2) % 2 === 0;
-      
-      if (isBigFirst) {
-        processed.push({ ...data[i], span: 2 });   
-        processed.push({ ...data[i+1], span: 1 }); 
-      } else {
-        processed.push({ ...data[i], span: 1 });   
-        processed.push({ ...data[i+1], span: 2 }); 
-      }
-      i += 2;
-    }
+    // Patrones válidos para filas de ancho 4 (Ningún componente > 3)
+    if (remaining >= 3) {
+      // Si quedan 3 o más, tiramos un dado para elegir la estructura de la fila
+      const dice = Math.random();
+      if (dice < 0.20) pattern = [1, 1, 2];      // Fila de 3 items
+      else if (dice < 0.40) pattern = [1, 2, 1]; // Fila de 3 items
+      else if (dice < 0.60) pattern = [2, 1, 1]; // Fila de 3 items
+      else if (dice < 0.80) pattern = [2, 2];    // Fila de 2 items (Equilibrada)
+      else if (dice < 0.90) pattern = [3, 1];    // Fila de 2 items (Asimétrica)
+      else pattern = [1, 3];                     // Fila de 2 items (Asimétrica)
+    } 
+    else if (remaining === 2) {
+      // Si quedan solo 2, elegimos entre pares
+      const dice = Math.random();
+      if (dice < 0.4) pattern = [2, 2];
+      else if (dice < 0.7) pattern = [3, 1];
+      else pattern = [1, 3];
+    } 
     else {
-      // Si queda 1 solo, ocupa 3 espacios (full width)
-      processed.push({ ...data[i], span: 3 });
-      i += 1;
+      // Si queda solo 1 huérfano, le damos 3 para que se vea grande pero no "Hero"
+      pattern = [3];
     }
+
+    // Asignar los anchos del patrón a los items disponibles
+    pattern.forEach((spanValue, index) => {
+      if (data[i + index]) {
+        processed.push({ ...data[i + index], span: spanValue });
+      }
+    });
+
+    i += pattern.length;
   }
+
   return processed;
 };
 
-const bentoItems = getBentoLayout(items);
-
-// Helper para clases CSS según el span
-const getSpanClasses = (span: number) => {
-  if (span === 3) {
-    // Si es peso 3: Ocupa todo en Desktop (3) y todo en Tablet (2)
-    return 'md:col-span-2 lg:col-span-3';
-  }
-  if (span === 2) {
-    // Si es peso 2: Ocupa 2/3 en Desktop y todo en Tablet (2)
-    return 'md:col-span-2 lg:col-span-2';
-  }
-  // Si es peso 1: Ocupa 1/3 en Desktop y mitad en Tablet (1)
-  return 'md:col-span-1 lg:col-span-1';
-};
+const bentoItems = getRandomLayout(cleanItems);
 ---
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 w-full p-3">
-  {bentoItems.map((item) => (
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 w-full p-3 auto-rows-fr grid-flow-dense">
+  {bentoItems.map((item, index) => (
     <Card
       {...item}
-      class={`
-        col-span-1 
-        ${getSpanClasses(item.span)}
-      `}
+      span={item.span}
+      class={getResponsiveClass(item.span, index === 0)}
     />
   ))}
 </div>
