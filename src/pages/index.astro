@@ -52,7 +52,7 @@ const miTrayectoria = [
 ];
 
 // Cargamos todos los archivos Markdown
-const allWorks = await Astro.glob('./goals/*.md');
+const allWorks = Object.values(import.meta.glob('./goals/*.md', { eager: true }));
 
 // Definimos las pestañas
 const menuTabs = [
@@ -142,13 +142,14 @@ const getWorksByCategory = (categoryId: string) => {
                 const works = getWorksByCategory(tab.id);
                 
                 // Convertimos el formato de Markdown al formato plano que espera BentoGrid/Card
-                const bentoItems = works.map(post => ({
+                const bentoItems = works.map((post: any) => ({
                     title: post.frontmatter.title,
                     imglink: post.frontmatter.image,     
                     content: post.frontmatter.description, 
                     href: post.url,                    
                     theme: post.frontmatter.theme,
-                    technologies: post.frontmatter.tags || []
+                    technologies: post.frontmatter.tags || [],
+                    span: post.frontmatter.span
                 }));
 
                 // Lógica de visualización
