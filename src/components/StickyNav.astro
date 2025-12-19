@@ -63,7 +63,7 @@ const indicatorBaseStyle = "absolute top-1.5 bottom-1.5 rounded-md opacity-90 po
     <div id="sticky-tab-indicator" class={indicatorBaseStyle} style="width: 0px; transform: translateX(0px); left: 0;"></div>
     <div class="relative grid gap-1 w-full z-10 h-full" style={`grid-template-columns: repeat(${tabs.length}, minmax(0, 1fr));`}>
       {tabs.map((tab) => (
-        <button data-nav-target={tab.id} class="nav-proxy-btn hover:cursor-pointer flex items-center justify-center rounded-md text-gray-400 hover:text-white transition-all duration-200 group h-full w-full border-2 border-transparent">
+        <button data-nav-target={tab.id} class="nav-proxy-btn hover:cursor-pointer flex items-center justify-center rounded-md text-white/70 text-shadow-lg hover:text-white transition-all duration-200 group h-full w-full border-2 border-transparent">
           <span class="text-xs sm:text-sm font-bold tracking-widest">{tab.label}</span>
         </button>
       ))}

@@ -6,10 +6,10 @@ interface Props extends HTMLAttributes<'a'> {
   imglink: string;
   content: string;
   technologies: string[];
-  href: string; 
+  href?: string; 
   theme?: "sunset" | "cosmic";
   span?: number;
-}
+} 
 
 const {
   title,
@@ -23,6 +23,9 @@ const {
   ...rest
 } = Astro.props;
 
+// Usar 'a' si hay href, de lo contrario 'div' para manejar el clic manualmente
+const Tag = href ? 'a' : 'div'; 
+
 const drawerBg = theme === "sunset"
   ? "bg-gradient-to-br from-orange-600 to-red-950" 
   : "bg-gradient-to-br from-purple-700 to-pink-900"; 
@@ -30,27 +33,29 @@ const drawerBg = theme === "sunset"
 const tagBg = theme === "sunset"
   ? "bg-gradient-to-br from-orange-600 to-red-950" 
   : "bg-gradient-to-br from-purple-700 to-pink-900"; 
-// Lógica de margen horizontal dinámico según el ancho (span)
+
 const horizontalPadding = span === 4 
-  ? "px-16 md:px-32 lg:px-52" // Padding extra grande para el Hero
+  ? "px-16 md:px-32 lg:px-52" 
   : span === 3 
     ? "px-12 md:px-24 lg:px-40" 
     : span === 2 
-      ? "px-8 md:px-16 lg:px-24" 
+      ? "px-8 md:px-16 lg:px-24"
       : "px-6";
 ---
 
-<a 
+<Tag 
   href={href} 
   {...rest} 
   class={`
     block group relative bg-gray-900 text-white shadow-xl
     border-3 border-white/20 hover:border-white/60 
-    rounded-lg overflow-hidden no-underline cursor-pointer 
+    rounded-lg overflow-hidden no-underline 
+    ${href ? 'cursor-pointer' : 'cursor-help'} 
     transition duration-500 ease-in-out
     min-h-[250px] h-full w-full
     ${className ?? ''}
   `}
+  data-has-link={!!href}
 >
     <article class="relative h-full w-full flex flex-col">
         {/* Imagen de fondo */}
@@ -59,30 +64,33 @@ const horizontalPadding = span === 4
               src={imglink} 
               alt={title} 
               loading="lazy"
-              class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
+              class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent transition-opacity duration-300 group-hover:opacity-0"></div>
         </div>
 
         {/* Título y Etiquetas visibles inicialmente */}
-        <div class="absolute bottom-0 left-0 p-6 z-10 transition-all duration-300 group-hover:translate-y-10 group-hover:opacity-0">
-            <h6 class="text-2xl font-bold leading-tight drop-shadow-lg mb-3">
+        <div class="absolute bottom-0 left-0 p-6 z-10 transition-all duration-300 group-hover:translate-y-10 group-hover:opacity-0 pointer-events-none">
+            <h6 class="text-2xl font-bold leading-tight text-shadow-xl drop-shadow-lg mb-3"> 
                 {title}
             </h6>
             <div class="flex flex-wrap gap-2">
                 {technologies.map((tech) => (
                     <span class={`text-[10px] font-bold px-2 py-1 rounded-md ${tagBg}`}>
-                        {tech}
+                        {tech} 
                     </span>
                 ))}
             </div>
         </div>
 
-        {/* Cajón de información (Hover) */}
+        {/* Cajón de información (Hover y/o Clic) */}
         <div 
+          id="info-drawer"
           class={`
             absolute inset-0 z-20 flex items-center justify-center
             transform translate-y-full group-hover:translate-y-0
+            /* Clase de estado para cuando se hace clic */
+            [&.is-active]:translate-y-0
             transition-transform duration-500 ease-out
             ${drawerBg} ${horizontalPadding}
           `}
@@ -92,4 +100,22 @@ const horizontalPadding = span === 4
             </p>
         </div>
     </article>
-</a>
+</Tag>
+
+<script>
+  // Seleccionamos solo las cards que no tienen enlace
+  const descriptiveCards = document.querySelectorAll('[data-has-link="false"]');
+
+  descriptiveCards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      // Evitamos que el clic se propague si fuera necesario
+      e.preventDefault();
+      
+      const drawer = card.querySelector('#info-drawer');
+      if (drawer) {
+        // Alternamos la clase is-active para mostrar/ocultar el contenido
+        drawer.classList.toggle('is-active');
+      }
+    });
+  });
+</script>

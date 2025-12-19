@@ -146,7 +146,7 @@ const getWorksByCategory = (categoryId: string) => {
                     title: post.frontmatter.title,
                     imglink: post.frontmatter.image,     
                     content: post.frontmatter.description, 
-                    href: post.url,                    
+                    href: post.frontmatter.href,                   
                     theme: post.frontmatter.theme,
                     technologies: post.frontmatter.tags || [],
                     span: post.frontmatter.span
@@ -197,7 +197,7 @@ const getWorksByCategory = (categoryId: string) => {
 
   // Elementos con ZOOM (Perfil, Cards, Trayectoria)
   const zoomElements = document.querySelectorAll(
-    'section, .relative.flex.w-full.pb-12, a.block.group, #profile-trigger > div'
+    'section, .relative.flex.w-full.pb-3, a.block.group, #profile-trigger > div'
   );
   zoomElements.forEach((el) => {
     el.classList.add('reveal');
