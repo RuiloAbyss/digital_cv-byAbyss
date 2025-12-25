@@ -14,31 +14,43 @@ const miTrayectoria = [
     company: "Instituto Tecnológico de Tepic",
     tag: "formative",
     role: "Estudiante",
-    description: "Actualmente estoy cursando el último semestre de la carrera, con enfoque en desarrollo web"
+    description: "Actualmente, estoy cursando el último semestre de la carrera, con enfoque en desarrollo web."
   },
   {
     date: "Septiembre 2025 - Diciembre 2025",
-    company: "Electronic Store Proyect",
+    company: "Electronic Store Project",
     tag: "proyect",
     role: "Desarrollador Web",
     description: `
-      Colaboré para desarrollar un sistema de ventas escalable, 
-      reduciendo la carga manual operativa mediante la gestión automática de pagos y correos, 
-      conectando React con un ecosistema de servicios modernos como Stripe, Firebase y FacturaApi.
+      Optimicé los procesos de facturación, pagos y notificaciones mediante la integración 
+      de APIs como PayPal, SendGrid y FacturAPI, implementé una base de datos escalable en 
+      Firebase para la gestión en tiempo real y gestioné el despliegue CI/CD en Vercel, 
+      asegurando una transición a producción estable.
+      `
+  },
+  {
+    date: "Junio 2025 - Agosto 2025",
+    company: "Agrosoft - Investigación Académica",
+    tag: "proyect",
+    role: "Diseñador UX/UI",
+    description: `
+      Diseñe un prototipo de alta fidelidad de una app de monitoreo agrícola, 
+      aplicando estándares de Google UX/UI en la visualización de datos científicos complejos.
       `
   },
   {
     date: "Enero 2025 - Junio 2025",
-    company: "Mila Proyect",
+    company: "Mila Project",
     tag: "proyect",
     role: "Desarrollador Web",
     description: `
       Aporté identidad y diseño a la marca, mediante el uso de framworks modernos como 
       React y TailwindCSS, logrando una experiencia de usuario atractiva y funcional.
+      Siguiendo la metodología ágil SCRUM.
       `
   },
   {
-    date: "Noviembre 2025 - Presente",
+    date: "Cursando 2025",
     company: "Google / Coursera",
     tag: "formative",
     role: "Certificación en UX/UI Design",
@@ -104,7 +116,6 @@ const getWorksByCategory = (categoryId: string) => {
 
         {/* Lado Derecho: Links */}
         <div class="w-full lg:w-[25%] flex flex-col"> 
-            {/* Añadimos flex-1 aquí también para igualar la altura */}
             <Section title="Links" class="flex-1 flex flex-col">
                 <div class="flex justify-center lg:justify-center flex-row gap-1 w-full h-full lg:flex-col lg:gap-3"> 
                     <ColorButton 
