@@ -4,10 +4,10 @@ const { title = "", class: className = "", sectionId = "" } = Astro.props;
 ---
 <section
   id={sectionId}
-  class={`${className} w-full my-3 p-3 relative border-2 bg-white/5 border-gray-300/20 rounded-lg flex flex-col items-center`} 
+  class={`${className} w-full p-5 relative border-2 bg-white/5 border-gray-300/20 rounded-lg flex flex-col items-center`} 
 >
   {title && (
-    <h3 class={`mb-4 text-base sm:text-sm font-semibold text-white text-center`}>
+    <h3 class={`text-base sm:text-sm font-semibold text-white text-center`}>
       {title}
     </h3>
   )}

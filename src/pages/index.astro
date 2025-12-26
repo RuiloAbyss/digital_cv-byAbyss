@@ -84,7 +84,7 @@ const getWorksByCategory = (categoryId: string) => {
   return allWorks.filter(post => post.frontmatter.category === categoryId);
 }
 ---
-
+{/*============================================================================*/}
 <Layout>
   <main>
     {/* Sección de Introducción */}
@@ -93,7 +93,7 @@ const getWorksByCategory = (categoryId: string) => {
         {/* Lado Izquierdo: Perfil */}
         <div class="w-full lg:flex-1 flex flex-col lg:pr-[20px]"> 
             {/* Añadimos flex-1 para que la sección crezca */}
-            <Section class="flex-1 justify-center sm:justify-start">
+            <Section class="flex-1 justify-center sm:justify-start mb-5">
                 <div class="h-full flex flex-col sm:flex-row items-center sm:items-start justify-center gap-2"> 
                     <img
                         fetchpriority="high" 
@@ -116,7 +116,7 @@ const getWorksByCategory = (categoryId: string) => {
 
         {/* Lado Derecho: Links */}
         <div class="w-full lg:w-[25%] flex flex-col"> 
-            <Section title="Links" class="flex-1 flex flex-col">
+            <Section title="Links" class="flex-1 flex flex-col mb-5">
                 <div class="flex justify-center lg:justify-center flex-row gap-1 w-full h-full lg:flex-col lg:gap-3"> 
                     <ColorButton 
                       label="Curriculum" 
@@ -142,11 +142,15 @@ const getWorksByCategory = (categoryId: string) => {
     </div>
 	
     {/* Sección de Trayectoria Profesional */}
-    <Section title="Formación y Proyectos" id="experience-trigger" class="mb-5">
-        <ExperienceTimeline experiences={miTrayectoria} />  
+    <Section title="Educación y Experiencia" id="experience-trigger" class="p-2 mb-5"}>
+      <Section>
+          <ExperienceTimeline experiences={miTrayectoria} />  
+      </Section>
     </Section>
 
+    {/* Sección de Proyectos Destacados */}
     {/* --- TabBar con Bento Grid Integrado --- */}
+    <Section title="Proyectos y Formación" id="projects-formation-trigger" class="mb-5">
     <div id="tabbar-trigger"></div>
         <TabBar tabs={menuTabs} initialTabId="dev" theme="sunset" class="my-2">
             {menuTabs.map((tab) => {
@@ -184,8 +188,48 @@ const getWorksByCategory = (categoryId: string) => {
             })}
         </TabBar>
     </div>
+    </Section>
+
+    {/* Sobre mi */}
+    <Section title="Sobre mí" class="flex-1 flex flex-col mb-5">
+    <div id="about-me" class="w-full flex flex-col md:flex-row md:items-stretch sm:justify-center md:gap-5"> 
+        {/* Lado Izquierdo: Foto */}
+        <div class="w-full md:w-[30%] flex flex-col">
+            <Section class="flex-1 flex flex-col mb-5 md:mb-0">
+                <div class="flex justify-center"> 
+                    <img
+                        fetchpriority="high" 
+                        src="/Profile_2.webp" 
+                        alt="Foto de Perfil 2" 
+                        class=`
+                        aspect-3:4 w-fill rounded-md m-10px sm:m-[5px] border-2 border-white/20
+                        hover:transition-all duration-500 ease-in-out hover:border-white/40
+                        `
+                    />
+                </div>
+            </Section>
+        </div>
+
+        {/* Lado Derecho: Sobre mi */}
+        <div class="w-full md:flex-1 flex flex-col"> 
+            {/* Añadimos flex-1 para que la sección crezca */}
+            <Section class="flex-1 sm:justify-center md:text-xs xl:text-sm justify-start">
+                <div class="h-full flex flex-row sm:flex-col items-center sm:items-start justify-center sm:text-start gap-2 sm:px-[5%]"> 
+                    <p>
+                      EJEMPLO
+                        Me considero un apasionado desarrollador web con un fuerte sentido del diseño. 
+                        Actualmente, estoy en mi último semestre de Ingeniería en Sistemas en el Instituto Tecnológico de Tepic. 
+                        Me especializo en crear experiencias digitales atractivas y funcionales, combinando habilidades técnicas 
+                        con un enfoque centrado en el usuario. Siempre busco aprender nuevas tecnologías y mejorar mis habilidades 
+                        para ofrecer soluciones innovadoras en el desarrollo web.
+                    </p>
+                </div>
+            </Section>
+        </div>        
+    </div>
+    </Section> 
     </main>
-    {/* Agregamos el componente nuevo al final */}
+    {/* Sticky bars */}
     <StickyNav 
         socialDatas={socialDatas}
         tabs={menuTabs}
