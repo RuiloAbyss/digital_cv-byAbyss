@@ -6,5 +6,6 @@ category: "learn"
 theme: "sunset"
 image: "/goals_img/Coursera-UXUI-2.webp"
 tags: ["Optimización de UI", "Diseño", "Design thinking"]
+span: 2
 ---
 Aquí va el contenido detallado de tu artículo...

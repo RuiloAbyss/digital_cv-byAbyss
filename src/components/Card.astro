@@ -1,14 +1,15 @@
 ---
+// src/components/Card.astro
 import type { HTMLAttributes } from 'astro/types';
 
 interface Props extends HTMLAttributes<'a'> {
   title: string;
   imglink: string;
   content: string;
-  technologies: string[];
+  technologies: string[]; 
   href?: string; 
   theme?: "sunset" | "cosmic";
-  span?: number;
+  span?: number; 
 } 
 
 const {
@@ -21,26 +22,16 @@ const {
   span = 1,
   class: className,
   ...rest
-} = Astro.props;
+} = Astro.props; 
 
-// Usar 'a' si hay href, de lo contrario 'div' para manejar el clic manualmente
-const Tag = href ? 'a' : 'div'; 
+const Tag = href ? 'a' : 'div';
 
-const drawerBg = theme === "sunset"
-  ? "bg-gradient-to-br from-orange-600 to-red-950" 
-  : "bg-gradient-to-br from-purple-700 to-pink-900"; 
+// Gradientes según el tema 
+const themeGradients = theme === "sunset"
+  ? "from-orange-600/90 to-red-950/95" 
+  : "from-purple-700/90 to-pink-900/95";
 
-const tagBg = theme === "sunset"
-  ? "bg-gradient-to-br from-orange-600 to-red-950" 
-  : "bg-gradient-to-br from-purple-700 to-pink-900"; 
-
-const horizontalPadding = span === 4 
-  ? "px-16 md:px-32 lg:px-52" 
-  : span === 3 
-    ? "px-12 md:px-24 lg:px-40" 
-    : span === 2 
-      ? "px-8 md:px-16 lg:px-24"
-      : "px-6";
+const modalId = `modal-${Math.random().toString(36).substr(2, 5)}`;
 ---
 
 <Tag 
@@ -50,72 +41,87 @@ const horizontalPadding = span === 4
     block group relative bg-gray-900 text-white shadow-xl
     border-3 border-white/20 hover:border-white/60 
     rounded-lg overflow-hidden no-underline 
-    ${href ? 'cursor-pointer' : 'cursor-help'} 
-    transition duration-500 ease-in-out
-    min-h-[250px] h-full w-full
-    ${className ?? ''}
+    cursor-pointer transition duration-500 ease-in-out
+    aspect-square w-full h-full ${className ?? ''}
   `}
-  data-has-link={!!href}
+  data-modal-trigger={!href ? modalId : undefined} 
 >
     <article class="relative h-full w-full flex flex-col">
-        {/* Imagen de fondo */}
         <div class="absolute inset-0 z-0">
-            <img 
-              src={imglink} 
-              alt={title} 
-              loading="lazy"
-              class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent transition-opacity duration-300 group-hover:opacity-0"></div>
+            <img src={imglink} alt={title} class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" /> 
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
         </div>
 
-        {/* Título y Etiquetas visibles inicialmente */}
-        <div class="absolute bottom-0 left-0 p-6 z-10 transition-all duration-300 group-hover:translate-y-10 group-hover:opacity-0 pointer-events-none">
-            <h6 class="text-2xl font-bold leading-tight text-shadow-xl drop-shadow-lg mb-3"> 
-                {title}
-            </h6>
-            <div class="flex flex-wrap gap-2">
-                {technologies.map((tech) => (
-                    <span class={`text-[10px] font-bold px-2 py-1 rounded-md ${tagBg}`}>
-                        {tech} 
-                    </span>
-                ))}
-            </div>
+        <div class={`absolute inset-0 z-20 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br ${themeGradients} backdrop-blur-sm`}>
+            <p class="text-white font-bold text-xs tracking-widest uppercase">Click para leer</p>
         </div>
 
-        {/* Cajón de información (Hover y/o Clic) */}
-        <div 
-          id="info-drawer"
-          class={`
-            absolute inset-0 z-20 flex items-center justify-center
-            transform translate-y-full group-hover:translate-y-0
-            /* Clase de estado para cuando se hace clic */
-            [&.is-active]:translate-y-0
-            transition-transform duration-500 ease-out
-            ${drawerBg} ${horizontalPadding}
-          `}
-        >
-            <p class="text-xs sm:text-md leading-relaxed text-white font-medium text-center">
-                {content} 
-            </p>
+        <div class="absolute bottom-0 left-0 p-4 z-10 transition-opacity duration-300 group-hover:opacity-0">
+            <h6 class="text-lg font-bold leading-tight drop-shadow-xl">{title}</h6> 
         </div>
     </article>
 </Tag>
 
-<script>
-  // Seleccionamos solo las cards que no tienen enlace
-  const descriptiveCards = document.querySelectorAll('[data-has-link="false"]');
+{!href && (
+  <dialog id={modalId} class="fade-modal fixed inset-0 z-[100] p-0 bg-transparent backdrop:bg-black/80 backdrop:backdrop-blur-sm open:flex items-center justify-center w-full h-full border-none outline-none">
+    <div class="relative w-[90%] max-w-2xl bg-gray-900 rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
+        <div class="w-full md:w-1/2 relative h-48 md:h-auto">
+            <img src={imglink} alt={title} class="w-full h-full object-cover" />
+            <button class="absolute top-2 left-2 z-50 bg-black/50 text-white w-8 h-8 rounded-full flex items-center justify-center text-xl hover:bg-red-600 transition-colors" data-close-modal>
+              &times;
+            </button>
+        </div>
+        <div class={`w-full md:w-1/2 p-6 flex flex-col justify-center bg-gradient-to-br ${themeGradients}`}>
+            <h3 class="text-2xl font-black mb-2 uppercase text-white">{title}</h3>
+            <p class="text-sm leading-relaxed text-white/90 mb-4">{content}</p> 
+            <div class="flex flex-wrap gap-1">
+                {technologies.map((tech) => (
+                    <span class="text-[9px] uppercase font-bold px-2 py-0.5 bg-black/20 border border-white/10 rounded-md">
+                        {tech}
+                    </span>
+                ))} 
+            </div>
+        </div>
+    </div>
+  </dialog>
+)}
 
-  descriptiveCards.forEach(card => {
-    card.addEventListener('click', (e) => {
-      // Evitamos que el clic se propague si fuera necesario
-      e.preventDefault();
-      
-      const drawer = card.querySelector('#info-drawer');
-      if (drawer) {
-        // Alternamos la clase is-active para mostrar/ocultar el contenido
-        drawer.classList.toggle('is-active');
+<style>
+  /* Animación de desvanecido para el modal */
+  .fade-modal[open] {
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+
+  .fade-modal::backdrop {
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+</style>
+
+<script>
+  // Script minimalista para abrir y cerrar 
+  document.addEventListener('click', (e) => {
+    const trigger = (e.target as HTMLElement).closest('[data-modal-trigger]');
+    if (trigger) {
+      const modalId = trigger.getAttribute('data-modal-trigger');
+      const modal = document.getElementById(modalId) as HTMLDialogElement;
+      if (modal) {
+        modal.showModal();
+        document.body.style.overflow = 'hidden';
       }
-    });
+    }
+
+    const closeBtn = (e.target as HTMLElement).closest('[data-close-modal]');
+    if (closeBtn) {
+      const modal = closeBtn.closest('dialog');
+      if (modal) {
+        modal.close();
+        document.body.style.overflow = '';
+      }
+    }
   });
 </script>
