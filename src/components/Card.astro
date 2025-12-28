@@ -6,10 +6,10 @@ interface Props extends HTMLAttributes<'a'> {
   title: string;
   imglink: string;
   content: string;
-  technologies: string[]; 
+  technologies: string[];
   href?: string; 
   theme?: "sunset" | "cosmic";
-  span?: number; 
+  span?: number;
 } 
 
 const {
@@ -22,14 +22,14 @@ const {
   span = 1,
   class: className,
   ...rest
-} = Astro.props; 
+} = Astro.props;
 
 const Tag = href ? 'a' : 'div';
 
-// Gradientes según el tema 
+// Configuración de degradados según el tema
 const themeGradients = theme === "sunset"
-  ? "from-orange-600/90 to-red-950/95" 
-  : "from-purple-700/90 to-pink-900/95";
+  ? "from-orange-600 to-red-950" 
+  : "from-purple-700 to-pink-900";
 
 const modalId = `modal-${Math.random().toString(36).substr(2, 5)}`;
 ---
@@ -38,48 +38,82 @@ const modalId = `modal-${Math.random().toString(36).substr(2, 5)}`;
   href={href} 
   {...rest} 
   class={`
-    block group relative bg-gray-900 text-white shadow-xl
+    block group relative bg-gray-950 text-white shadow-xl
     border-3 border-white/20 hover:border-white/60 
     rounded-lg overflow-hidden no-underline 
     cursor-pointer transition duration-500 ease-in-out
     aspect-square w-full h-full ${className ?? ''}
   `}
-  data-modal-trigger={!href ? modalId : undefined} 
+  data-modal-trigger={!href ? modalId : undefined}
 >
     <article class="relative h-full w-full flex flex-col">
+        {/* Imagen de fondo de la tarjeta */}
         <div class="absolute inset-0 z-0">
-            <img src={imglink} alt={title} class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" /> 
-            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+            <img 
+              src={imglink} 
+              alt={title} 
+              class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" 
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent transition-opacity duration-300 group-hover:opacity-0"></div>
         </div>
 
+        {/* Hover: Fondo con degradado del tema */}
         <div class={`absolute inset-0 z-20 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br ${themeGradients} backdrop-blur-sm`}>
             <p class="text-white font-bold text-xs tracking-widest uppercase">Click para leer</p>
         </div>
 
-        <div class="absolute bottom-0 left-0 p-4 z-10 transition-opacity duration-300 group-hover:opacity-0">
-            <h6 class="text-lg font-bold leading-tight drop-shadow-xl">{title}</h6> 
+        {/* Info por Default: Título y Tags (Desaparecen en hover) */}
+        <div class="absolute bottom-0 left-0 p-4 md:p-6 z-10 transition-all duration-300 group-hover:opacity-0">
+            <h6 class="text-lg md:text-2xl font-bold leading-tight drop-shadow-lg mb-2">{title}</h6> 
+            <div class="flex flex-wrap gap-1 md:gap-2">
+                {technologies.map((tech) => (
+                    <span class={`text-[8px] md:text-[10px] font-bold px-2 py-0.5 rounded-md bg-gradient-to-br ${themeGradients}`}>
+                        {tech} 
+                    </span>
+                ))} 
+            </div>
         </div>
     </article>
 </Tag>
 
 {!href && (
-  <dialog id={modalId} class="fade-modal fixed inset-0 z-[100] p-0 bg-transparent backdrop:bg-black/80 backdrop:backdrop-blur-sm open:flex items-center justify-center w-full h-full border-none outline-none">
-    <div class="relative w-[90%] max-w-2xl bg-gray-900 rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
-        <div class="w-full md:w-1/2 relative h-48 md:h-auto">
-            <img src={imglink} alt={title} class="w-full h-full object-cover" />
-            <button class="absolute top-2 left-2 z-50 bg-black/50 text-white w-8 h-8 rounded-full flex items-center justify-center text-xl hover:bg-red-600 transition-colors" data-close-modal>
-              &times;
-            </button>
+  <dialog id={modalId} class="fade-modal fixed inset-0 z-[100] p-0 bg-transparent backdrop:bg-black/90 backdrop:backdrop-blur-md open:flex items-center justify-center w-full h-full border-none outline-none">
+    
+    {/* Contenedor del Modal: Estandarizado para 1x1 y 2x2 */}
+    <div class="relative w-[95%] max-w-5xl h-[85vh] md:h-[70vh] bg-gray-950 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row border border-white/10">
+        
+        {/* Botón X: Superior derecha con cursor pointer */}
+        <button 
+          class="absolute top-4 right-4 z-[70] bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center text-2xl hover:bg-white/20 transition-colors shadow-lg border border-white/20 cursor-pointer" 
+          data-close-modal
+        >
+          &times;
+        </button>
+
+        {/* Sección de Imagen: Muestra imagen completa sin importar formato */}
+        <div class="w-full md:w-3/5 relative bg-black flex items-center justify-center overflow-hidden">
+            <img 
+              src={imglink} 
+              alt={title} 
+              class="max-w-full max-h-full object-contain" 
+            />
         </div>
-        <div class={`w-full md:w-1/2 p-6 flex flex-col justify-center bg-gradient-to-br ${themeGradients}`}>
-            <h3 class="text-2xl font-black mb-2 uppercase text-white">{title}</h3>
-            <p class="text-sm leading-relaxed text-white/90 mb-4">{content}</p> 
-            <div class="flex flex-wrap gap-1">
+
+        {/* Sección de Texto: Con degradado de tema */}
+        <div class={`w-full md:w-2/5 p-8 md:p-10 flex flex-col justify-center bg-gradient-to-br ${themeGradients} overflow-y-auto`}>
+            <h3 class="text-3xl md:text-4xl font-black mb-4 uppercase tracking-tighter text-white leading-none">
+                {title}
+            </h3>
+            <p class="text-sm md:text-base leading-relaxed text-white/90 mb-8 font-medium">
+                {content}
+            </p>
+            
+            <div class="flex flex-wrap gap-2">
                 {technologies.map((tech) => (
-                    <span class="text-[9px] uppercase font-bold px-2 py-0.5 bg-black/20 border border-white/10 rounded-md">
+                    <span class="text-[10px] font-black px-3 py-1 bg-black/10 border border-white/10 rounded-lg tracking-widest text-white">
                         {tech}
                     </span>
-                ))} 
+                ))}
             </div>
         </div>
     </div>
@@ -87,23 +121,26 @@ const modalId = `modal-${Math.random().toString(36).substr(2, 5)}`;
 )}
 
 <style>
-  /* Animación de desvanecido para el modal */
+  /* Animación de entrada */
   .fade-modal[open] {
-    animation: fadeIn 0.3s ease-out forwards;
+    animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
-
   .fade-modal::backdrop {
-    animation: fadeIn 0.3s ease-out forwards;
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
   }
 
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+  /* Evitar saltos de scroll al abrir modal */
+  :global(html) {
+    scrollbar-gutter: stable;
   }
 </style>
 
 <script>
-  // Script minimalista para abrir y cerrar 
+  // Manejo de eventos de apertura y cierre
   document.addEventListener('click', (e) => {
     const trigger = (e.target as HTMLElement).closest('[data-modal-trigger]');
     if (trigger) {
