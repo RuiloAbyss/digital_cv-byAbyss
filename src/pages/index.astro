@@ -188,34 +188,39 @@ const getWorksByCategory = (categoryId: string) => {
       email={socialData.email} 
       phone={socialData.phone} 
     />
-    
+
 </Layout>
 
 {/*============================================================================*/}
 <script>
   function initScrollReveal() {
-  const observerOptions = { threshold: 0.1 };
+  const observerOptions = { 
+    threshold: 0,
+    rootMargin: '0px 0px -50px 0px' 
+  };
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('active');
       } else {
+        // Opcional: quitar esto si no quieres que la animación se repita al subir
         entry.target.classList.remove('active');
       }
     });
   }, observerOptions);
 
-  // Elementos con ZOOM (Perfil, Cards, Trayectoria)
+  // Seleccionamos los elementos de zoom
   const zoomElements = document.querySelectorAll(
     'section, .relative.flex.w-full.pb-3, a.block.group, #profile-trigger > div'
   );
+  
   zoomElements.forEach((el) => {
     el.classList.add('reveal');
     observer.observe(el);
   });
 
-  // Elementos con SOLO FADE (Contenedores de la TabBar)
+  // Seleccionamos los contenedores de la TabBar (Fade)
   const fadeElements = document.querySelectorAll('.tab-container-ref, .tab-content-ref');
   fadeElements.forEach((el) => {
     el.classList.add('reveal-fade');
@@ -223,8 +228,6 @@ const getWorksByCategory = (categoryId: string) => {
   });
 }
 
-  document.addEventListener('astro:page-load', initScrollReveal);
-  
-  // Respaldo para la primera carga
-  document.addEventListener('DOMContentLoaded', initScrollReveal);
+document.addEventListener('astro:page-load', initScrollReveal);
+document.addEventListener('DOMContentLoaded', initScrollReveal);
 </script>
