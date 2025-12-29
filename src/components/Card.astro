@@ -2,7 +2,7 @@
 // src/components/Card.astro
 import type { HTMLAttributes } from 'astro/types';
 
-interface Props extends HTMLAttributes<'a'> {
+interface Props extends HTMLAttributes<'div'> {
   title: string;
   imglink: string;
   content: string;
@@ -26,139 +26,85 @@ const {
 
 const Tag = href ? 'a' : 'div';
 
-// Configuración de degradados según el tema
+// Configuración de tamaño de texto según el span
+const textSizeClass = span === 1 ? 
+  'text-sm sm:text-xs':
+  'text-md sm:text-sm';
+
+// Configuración de colores y degradados según el tema 
 const themeGradients = theme === "sunset"
   ? "from-orange-600 to-red-950" 
   : "from-purple-700 to-pink-900";
 
-const modalId = `modal-${Math.random().toString(36).substr(2, 5)}`;
+// Sombra inferior personalizada según el tema
+const themeShadow = theme === "sunset"
+  ? "shadow-[0_20px_40px_-15px_rgba(234,88,12,0.5)]" 
+  : "shadow-[0_20px_40px_-15px_rgba(126,34,206,0.5)]"; 
 ---
 
 <Tag 
   href={href} 
   {...rest} 
   class={`
-    block group relative bg-gray-950 text-white shadow-xl
-    border-3 border-white/20 hover:border-white/60 
-    rounded-lg overflow-hidden no-underline 
-    cursor-pointer transition duration-500 ease-in-out
-    aspect-square w-full h-full ${className ?? ''}
+    group relative bg-gray-950 text-white
+    border-2 border-white/20 hover:border-white/40 
+    rounded-xl overflow-hidden no-underline 
+    transition-all duration-500 ease-in-out
+    aspect-square w-full h-full select-none
+    ${themeShadow} ${className ?? ''} 
   `}
-  data-modal-trigger={!href ? modalId : undefined}
 >
     <article class="relative h-full w-full flex flex-col">
-        {/* Imagen de fondo de la tarjeta */}
-        <div class="absolute inset-0 z-0">
+        {/* Imagen de fondo (Se oculta en hover) */}
+        <div class="absolute inset-0 z-0 transition-opacity duration-500 group-hover:opacity-0">
             <img 
               src={imglink} 
               alt={title} 
-              class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" 
+              class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
             />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent transition-opacity duration-300 group-hover:opacity-0"></div>
+            <div class="absolute inset-0 bg-black/20"></div>
         </div>
 
-        {/* Hover: Fondo con degradado del tema */}
-        <div class={`absolute inset-0 z-20 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br ${themeGradients} backdrop-blur-sm`}>
-            <p class="text-white font-bold text-xs tracking-widest uppercase">Click para leer</p>
-        </div>
+        {/* Fondo de Degradado (Aparece en hover) */}
+        <div class={`absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br ${themeGradients}`}></div>
 
-        {/* Info por Default: Título y Tags (Desaparecen en hover) */}
-        <div class="absolute bottom-0 left-0 p-4 md:p-6 z-10 transition-all duration-300 group-hover:opacity-0">
-            <h6 class="text-lg md:text-2xl font-bold leading-tight drop-shadow-lg mb-2">{title}</h6> 
-            <div class="flex flex-wrap gap-1 md:gap-2">
+        {/* Vista Previa: Título y Tags (Desaparecen en hover) */}
+        <div class="absolute inset-0 p-8 sm:p-4 z-20 flex flex-col justify-end transition-all duration-500 group-hover:opacity-0 group-hover:pointer-events-none">
+            <h6 class="text-xl md:text-3xl font-bold leading-tight mb-2 drop-shadow-md">{title}</h6> 
+            <div class="flex flex-wrap gap-1">
                 {technologies.map((tech) => (
-                    <span class={`text-[8px] md:text-[10px] font-bold px-2 py-0.5 rounded-md bg-gradient-to-br ${themeGradients}`}>
+                    <span class={`text-xs sm:text-[10px] font-bold px-2 py-1 rounded-md bg-gradient-to-br ${themeGradients} border `}>
                         {tech} 
                     </span>
                 ))} 
             </div>
         </div>
+
+        {/* Vista de Contenido: Solo descripción con Scroll (Actualizado para centrar) */}
+        <div class="absolute inset-0 z-40 px-2 py-1 flex flex-col justify-center items-center opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-500">
+            <div class="overflow-y-auto custom-scrollbar max-h-full w-full">
+                <p class=`${textSizeClass} leading-relaxed text-white text-center`>
+                    {content}
+                </p>
+            </div>
+        </div>
     </article>
 </Tag>
 
-{!href && (
-  <dialog id={modalId} class="fade-modal fixed inset-0 z-[100] p-0 bg-transparent backdrop:bg-black/90 backdrop:backdrop-blur-md open:flex items-center justify-center w-full h-full border-none outline-none">
-    
-    {/* Contenedor del Modal: Estandarizado para 1x1 y 2x2 */}
-    <div class="relative w-[95%] max-w-5xl h-[85vh] md:h-[70vh] bg-gray-950 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row border border-white/10">
-        
-        {/* Botón X: Superior derecha con cursor pointer */}
-        <button 
-          class="absolute top-4 right-4 z-[70] bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center text-2xl hover:bg-white/20 transition-colors shadow-lg border border-white/20 cursor-pointer" 
-          data-close-modal
-        >
-          &times;
-        </button>
-
-        {/* Sección de Imagen: Muestra imagen completa sin importar formato */}
-        <div class="w-full md:w-3/5 relative bg-black flex items-center justify-center overflow-hidden">
-            <img 
-              src={imglink} 
-              alt={title} 
-              class="max-w-full max-h-full object-contain" 
-            />
-        </div>
-
-        {/* Sección de Texto: Con degradado de tema */}
-        <div class={`w-full md:w-2/5 p-8 md:p-10 flex flex-col justify-center bg-gradient-to-br ${themeGradients} overflow-hidden`}>
-            <h3 class="text-3xl md:text-4xl font-black mb-4 uppercase tracking-tighter text-white leading-none">
-                {title}
-            </h3>
-            <p class="text-sm md:text-base leading-relaxed text-white/90 mb-8 font-medium">
-                {content}
-            </p>
-            
-            <div class="flex flex-wrap gap-2">
-                {technologies.map((tech) => (
-                    <span class="text-[10px] font-black px-3 py-1 bg-black/10 border border-white/10 rounded-lg tracking-widest text-white">
-                        {tech}
-                    </span>
-                ))}
-            </div>
-        </div>
-    </div>
-  </dialog>
-)}
-
 <style>
-  /* Animación de entrada */
-  .fade-modal[open] {
-    animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  /* Scrollbar optimizada siempre visible en hover */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
   }
-  .fade-modal::backdrop {
-    animation: fadeIn 0.4s ease-out forwards;
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2); 
+    border-radius: 10px;
   }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.98); }
-    to { opacity: 1; transform: scale(1); }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.5); 
+    border-radius: 10px;
   }
-
-  /* Evitar saltos de scroll al abrir modal */
-  :global(html) {
-    scrollbar-gutter: stable;
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.8);
   }
 </style>
-
-<script>
-  // Manejo de eventos de apertura y cierre
-  document.addEventListener('click', (e) => {
-    const trigger = (e.target as HTMLElement).closest('[data-modal-trigger]');
-    if (trigger) {
-      const modalId = trigger.getAttribute('data-modal-trigger');
-      const modal = document.getElementById(modalId) as HTMLDialogElement;
-      if (modal) {
-        modal.showModal();
-        document.body.style.overflow = 'hidden';
-      }
-    }
-
-    const closeBtn = (e.target as HTMLElement).closest('[data-close-modal]');
-    if (closeBtn) {
-      const modal = closeBtn.closest('dialog');
-      if (modal) {
-        modal.close();
-        document.body.style.overflow = '';
-      }
-    }
-  });
-</script>

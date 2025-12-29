@@ -5,7 +5,6 @@ interface Experience {
   company: string;
   role: string;
   description: string;
-  tag: 'formative' | 'proyect'; // Nueva propiedad para distinguir el tipo
 }
 
 interface Props {
@@ -36,11 +35,8 @@ const cardHoverGradient = "group-hover:bg-gradient-to-r group-hover:from-orange-
   <div class="flex flex-col">
     {experiences.map((exp, index) => {
       const isLast = index === experiences.length - 1;
-      
-      // Lógica de colores basada en el tag
-      const isProyect = exp.tag === 'proyect';
-      const tagColor = isProyect ? 'text-orange-400/80' : 'text-purple-400/80';
-      const tagHover = isProyect ? 'group-hover:text-orange-400' : 'group-hover:text-purple-400';
+      const tagColor = 'text-orange-400/80';
+      const tagHover = 'group-hover:text-purple-400';
 
       return (
         <div class="relative flex w-full pb-3 last:pb-0 group">
@@ -74,7 +70,7 @@ const cardHoverGradient = "group-hover:bg-gradient-to-r group-hover:from-orange-
 
               {/* Sección Derecha: Descripción*/}
               <div class="p-3 sm:p-5 lg:w-2/3 flex items-center text-left">
-                <p class="tracking-widest text-gray-400 text-xs sm:text-sm leading-relaxed text-pretty transition-colors duration-500 group-hover:text-white/90">
+                <p class="text-pretty text-gray-400 text-xs sm:text-sm leading-relaxed transition-colors duration-500 group-hover:text-white/90">
                   {exp.description}
                 </p>
               </div>

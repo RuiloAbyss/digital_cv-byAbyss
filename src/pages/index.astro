@@ -9,7 +9,7 @@ import StickyNav from '../components/StickyNav.astro';
 import ExperienceTimeline from '../components/ExperienceTimeline.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 
-import { aboutMe, universityData, topExperience, menuTabs, socialData } from '../data/portfolio';
+import { universityData, topExperience, menuTabs, socialData } from '../data/portfolio';
 
 // Cargamos todos los archivos Markdown
 const allWorks = Object.values(import.meta.glob('./goals/*.md', { eager: true })) as any[];
@@ -49,7 +49,7 @@ const getWorksByCategory = (categoryId: string) => {
             <div class="flex flex-col mt-0 sm:mt-5 items-center sm:items-start text-center sm:w-full sm:text-left">
                 <h1 class="font-bold text-red-400">{socialData.name}</h1>
                 <h2 class="font-semibold text-white">Ing. En Sistemas</h2>
-                <p class="text-purple-400 font-bold animate-pulse">Un desarrollador web con sentido de diseño</p>
+                <p class="text-purple-400 font-bold animate-pulse">Un Desarrollador Web Con Sentido De Diseño</p>
             </div> 
 
           </div>
@@ -87,9 +87,18 @@ const getWorksByCategory = (categoryId: string) => {
       <div class="flex flex-col lg:flex-row gap-5 pb-5">
         
         {/* About Me*/}
-        <Section title="Sobre Mí">
-          <p class="text-white leading-relaxed text-left">
-            {aboutMe}
+        <Section title="Sobre Mí" class="prose prose-slate text-white leading-relaxed text-pretty text-left">
+          <p>
+            Especialista en Desarrollo Web y UX/UI. Creo en el diseño como una herramienta 
+            para construir espacios digitales agradables y funcionales. 
+          </p>
+          <p>
+            Mi objetivo es lograr el equilibrio perfecto: interfaces atractivas 
+            que no comprometan el rendimiento.
+          </p>
+          <p>
+            Apasionado por el arte y la identidad visual, ayudo a las marcas a crear 
+            experiencias digitales inolvidables.
           </p>
         </Section>
 

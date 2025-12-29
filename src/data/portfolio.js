@@ -1,20 +1,9 @@
-const aboutMe = 
-  `
-Especialista en Desarrollo Web y UX/UI. 
-Creo en el diseño como una herramienta para construir espacios digitales 
-agradables y funcionales. Mi objetivo es lograr el equilibrio perfecto: 
-interfaces estéticamente impecables que no comprometan el rendimiento. 
-Apasionado por el arte y la identidad visual, ayudo a las marcas a 
-conectar emocionalmente con sus usuarios a través de experiencias digitales memorables.
-  `
-
-
 const universityData = 
   {
     date: "Agosto 2021 - Presente",
     institution: "Instituto Tecnológico de Tepic",
     degree: "Estudiante de Ingeniería en Sistemas Computacionales",
-    description: "Actualmente, estoy cursando el último semestre de la carrera, con enfoque en desarrollo web."
+    description: "Actualmente, estoy cursando el último semestre de la carrera, con especialidad en desarrollo web."
   };
 
 const topExperience = [
@@ -76,8 +65,8 @@ const socialData = {
 
 const menuTabs = [
   {id: 'ss', label: 'Habilidades Blandas'},
-  {id: 'learn', label: 'Certificaciones'},
+  {id: 'learn', label: 'Certificados'},
   {id: 'hs', label: 'Habilidades Técnicas'},
 ];
 
-export { aboutMe, universityData, topExperience, learningData, socialData, menuTabs };
+export { universityData, topExperience, learningData, socialData, menuTabs };
