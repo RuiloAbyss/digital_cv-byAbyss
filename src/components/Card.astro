@@ -5,7 +5,7 @@ import type { HTMLAttributes } from 'astro/types';
 interface Props extends HTMLAttributes<'div'> {
   title: string;
   imglink: string;
-  content: string;
+  content?: string;
   technologies: string[];
   href?: string; 
   theme?: "sunset" | "cosmic";
@@ -25,15 +25,16 @@ const {
 } = Astro.props;
 
 const Tag = href ? 'a' : 'div';
+const hasDescription = content && content.trim().length > 0;
 
 // Configuración de tamaño de texto según el span
-const textSizeClass = span === 1 ? 
-  'text-sm sm:text-xs':
+const textSizeClass = span === 1 ?
+  'text-sm sm:text-xs': 
   'text-md sm:text-sm';
 
 // Configuración de colores y degradados según el tema 
 const themeGradients = theme === "sunset"
-  ? "from-orange-600 to-red-950" 
+  ? "from-orange-600 to-red-950"
   : "from-purple-700 to-pink-900";
 
 // Sombra inferior personalizada según el tema
@@ -55,21 +56,23 @@ const themeShadow = theme === "sunset"
   `}
 >
     <article class="relative h-full w-full flex flex-col">
-        {/* Imagen de fondo (Se oculta en hover) */}
-        <div class="absolute inset-0 z-0 transition-opacity duration-500 group-hover:opacity-0">
+        {/* Imagen de fondo: Solo se oculta en hover si existe descripción */}
+        <div class={`absolute inset-0 z-0 transition-opacity duration-500 ${hasDescription ? 'group-hover:opacity-0' : 'opacity-100'}`}>
             <img 
               src={imglink} 
               alt={title} 
-              class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
-            />
+              class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" 
+            /> {/*  El efecto de zoom se mantiene siempre */}
             <div class="absolute inset-0 bg-black/20"></div>
         </div>
 
-        {/* Fondo de Degradado (Aparece en hover) */}
-        <div class={`absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br ${themeGradients}`}></div>
+        {/* Fondo de Degradado: Solo se activa si hay descripción */}
+        {hasDescription && (
+            <div class={`absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br ${themeGradients}`}></div>
+        )}
 
-        {/* Vista Previa: Título y Tags (Desaparecen en hover) */}
-        <div class="absolute inset-0 p-8 sm:p-4 z-20 flex flex-col justify-end transition-all duration-500 group-hover:opacity-0 group-hover:pointer-events-none">
+        {/* Vista Previa: Solo desaparece en hover si hay descripción que mostrar */}
+        <div class={`absolute inset-0 p-8 sm:p-4 z-20 flex flex-col justify-end transition-all duration-500 ${hasDescription ? 'group-hover:opacity-0 group-hover:pointer-events-none' : ''}`}>
             <h6 class="text-xl md:text-3xl font-bold leading-tight mb-2 drop-shadow-md">{title}</h6> 
             <div class="flex flex-wrap gap-1">
                 {technologies.map((tech) => (
@@ -80,31 +83,22 @@ const themeShadow = theme === "sunset"
             </div>
         </div>
 
-        {/* Vista de Contenido: Solo descripción con Scroll (Actualizado para centrar) */}
-        <div class="absolute inset-0 z-40 px-2 py-1 flex flex-col justify-center items-center opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-500">
-            <div class="overflow-y-auto custom-scrollbar max-h-full w-full">
-                <p class=`${textSizeClass} leading-relaxed text-white text-center`>
-                    {content}
-                </p>
+        {/* Vista de Contenido: Solo se renderiza si el campo description existe */}
+        {hasDescription && (
+            <div class="absolute inset-0 z-40 px-2 py-1 flex flex-col justify-center items-center opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-500">
+                <div class="overflow-y-auto custom-scrollbar max-h-full w-full">
+                    <p class={`${textSizeClass} leading-relaxed text-white text-center`}>
+                        {content}
+                    </p>
+                </div>
             </div>
-        </div>
+        )}
     </article>
 </Tag>
 
 <style>
-  /* Scrollbar optimizada siempre visible en hover */
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-  }
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.2); 
-    border-radius: 10px;
-  }
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.5); 
-    border-radius: 10px;
-  }
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.8);
-  }
+  .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.5); border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.8); }
 </style>

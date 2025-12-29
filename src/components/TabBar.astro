@@ -18,7 +18,7 @@ interface Props extends HTMLAttributes<'div'> {
 
 const { 
   tabs, 
-  initialTabId, 
+  initialTabId = tabs[0]?.id || 'hs', 
   id = "main-tab",
   class: className, 
   ...rest 
