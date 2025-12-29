@@ -60,7 +60,9 @@ const socialData = {
     name: "Abisai Ruiz López",
     linkedin: "https://www.linkedin.com/in/abisai-ruiz/",
     github: "https://github.com/RuiloAbyss/",
-    cv: "/CV_Abisai_Ruiz_Lopez.pdf"
+    cv: "/CV_Abisai_Ruiz_Lopez.pdf",
+    email: "ruilo.abisai@gmail.com",
+    phone: "523891050431"
 };
 
 const menuTabs = [

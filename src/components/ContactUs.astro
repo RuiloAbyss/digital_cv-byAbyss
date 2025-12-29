@@ -1,0 +1,129 @@
+---
+// src/components/ContactUs.astro
+interface Props {
+  email: string;
+  phone: string;
+  message?: string;
+}
+
+const { email, phone, message = "Hola, me gustaría contactarte por un proyecto." } = Astro.props;
+const glassStyle = "bg-white/5 backdrop-blur-xl border-white/20";
+---
+
+<div class="fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-4">
+  
+  <div 
+    id="contact-menu" 
+    class={`
+      hidden flex-col gap-2 p-2 rounded-2xl shadow-2xl 
+      transition-all duration-300 origin-bottom-right scale-95 opacity-0
+      ${glassStyle} border-2 mb-2 w-48
+    `}
+  >
+    <a 
+      href={`https://wa.me/${phone}?text=${encodeURIComponent(message)}`}
+      target="_blank"
+      class="flex items-center gap-3 p-3 rounded-xl hover:bg-green-500/50 text-white transition-colors group"
+    >
+      <div class="bg-green-500 p-2 rounded-lg group-hover:scale-110 transition-transform">
+        <img src="WhatsApp.png" alt="WhatsApp Icon" class="w-5 h-5"/>
+      </div>
+      <span class="font-bold text-sm">WhatsApp</span>
+    </a>
+
+    <a 
+      href={`mailto:${email}`}
+      class="flex items-center gap-3 p-3 rounded-xl hover:bg-orange-500/50 text-white transition-colors group"
+    >
+      <div class="bg-orange-500 p-2 rounded-lg group-hover:scale-110 transition-transform">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+          <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+        </svg>
+      </div>
+      <span class="font-bold text-sm">Correo</span>
+    </a>
+  </div>
+
+  <button
+    id="contact-trigger"
+    aria-label="Abrir menú de contacto"
+    class={`
+      border-3 border-gray-500 hover:border-gray-300
+      relative flex items-center justify-center
+      bg-gradient-to-br from-orange-500/60 to-purple-700/60
+      hover:bg-gradient-to-br hover:from-orange-500 hover:to-purple-700
+      text-white shadow-xl shadow-orange-900/40
+      transition-all duration-500 hover:scale-105 active:scale-95 hover:cursor-pointer
+      sm:px-6 sm:py-3 sm:rounded-2xl
+      w-16 h-16 rounded-full sm:w-auto sm:h-auto
+    `}
+  >
+    <div class="flex items-center gap-2 pointer-events-none rounded-full">
+      
+      <svg id="icon-contact" class="block sm:hidden w-8 h-8 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
+
+      <svg id="icon-plus" class="hidden sm:block w-8 h-8 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
+      </svg>
+
+      <span class="hidden sm:block font-bold tracking-wide uppercase text-sm">Contáctame</span>
+    </div>
+  </button>
+</div>
+
+<script>
+  function setupContact() {
+    const trigger = document.getElementById('contact-trigger');
+    const menu = document.getElementById('contact-menu');
+    const iconPlus = document.getElementById('icon-plus');
+    const iconContact = document.getElementById('icon-contact');
+
+    if (!trigger || !menu || !iconPlus || !iconContact) return;
+
+    const toggleMenu = (event: MouseEvent) => {
+      event.stopPropagation();
+      const isHidden = menu.classList.contains('hidden');
+
+      if (isHidden) {
+        menu.classList.remove('hidden');
+        void menu.offsetWidth; 
+        menu.classList.add('scale-100', 'opacity-100');
+        menu.classList.remove('scale-95', 'opacity-0');
+        
+        // Rotamos ambos iconos para que el efecto visual de "X" sea consistente
+        iconPlus.style.transform = 'rotate(135deg)';
+        iconContact.style.transform = 'rotate(360deg)';
+      } else {
+        closeMenu();
+      }
+    };
+
+    const closeMenu = () => {
+      menu.classList.remove('scale-100', 'opacity-100');
+      menu.classList.add('scale-95', 'opacity-0');
+      
+      iconPlus.style.transform = 'rotate(0deg)';
+      iconContact.style.transform = 'rotate(0deg)';
+      
+      setTimeout(() => {
+        if (!menu.classList.contains('opacity-100')) {
+          menu.classList.add('hidden');
+        }
+      }, 300);
+    };
+
+    trigger.addEventListener('click', toggleMenu);
+
+    document.addEventListener('click', (e) => {
+      if (!menu.classList.contains('hidden') && !menu.contains(e.target as Node)) {
+        closeMenu();
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', setupContact);
+  document.addEventListener('astro:page-load', setupContact);
+</script>

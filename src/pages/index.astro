@@ -8,6 +8,7 @@ import BentoGrid from '../components/BentoGrid.astro';
 import StickyNav from '../components/StickyNav.astro';
 import ExperienceTimeline from '../components/ExperienceTimeline.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import ContactUs from '../components/ContactUs.astro';
 
 import { universityData, topExperience, menuTabs, socialData } from '../data/portfolio';
 
@@ -181,6 +182,13 @@ const getWorksByCategory = (categoryId: string) => {
     <StickyNav 
         socialDatas={socialData}
     />
+
+    {/* Contact Us Button */}
+    <ContactUs 
+      email={socialData.email} 
+      phone={socialData.phone} 
+    />
+    
 </Layout>
 
 {/*============================================================================*/}
