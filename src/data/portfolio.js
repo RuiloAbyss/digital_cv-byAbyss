@@ -65,6 +65,10 @@ const socialData = {
     phone: "523891050431"
 };
 
+// IMPORTANTE: Los `id` en `menuTabs` deben coincidir con el valor `category` en el frontmatter
+// de los archivos Markdown ubicados en `src/pages/goals/`.
+// Por ejemplo, para marcar un item como proyecto destacado usa `category: 'proyect'` en el .md,
+// y asegúrate de tener una entrada con `id: 'proyect'` en `menuTabs` si deseas mostrar esa categoría en la pestaña.
 const menuTabs = [
   {id: 'ss', label: 'Habilidades Blandas'},
   {id: 'learn', label: 'Certificados'},
