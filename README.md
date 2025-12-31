@@ -1,4 +1,5 @@
-# Funny Curry — Portafolio Personal (Astro)
+# Crea Tu Portafolio Personal Con Este Código (Astro)
+Mira cómo lo he implementado yo en https://ruiz-abisai-dev.vercel.app/
 
 **Descripción rápida**
 
