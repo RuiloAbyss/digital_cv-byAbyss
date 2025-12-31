@@ -2,7 +2,7 @@
 layout: ../../layouts/Layout.astro
 title: "Mongo DB"
 category: "hs"
-theme: "cosmic" 
+theme: "sunset" 
 image: "/goals_img/mongodb.png"
 href: "https://www.mongodb.com/es"
 span: 1

@@ -2,7 +2,7 @@
 layout: ../../layouts/Layout.astro
 title: "VS Code"
 category: "hs"
-theme: "cosmic" 
+theme: "sunset" 
 image: "/goals_img/vscode.png"
 href: "https://code.visualstudio.com/"
 span: 1

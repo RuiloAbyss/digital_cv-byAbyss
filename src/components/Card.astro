@@ -27,10 +27,10 @@ const {
 const Tag = href ? 'a' : 'div';
 const hasDescription = content && content.trim().length > 0;
 
-// Configuración de tamaño de texto según el span
-const textSizeClass = span === 1 ?
-  'text-sm sm:text-xs': 
-  'text-md sm:text-sm';
+// Configuración de margenes según el span
+const paddingClass = span === 1 
+  ? "p-[8px] sm:p-4" // Padding reducido para cards 1x1
+  : "p-8 sm:p-4";    // Padding estándar para cards 2x2
 
 // Configuración de colores y degradados según el tema 
 const themeGradients = theme === "sunset"
@@ -41,14 +41,15 @@ const themeGradients = theme === "sunset"
 const themeShadow = theme === "sunset"
   ? "shadow-[0_20px_40px_-15px_rgba(234,88,12,0.5)]" 
   : "shadow-[0_20px_40px_-15px_rgba(126,34,206,0.5)]"; 
----
 
+---
 <Tag 
   href={href} 
   {...rest} 
   class={`
-    group relative bg-gray-950 text-white
+    group relative bg-white/10 text-white
     border-2 border-white/20 hover:border-white/40 
+    hover:bg-gradient-to-br ${themeGradients}/5
     rounded-xl overflow-hidden no-underline 
     transition-all duration-500 ease-in-out
     aspect-square w-full h-full select-none
@@ -57,13 +58,13 @@ const themeShadow = theme === "sunset"
 >
     <article class="relative h-full w-full flex flex-col">
         {/* Imagen de fondo: Solo se oculta en hover si existe descripción */}
-        <div class={`absolute inset-0 z-0 transition-opacity duration-500 ${hasDescription ? 'group-hover:opacity-0' : 'opacity-100'}`}>
+        <div class={`absolute inset-1 z-1 transition-opacity duration-500 ${hasDescription ? 'group-hover:opacity-0' : 'opacity-100'}`}>
             <img 
               src={imglink} 
               alt={title} 
-              class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" 
+              class="rounded-lg object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" 
             /> {/*  El efecto de zoom se mantiene siempre */}
-            <div class="absolute inset-0 bg-black/20"></div>
+            <div class={`absolute inset-0 z-0 bg-gradient-to-t`}></div>
         </div>
 
         {/* Fondo de Degradado: Solo se activa si hay descripción */}
@@ -72,11 +73,11 @@ const themeShadow = theme === "sunset"
         )}
 
         {/* Vista Previa: Solo desaparece en hover si hay descripción que mostrar */}
-        <div class={`absolute inset-0 p-8 sm:p-4 z-20 flex flex-col justify-end transition-all duration-500 ${hasDescription ? 'group-hover:opacity-0 group-hover:pointer-events-none' : ''}`}>
+        <div class={`absolute inset-0 ${paddingClass} z-20 flex flex-col justify-end transition-all duration-500 ${hasDescription ? 'group-hover:opacity-0 group-hover:pointer-events-none' : ''}`}>
             <h6 class="text-xl md:text-3xl font-bold leading-tight mb-2 drop-shadow-md">{title}</h6> 
-            <div class="flex flex-wrap gap-1">
+            <div class="flex flex-wrap sm:gap-1 gap-0.5">
                 {technologies.map((tech) => (
-                    <span class={`text-xs sm:text-[10px] font-bold px-2 py-1 rounded-md bg-gradient-to-br ${themeGradients} border `}>
+                    <span class={`text-[10px] font-medium sm:font-bold px-2 py-1 rounded-md bg-gradient-to-br ${themeGradients} border `}>
                         {tech} 
                     </span>
                 ))} 
@@ -87,7 +88,7 @@ const themeShadow = theme === "sunset"
         {hasDescription && (
             <div class="absolute inset-0 z-40 px-2 py-1 flex flex-col justify-center items-center opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-500">
                 <div class="overflow-y-auto custom-scrollbar max-h-full w-full">
-                    <p class={`${textSizeClass} leading-relaxed text-white text-center`}>
+                    <p class={`leading-relaxed text-white text-center`}>
                         {content}
                     </p>
                 </div>

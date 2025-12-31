@@ -11,11 +11,11 @@ const { items } = Astro.props;
 // Mapeo explícito para que Tailwind no ignore las clases
 const spanStyles = {
   1: "col-span-1 row-span-1",
-  2: "col-span-1 sm:col-span-2 sm:row-span-2",
+  2: "col-span-2 row-span-2",
 };
 ---
 
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full p-3 auto-rows-fr">
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full p-3 auto-rows-fr">
   {items.map((item) => (
     <Card
       {...item}

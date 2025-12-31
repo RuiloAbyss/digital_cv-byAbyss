@@ -2,7 +2,7 @@
 layout: ../../layouts/Layout.astro
 title: "JavaScript"
 category: "hs"
-theme: "cosmic" 
+theme: "sunset" 
 image: "/goals_img/javascript.png"
 href: "https://developer.mozilla.org/es/docs/Web/JavaScript"
 span: 1

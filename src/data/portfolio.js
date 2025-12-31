@@ -70,9 +70,9 @@ const socialData = {
 // Por ejemplo, para marcar un item como proyecto destacado usa `category: 'proyect'` en el .md,
 // y asegúrate de tener una entrada con `id: 'proyect'` en `menuTabs` si deseas mostrar esa categoría en la pestaña.
 const menuTabs = [
-  {id: 'ss', label: 'Habilidades Blandas'},
+  {id: 'ss', label: 'Cualidades'},
   {id: 'learn', label: 'Certificados'},
-  {id: 'hs', label: 'Habilidades Técnicas'},
+  {id: 'hs', label: 'Tecnologías'},
 ];
 
 export { universityData, topExperience, learningData, socialData, menuTabs };

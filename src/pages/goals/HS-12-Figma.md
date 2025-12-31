@@ -2,7 +2,7 @@
 layout: ../../layouts/Layout.astro
 title: "Figma"
 category: "hs"
-theme: "sunset" 
+theme: "cosmic" 
 image: "/goals_img/figma.png"
 href: "https://www.figma.com/"
 span: 2
