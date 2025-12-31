@@ -5,6 +5,5 @@ description: "Programa INROADS de México que Incluye sesiones en liderazgo, com
 category: "learn" 
 theme: "cosmic"
 image: "/goals_img/INROADS-SoftSkills.webp"
-tags: ["Soft Skills", "Cooperación", "Cultura Empresarial"]
 ---
 Aquí va el contenido detallado de tu artículo...

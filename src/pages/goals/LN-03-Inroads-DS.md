@@ -5,6 +5,5 @@ description: "Programa INROADS de México que Incluye sesiones en alfabetizació
 category: "learn" 
 theme: "cosmic"
 image: "/goals_img/INROADS-DigitalSkills.webp"
-tags: ["Digital Skills", "Productividad", "Trabajo En Equipo"]
 ---
 Aquí va el contenido detallado de tu artículo...
