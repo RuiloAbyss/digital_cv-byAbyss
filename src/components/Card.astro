@@ -73,8 +73,8 @@ const themeShadow = theme === "sunset"
         )}
 
         {/* Vista Previa: Solo desaparece en hover si hay descripción que mostrar */}
-        <div class={`absolute inset-0 ${paddingClass} z-20 flex flex-col justify-end transition-all duration-500 ${hasDescription ? 'group-hover:opacity-0 group-hover:pointer-events-none' : ''}`}>
-            <h6 class="text-xl md:text-3xl font-bold leading-tight mb-2 drop-shadow-md">{title}</h6> 
+        <div class={`bg-black/5 absolute inset-0 ${paddingClass} z-20 flex flex-col justify-end transition-all duration-500 ${hasDescription ? 'group-hover:opacity-0 group-hover:pointer-events-none' : ''}`}>
+            <h6 class="text-xl md:text-3xl font-bold leading-tight mb-2 drop-shadow-lg text-shadow-lg">{title}</h6> 
             <div class="flex flex-wrap sm:gap-1 gap-0.5">
                 {technologies.map((tech) => (
                     <span class={`text-[10px] font-medium sm:font-bold px-2 py-1 rounded-md bg-gradient-to-br ${themeGradients} border `}>
