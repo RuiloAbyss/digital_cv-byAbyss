@@ -1,0 +1,182 @@
+---
+// src/components/AboutMeCarousel.astro
+import Section from './Section.astro';
+import Card from './Card.astro';
+
+interface CarouselItem {
+  title: string;
+  imglink: string;
+  content: string;
+  technologies: string[];
+  theme?: "sunset" | "cosmic";
+  href?: string;
+}
+
+interface Props {
+  mainImage: string;
+  items: CarouselItem[];
+  description: string;
+  duration?: number; // Duración en milisegundos por slide
+}
+
+const { mainImage, items, duration = 5000, description } = Astro.props;
+---
+
+<Section title="Sobre Mí" class="mb-10">
+    {/* Párrafo Introductorio */}
+    <div class="w-full max-w-4xl mx-auto text-center">
+      <p class="text-gray-300 text-lg leading-relaxed text-pretty">
+        {description}
+      </p>
+    </div>
+
+  <div class="flex flex-col lg:flex-row gap-6 w-full py-4 items-stretch justify-center h-full">
+    
+    {/* --- IZQUIERDA: Imagen Protagónica --- */}
+    <div class="w-full lg:w-1/3 flex flex-col">
+      <div class="relative group w-full h-full min-h-[400px] overflow-hidden rounded-xl border-2 border-white/10 bg-white/5 shadow-2xl transition-all duration-500 hover:border-orange-500/30">
+        <img 
+          src={mainImage} 
+          alt="Perfil" 
+          class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+        />
+        {/* Gradiente sutil para integración */}
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+      </div>
+    </div>
+
+    {/* --- DERECHA: Carrusel de Tarjeta Única --- */}
+    <div class="w-full lg:w-2/3 flex flex-col h-full min-h-[400px] relative">
+      
+      {/* Contenedor de Tarjetas (Stack) */}
+      <div class="relative w-full flex-1 overflow-hidden rounded-xl bg-white/5 border-2 border-white/10 group-carousel">
+        {items.map((item, index) => (
+          <div 
+            class={`carousel-item absolute inset-0 w-full h-full transition-all duration-700 ease-in-out ${index === 0 ? 'opacity-100 z-10 scale-100' : 'opacity-0 z-0 scale-95'}`}
+            data-index={index}
+          >
+            {/* Reutilizamos Cards, forzando que ocupe todo el espacio */}
+            <Card 
+              title={item.title}
+              imglink={item.imglink}
+              content={item.content}
+              technologies={item.technologies}
+              theme={item.theme || "sunset"}
+              href={item.href}
+              class="w-full h-full !border-0 !rounded-none" 
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Barra de Progreso e Indicadores */}
+      <div class="flex gap-3 mt-4 w-full px-2">
+        {items.map((_, index) => (
+          <button 
+            class="progress-container relative h-1.5 flex-1 bg-white/10 rounded-full overflow-hidden cursor-pointer hover:bg-white/20 transition-all duration-300 hover:scale-y-150 origin-center"
+            onclick={`manualSwitch(${index})`}
+            aria-label={`Ir a slide ${index + 1}`}
+          >
+            <div 
+              class="progress-bar absolute top-0 left-0 h-full bg-orange-500 rounded-full w-0"
+              data-index={index}
+            ></div>
+          </button>
+        ))}
+      </div>
+
+    </div>
+  </div>
+</Section>
+
+{/* Lógica del Cliente */}
+<script define:vars={{ duration, totalItems: items.length }}>
+  let currentIndex = 0;
+  let timer;
+  let startTime;
+  let remainingTime = duration;
+  let isPaused = false;
+
+  const slides = document.querySelectorAll('.carousel-item');
+  const bars = document.querySelectorAll('.progress-bar');
+  const carouselContainer = document.querySelector('.group-carousel');
+
+  function updateSlide(newIndex) {
+    // Gestionar las slides
+    slides.forEach((slide, i) => {
+      if (i === newIndex) {
+        slide.classList.remove('opacity-0', 'z-0', 'scale-95');
+        slide.classList.add('opacity-100', 'z-10', 'scale-100');
+      } else {
+        slide.classList.remove('opacity-100', 'z-10', 'scale-100');
+        slide.classList.add('opacity-0', 'z-0', 'scale-95');
+      }
+    });
+
+    // Gestionar las barras de progreso
+    bars.forEach((bar, i) => {
+      // Reseteamos transiciones para evitar saltos raros
+      bar.style.transition = 'none';
+      bar.style.width = i < newIndex ? '100%' : '0%';
+      
+      if (i === newIndex) {
+        // Forzamos un reflow para que el navegador detecte el cambio de width a 0% antes de animar
+        void bar.offsetWidth; 
+        bar.style.transition = `width ${duration}ms linear`;
+        bar.style.width = '100%';
+      }
+    });
+
+    currentIndex = newIndex;
+  }
+
+  function nextSlide() {
+    const nextIndex = (currentIndex + 1) % totalItems;
+    updateSlide(nextIndex);
+  }
+
+  function startAutoPlay() {
+    // Limpiamos cualquier intervalo previo
+    if (timer) clearInterval(timer);
+    
+    // Iniciamos la animación de la barra actual y programamos el cambio
+    timer = setInterval(nextSlide, duration);
+  }
+
+  // --- Inicialización ---
+  // Iniciar primera animación
+  setTimeout(() => {
+     const firstBar = bars[0];
+     if(firstBar) {
+         firstBar.style.transition = `width ${duration}ms linear`;
+         firstBar.style.width = '100%';
+     }
+  }, 100);
+  
+  startAutoPlay();
+
+  // --- Interacción Manual (Clic en las barras) ---
+  window.manualSwitch = (index) => {
+    clearInterval(timer);
+    updateSlide(index);
+    startAutoPlay();
+  };
+
+  // --- Pausa en Hover (recomendado para UX) ---
+  if (carouselContainer) {
+    carouselContainer.addEventListener('mouseenter', () => {
+      clearInterval(timer); // Detiene el cambio automático
+      // Congelar la barra de progreso actual
+      const currentBar = bars[currentIndex];
+      const computedStyle = getComputedStyle(currentBar);
+      const width = computedStyle.width;
+      currentBar.style.transition = 'none';
+      currentBar.style.width = width;
+    });
+
+    carouselContainer.addEventListener('mouseleave', () => {
+      updateSlide(currentIndex);
+      startAutoPlay();
+    });
+  }
+</script>

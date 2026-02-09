@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
+import AboutMeCarousel from '../components/AboutMeCarousel.astro';
 import ColorButton from '../components/ColorButton.astro';
 import Section from '../components/Section.astro';
 import TabBar from '../components/TabBar.astro';
@@ -10,7 +11,7 @@ import ExperienceTimeline from '../components/ExperienceTimeline.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import ContactUs from '../components/ContactUs.astro';
 
-import { universityData, topExperience, menuTabs, socialData } from '../data/portfolio';
+import { universityData, topExperience, menuTabs, socialData, aboutMeData, aboutMeDescription} from '../data/portfolio';
 
 // Cargamos todos los archivos Markdown
 const allWorks = Object.values(import.meta.glob('./goals/*.md', { eager: true })) as any[];
@@ -84,10 +85,10 @@ const getWorksByCategory = (categoryId: string) => {
         </div>
     </div>
 	
-    {/*About Me | Education*/}
+    {/*Mission | Education*/}
       <div class="flex flex-col lg:flex-row gap-5 pb-5">
         
-        {/* About Me*/}
+        {/* Mission*/}
         <Section title="Sobre Mí" class="prose prose-slate text-white leading-relaxed text-pretty text-left">
           <p>
             Especialista en Desarrollo Web y UX/UI. Creo en el diseño como una herramienta 
@@ -178,6 +179,12 @@ const getWorksByCategory = (categoryId: string) => {
     </Section>
     </main>
 
+    {/*About Me */}
+    <AboutMeCarousel 
+      mainImage="/imagen-protagonica.jpeg" 
+      items={aboutMeData}
+      description={aboutMeDescription}
+    />
     {/* Sticky bars */}
     <StickyNav 
         socialDatas={socialData}
@@ -204,7 +211,7 @@ const getWorksByCategory = (categoryId: string) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('active');
       } else {
-        // Opcional: quitar esto si no quieres que la animación se repita al subir
+        // quitar esto si no quieres que la animación se repita al subir
         entry.target.classList.remove('active');
       }
     });

@@ -65,6 +65,51 @@ const socialData = {
     phone: "523891050431"
 };
 
+const aboutMeData = [
+  {
+    title: "Fotografía",
+    imglink: "/fotografia.jpeg", 
+    content: "Capturar momentos y detalles que a menudo pasan desapercibidos.",
+    technologies: [],
+    theme: "sunset"
+  },
+  {
+    title: "Leer y Escribir Historias",
+    imglink: "/leer.jpeg", 
+    content: "Crear narrativas y mundos ficticios me ayuda a mejorar mi storytelling en productos digitales.",
+    technologies: [],
+    theme: "cosmic"
+  },
+  {
+    title: "Senderismo",
+    imglink: "/senderismo.jpeg", 
+    content: "La conexión con la naturaleza recarga mi energía y creatividad para nuevos proyectos.",
+    technologies: [], // Array vacío porque son hobbies
+    theme: "cosmic"
+  },
+  {
+    title: "Visitar Lugares de Interés",
+    imglink: "/interes.jpeg", 
+    content: "Apreciar el trabajo de los demás me permite mejorar constantemente y encontrar inspiración.",
+    technologies: [], // Array vacío porque son hobbies
+    theme: "sunset"
+  },
+  {
+    title: "Dibujo",
+    imglink: "/dibujar.jpeg", 
+    content: "Plasmar ideas visualmente es parte fundamental de mi proceso creativo y de abstracción.",
+    technologies: [],
+    theme: "cosmic"
+  }
+];
+
+  const aboutMeDescription = `
+  Me considero un programador con alma de artista. Mi enfoque va más allá de líneas de código; 
+  busco conectar la lógica estructurada de los sistemas con la sensibilidad emocional del diseño. 
+  Ya sea explorando nuevos senderos o prototipando una interfaz, siempre persigo el equilibrio entre 
+  la funcionalidad robusta y una estética inspiradora.
+  `;
+
 // IMPORTANTE: Los `id` en `menuTabs` deben coincidir con el valor `category` en el frontmatter
 // de los archivos Markdown ubicados en `src/pages/goals/`.
 // Por ejemplo, para marcar un item como proyecto destacado usa `category: 'proyect'` en el .md,
@@ -75,4 +120,4 @@ const menuTabs = [
   {id: 'learn', label: 'Certificados'},
 ];
 
-export { universityData, topExperience, learningData, socialData, menuTabs };
+export { universityData, topExperience, learningData, socialData, menuTabs, aboutMeData, aboutMeDescription };
