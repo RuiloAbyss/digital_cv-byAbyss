@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Layout.astro
-title: "Electronic Store - Un Ecommerce Digital Moderno"
-description: "Tienda online que utiliza multiples servicios y APIs para mejorar la experiencia de compra."
+title: "Electronic Store - A Modern Digital E-commerce Ecosystem"
+description: "A full-stack online store integrating multiple microservices and third-party APIs to streamline the purchasing and automated checkout experience."
 category: "proyect"
 theme: "cosmic" 
 image: "/goals_img/Electronic-Store.webp"

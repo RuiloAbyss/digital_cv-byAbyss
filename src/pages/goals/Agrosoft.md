@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Layout.astro
-title: "Agrosoft - Un software para monitorear cultivos en tiempo real"
-description: "Prototipo de alta fidelidad de una app de monitoreo agrícola, aplicando estándares de Google UX/UI en la visualización de datos científicos complejos."
+title: "Agrosoft - Real-Time Crop Monitoring Software Architecture"
+description: "Led the design and front-end interface definition of a high-fidelity agricultural monitoring system, translating complex scientific data structures into high-performance interactive views."
 category: "proyect"
 theme: "cosmic" 
 image: "/goals_img/Agrosoft.webp"

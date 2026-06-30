@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Layout.astro
-title: "Replica de landing - Disney+"
-description: "Esta réplica de la interfaz de Disney+ demuestra mi capacidad de ingeniería inversa para identificar y recrear distribuciones espaciales, márgenes y jerarquías visuales con precisión de manera responsiva. Mediante el dominio de reglas CSS."
+title: "Disney+ Landing Page Replica - Pixel-Perfect Reverse Engineering"
+description: "A comprehensive frontend reverse-engineering project demonstrating advanced CSS proficiency, responsive layouts, spatial distribution, and exact hierarchy matching."
 category: "proyect"
 theme: "cosmic" 
 image: "/goals_img/disney-copy.webp"
