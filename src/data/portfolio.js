@@ -8,6 +8,29 @@ const universityData =
 
 const topExperience = [
   {
+    date: "2026 (This summer)",
+    company: "DELFIN Program (Guadalajara)",
+    tag: "proyect",
+    role: "Data & Full Stack Research Engineer",
+    description: `
+      Engineered specialized software for automated data extraction and processing of historical 
+      INEGI datasets. Facilitated the advanced analysis of business clusters, growth trends, 
+      and economic displacement for family businesses and SMEs.
+      `
+  },
+  {
+    date: "January 2026 - June 2026",
+    company: "Marakame Institute",
+    tag: "proyect",
+    role: "Full Stack Developer & Project Manager",
+    description: `
+      Architected and developed a secure, high-performance intranet system utilizing Agile 
+      methodologies. Implemented robust role-based security controls for handling highly 
+      sensitive institutional information and led the development team to ensure milestones 
+      were met on time.
+      `
+  },
+  {
     date: "September 2025 - December 2025",
     company: "Electronic Store Project",
     tag: "proyect",
