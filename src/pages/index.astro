@@ -13,33 +13,32 @@ import ContactUs from '../components/ContactUs.astro';
 
 import { universityData, topExperience, menuTabs, socialData, aboutMeData, aboutMeDescription} from '../data/portfolio';
 
-// Cargamos todos los archivos Markdown
+// Load all Markdown files
 const allWorks = Object.values(import.meta.glob('./goals/*.md', { eager: true })) as any[];
 
-// Filtramos los proyectos
+// Filter projects
 const projects = allWorks.filter(p => p.frontmatter.category === 'proyect');
 
 const getWorksByCategory = (categoryId: string) => {
   return allWorks.filter((post) => post.frontmatter?.category === categoryId);
 }
-
 ---
 {/*============================================================================*/}
 <Layout>
   <main>
-    {/* Sección de Introducción */}
+    {/* Introduction Section */}
     <div id="profile-trigger" class="w-full flex flex-col lg:flex-row sm:items-stretch sm:justify-center gap-0"> 
       
-      {/* Lado Izquierdo: Perfil */}
+      {/* Left Side: Profile */}
       <div class="w-full lg:flex-1 flex flex-col lg:pr-[20px]"> 
         <Section class="flex-1 justify-center sm:justify-start mb-5">
           <div class="h-full flex flex-col sm:flex-row items-center sm:items-start justify-center gap-2"> 
             
-            {/* Foto de perfil */}  
-              <img
+            {/* Profile picture */}  
+            <img
                 fetchpriority="high" 
                 src="/profile.webp" 
-                alt="Foto de Perfil" 
+                alt="Profile Picture" 
                 class=`
                 aspect-square w-[200px] sm:w-[170px] m-4 rounded-full sm:border-8 border-12 p-1 border-white/20 border-t-orange-900/80 border-r-orange-500/40
                 hover:scale-105 transition-all duration-500 ease-in-out
@@ -47,38 +46,39 @@ const getWorksByCategory = (categoryId: string) => {
                 `
             />
 
-            {/* Texto de perfil */}
+            {/* Profile text */}
             <div class="flex flex-col mt-0 sm:mt-5 items-center sm:items-start text-center sm:w-full sm:text-left">
                 <h1 class="font-bold text-red-400">{socialData.name}</h1>
-                <h2 class="font-semibold text-white">Ing. En Sistemas</h2>
-                <p class="text-purple-400 font-bold animate-pulse">Un Desarrollador Web Con Sentido De Diseño</p>
+                <h2 class="font-semibold text-white">Full Stack Developer</h2>
+                <p class="text-purple-400 font-bold animate-pulse">Project Leader & Software Engineer</p>
             </div> 
 
           </div>
         </Section>
       </div> 
 
-        {/* Lado Derecho: Links */}
+        {/* Right Side: Links */}
         <div class="w-full lg:w-[25%] flex flex-col"> 
+           
             <Section title="Links" class="flex-1 flex flex-col mb-5">
                 <div class="flex justify-center lg:justify-center flex-row gap-1 w-full h-full lg:flex-col lg:gap-3"> 
                     <ColorButton 
-                      label="Curriculum" 
+                      label="Resume" 
                       theme="sunset" 
                       href={socialData.cv} 
-                      aria-label="Descargar mi Curriculum en PDF"
+                      aria-label="Download my Resume in PDF"
                     />
                     <ColorButton 
                       label="LinkedIn" 
                       theme="void" 
                       href={socialData.linkedin} 
-                      aria-label="Visitar mi perfil profesional en LinkedIn"
+                      aria-label="Visit my professional LinkedIn profile"
                     />
                     <ColorButton 
                       label="GitHub" 
                       theme="cosmic" 
                       href={socialData.github} 
-                      aria-label="Explorar mis proyectos de código abierto en GitHub"
+                      aria-label="Explore my open-source projects on GitHub"
                     />
                 </div>
             </Section>
@@ -89,23 +89,20 @@ const getWorksByCategory = (categoryId: string) => {
       <div class="flex flex-col lg:flex-row gap-5 pb-5">
         
         {/* Mission*/}
-        <Section title="Sobre Mí" class="prose prose-slate text-white leading-relaxed text-pretty text-left">
+        <Section title="About Me" class="prose prose-slate text-white leading-relaxed text-pretty text-left">
           <p>
-            Especialista en Desarrollo Web y UX/UI. Creo en el diseño como una herramienta 
-            para construir espacios digitales agradables y funcionales. 
+            Full Stack Developer and Project Leader. I transform complex ideas into high-impact digital products, coordinating the complete development cycle, from backend architecture to user experience.
           </p>
           <p>
-            Mi objetivo es lograr el equilibrio perfecto: interfaces atractivas 
-            que no comprometan el rendimiento.
+            My focus is on technical leadership and optimization: guiding teams to achieve robust, scalable, and visually impeccable solutions without compromising performance.
           </p>
           <p>
-            Apasionado por el arte y la identidad visual, ayudo a las marcas a crear 
-            experiencias digitales inolvidables.
+            Connecting strategic vision, art, and technology allows me to lead projects that not only meet business objectives but also create memorable digital experiences.
           </p>
         </Section>
 
         {/* Education */}
-        <Section title="Educación">
+        <Section title="Education">
           <a href="https://www.ittepic.edu.mx/" target="_blank" rel="noopener noreferrer" class="block group">
             <div class="bg-white/10 p-4 rounded-lg shadow-md border-2 border-white/10 hover:border-white/30">
               <h4 class="font-bold text-orange-400">{universityData.institution}</h4>
@@ -118,12 +115,12 @@ const getWorksByCategory = (categoryId: string) => {
 
       </div>
 
-    {/* Sección de Trayectoria Profesional */}
-    <Section title="Experiencia" id="experience-trigger" class="p-2 mb-5"}>
+    {/* Professional Experience Section */}
+    <Section title="Experience" id="experience-trigger" class="p-2 mb-5"}>
       <ExperienceTimeline experiences={topExperience as any} />  
     </Section>
 
-    <Section title="Proyectos Destacados" id="dedicated-projects" class="mb-10">
+    <Section title="Featured Projects" id="dedicated-projects" class="mb-10">
       <div class="flex flex-col w-full">
         {projects.map((proj) => (
           <ProjectCard 
@@ -138,14 +135,14 @@ const getWorksByCategory = (categoryId: string) => {
       </div>
     </Section>
 
-    {/* Sección de Formación | SS | HS */}
-    <Section title="Formación y Habilidades" id="projects-formation-trigger" class="mb-5">
+    {/* Training Section | SS | HS */}
+    <Section title="Training and Skills" id="projects-formation-trigger" class="mb-5">
 
         <TabBar id="tabbar-trigger" tabs={menuTabs} initialTabId="dev" theme="sunset" class="my-2">
             {menuTabs.map((tab) => {
                 const works = getWorksByCategory(tab.id);
                 
-                // Convertimos el formato de Markdown al formato plano que espera BentoGrid/Card
+                // Convert Markdown format to the flat format expected by BentoGrid/Card
                 const bentoItems = works.map((post: any) => ({
                     title: post.frontmatter.title,
                     imglink: post.frontmatter.image,     
@@ -156,7 +153,7 @@ const getWorksByCategory = (categoryId: string) => {
                     span: post.frontmatter.span || 1
                 }));
 
-                // Lógica de visualización
+                // Display logic
                 const initialDisplay = tab.id === 'hs' ? 'block' : 'none'; 
 
                 return (
@@ -165,11 +162,11 @@ const getWorksByCategory = (categoryId: string) => {
                         style={`display: ${initialDisplay};`} 
                     >
                         {works.length > 0 ? (
-                            // Aquí simplemente pasamos los items procesados
+                            // Here we simply pass the processed items
                             <BentoGrid items={bentoItems} />
                         ) : (
                             <div class="text-center py-10 opacity-50">
-                                <p>Próximamente más proyectos en esta categoría.</p>
+                                <p>More projects in this category coming soon.</p>
                             </div>
                         )}
                     </div>
@@ -211,24 +208,25 @@ const getWorksByCategory = (categoryId: string) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('active');
       } else {
-        // quitar esto si no quieres que la animación se repita al subir
+        // remove this if you don't want the animation to repeat on scroll up
         entry.target.classList.remove('active');
       }
     });
   }, observerOptions);
 
-  // Seleccionamos los elementos de zoom
+  // Select zoom elements
   const zoomElements = document.querySelectorAll(
     'section, .relative.flex.w-full.pb-3, a.block.group, #profile-trigger > div'
   );
-  
+
   zoomElements.forEach((el) => {
     el.classList.add('reveal');
     observer.observe(el);
   });
 
-  // Seleccionamos los contenedores de la TabBar (Fade)
+  // Select TabBar containers (Fade)
   const fadeElements = document.querySelectorAll('.tab-container-ref, .tab-content-ref');
+
   fadeElements.forEach((el) => {
     el.classList.add('reveal-fade');
     observer.observe(el);
